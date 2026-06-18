@@ -4,43 +4,46 @@
 // renders the exchange-selection UI, builds the live Markdown preview, and
 // wires up Copy/Download. No network requests are ever made.
 
-const errorStateEl = document.getElementById('errorState');
-const errorMsgEl = document.getElementById('errorMsg');
-const rescanBtn = document.getElementById('rescanBtn');
-const scanningEl = document.getElementById('scanning');
-const contentEl = document.getElementById('content');
-const exchangeListEl = document.getElementById('exchangeList');
-const previewEl = document.getElementById('preview');
+const rescanBtn       = document.getElementById('rescanBtn');
+const errorRescanBtn  = document.getElementById('errorRescanBtn');
+const errorStateEl    = document.getElementById('errorState');
+const errorMsgEl      = document.getElementById('errorMsg');
+const errorHintEl     = document.getElementById('errorHint');
+const scanningEl      = document.getElementById('scanning');
+const contentEl       = document.getElementById('content');
+const customSelEl     = document.getElementById('customSelection');
+const exchangeListEl  = document.getElementById('exchangeList');
+const previewEl       = document.getElementById('preview');
 const includeReasoningEl = document.getElementById('includeReasoning');
-const actionStatusEl = document.getElementById('actionStatus');
+const actionStatusEl  = document.getElementById('actionStatus');
+const allCountEl      = document.getElementById('allCount');
+const copyBtn         = document.getElementById('copyBtn');
+const downloadBtn     = document.getElementById('downloadBtn');
 
-const selectAllBtn = document.getElementById('selectAll');
-const selectLatestBtn = document.getElementById('selectLatest');
-const selectClearBtn = document.getElementById('selectClear');
-const copyBtn = document.getElementById('copyBtn');
-const downloadBtn = document.getElementById('downloadBtn');
-const refreshBtn = document.getElementById('refreshBtn');
+const modeRadios = document.querySelectorAll('input[name="exportMode"]');
 
-let scrapeResult = null; // { ok, title, storeHandle, url, exchanges }
+let scrapeResult = null;
 let selectedIndices = new Set();
+let currentMode = 'latest';
 
 init();
 
 async function init() {
+  modeRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      currentMode = radio.value;
+      onModeChange();
+    });
+  });
+
   includeReasoningEl.addEventListener('change', () => {
     runScrape(includeReasoningEl.checked);
   });
-  selectAllBtn.addEventListener('click', () => applyQuickSelect('all'));
-  selectLatestBtn.addEventListener('click', () => applyQuickSelect('latest'));
-  selectClearBtn.addEventListener('click', () => applyQuickSelect('clear'));
-  previewEl.addEventListener('input', () => {
-    // User hand-edited the preview; nothing else to do, it's already the
-    // value Copy/Download will use.
-  });
+
+  rescanBtn.addEventListener('click', () => runScrape(includeReasoningEl.checked));
+  errorRescanBtn.addEventListener('click', () => runScrape(includeReasoningEl.checked));
   copyBtn.addEventListener('click', onCopy);
   downloadBtn.addEventListener('click', onDownload);
-  rescanBtn.addEventListener('click', () => runScrape(includeReasoningEl.checked));
-  refreshBtn.addEventListener('click', () => runScrape(includeReasoningEl.checked));
 
   await runScrape(false);
 }
@@ -57,21 +60,19 @@ async function runScrape(includeReasoning) {
   try {
     tab = await getActiveTab();
   } catch (e) {
-    showError('Could not access the active tab.');
+    showError('Could not access the active tab.', 'Make sure you\'re on a Shopify admin page.');
     return;
   }
 
   if (!tab || !tab.id) {
-    showError('Could not access the active tab.');
+    showError('Could not access the active tab.', 'Make sure you\'re on a Shopify admin page.');
     return;
   }
 
   try {
     await chrome.scripting.executeScript({
       target: { tabId: tab.id },
-      func: (value) => {
-        window.__sidekickIncludeReasoning = value;
-      },
+      func: (value) => { window.__sidekickIncludeReasoning = value; },
       args: [includeReasoning],
     });
 
@@ -83,14 +84,20 @@ async function runScrape(includeReasoning) {
     const result = injectionResults && injectionResults[0] && injectionResults[0].result;
 
     if (!result || !result.ok) {
-      showError('Open Sidekick on this Shopify admin tab, then reopen this popup.');
+      showError(
+        'No Sidekick conversation found.',
+        'Open Shopify Sidekick in this tab and then rescan.'
+      );
       return;
     }
 
     scrapeResult = result;
     onScrapeSuccess();
   } catch (e) {
-    showError('Open Sidekick on this Shopify admin tab, then reopen this popup.');
+    showError(
+      'No Sidekick conversation found.',
+      'Open Shopify Sidekick in this tab and then rescan.'
+    );
   }
 }
 
@@ -100,11 +107,13 @@ function showScanning() {
   contentEl.hidden = true;
 }
 
-function showError(message) {
+function showError(message, hint = '') {
   scanningEl.hidden = true;
   contentEl.hidden = true;
   errorStateEl.hidden = false;
   errorMsgEl.textContent = message;
+  errorHintEl.textContent = hint;
+  errorHintEl.hidden = !hint;
 }
 
 function onScrapeSuccess() {
@@ -115,17 +124,37 @@ function onScrapeSuccess() {
   const exchanges = scrapeResult.exchanges || [];
 
   if (exchanges.length === 0) {
-    showError('Sidekick was found, but no exchanges could be parsed yet. Send a message and reopen this popup.');
+    showError(
+      'No exchanges found yet.',
+      'Send a message in Sidekick and then rescan.'
+    );
     return;
   }
 
-  // Default selection: all, unless we already had a selection (e.g. after
-  // toggling "include reasoning") in which case keep the same indices.
-  if (selectedIndices.size === 0) {
-    selectedIndices = new Set(exchanges.map((e) => e.index));
+  allCountEl.textContent = `(${exchanges.length})`;
+
+  // Reset to latest mode on every fresh scrape
+  currentMode = 'latest';
+  selectedIndices = new Set();
+  document.querySelector('input[name="exportMode"][value="latest"]').checked = true;
+
+  onModeChange();
+}
+
+function onModeChange() {
+  const exchanges = (scrapeResult && scrapeResult.exchanges) || [];
+  const isCustom = currentMode === 'custom';
+
+  contentEl.classList.toggle('custom-active', isCustom);
+  customSelEl.hidden = !isCustom;
+
+  if (isCustom) {
+    if (selectedIndices.size === 0) {
+      selectedIndices = new Set(exchanges.map(e => e.index));
+    }
+    renderExchangeList(exchanges);
   }
 
-  renderExchangeList(exchanges);
   updatePreview();
 }
 
@@ -144,7 +173,6 @@ function renderExchangeList(exchanges) {
 
   for (const exchange of exchanges) {
     const li = document.createElement('li');
-
     const label = document.createElement('label');
 
     const checkbox = document.createElement('input');
@@ -177,71 +205,21 @@ function renderExchangeList(exchanges) {
   }
 }
 
-function applyQuickSelect(mode) {
-  const exchanges = (scrapeResult && scrapeResult.exchanges) || [];
-  if (exchanges.length === 0) return;
-
-  if (mode === 'all') {
-    selectedIndices = new Set(exchanges.map((e) => e.index));
-  } else if (mode === 'latest') {
-    const latest = exchanges[exchanges.length - 1];
-    selectedIndices = new Set([latest.index]);
-  } else if (mode === 'clear') {
-    selectedIndices = new Set();
-  }
-
-  renderExchangeList(exchanges);
-  updatePreview();
-}
-
-function slugify(text) {
-  return (text || 'sidekick')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 60) || 'sidekick';
-}
-
-function formatExportedTimestamp() {
-  const now = new Date();
-  const parts = new Intl.DateTimeFormat('en-AU', {
-    timeZone: 'Australia/Melbourne',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-    timeZoneName: 'short',
-  }).formatToParts(now);
-
-  const get = (type) => parts.find((p) => p.type === type)?.value || '';
-  const date = `${get('year')}-${get('month')}-${get('day')}`;
-  const time = `${get('hour')}:${get('minute')}`;
-  const zone = get('timeZoneName') || 'AEST';
-  return `${date} ${time} ${zone}`;
-}
-
-function formatExportedDateForFilename() {
-  const now = new Date();
-  const parts = new Intl.DateTimeFormat('en-AU', {
-    timeZone: 'Australia/Melbourne',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).formatToParts(now);
-  const get = (type) => parts.find((p) => p.type === type)?.value || '';
-  return `${get('year')}-${get('month')}-${get('day')}`;
-}
-
 function buildMarkdown() {
   if (!scrapeResult) return '';
 
   const { title, storeHandle, url, exchanges } = scrapeResult;
 
-  const selected = exchanges
-    .filter((e) => selectedIndices.has(e.index))
-    .sort((a, b) => a.index - b.index);
+  let selected;
+  if (currentMode === 'latest') {
+    selected = exchanges.slice(-1);
+  } else if (currentMode === 'all') {
+    selected = [...exchanges];
+  } else {
+    selected = exchanges
+      .filter(e => selectedIndices.has(e.index))
+      .sort((a, b) => a.index - b.index);
+  }
 
   const header = [
     `# ${title}`,
@@ -262,6 +240,36 @@ function buildMarkdown() {
 
 function updatePreview() {
   previewEl.value = buildMarkdown();
+}
+
+function slugify(text) {
+  return (text || 'sidekick')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 60) || 'sidekick';
+}
+
+function formatExportedTimestamp() {
+  const now = new Date();
+  const parts = new Intl.DateTimeFormat('en-AU', {
+    timeZone: 'Australia/Melbourne',
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit',
+    hour12: false, timeZoneName: 'short',
+  }).formatToParts(now);
+  const get = (type) => parts.find((p) => p.type === type)?.value || '';
+  return `${get('year')}-${get('month')}-${get('day')} ${get('hour')}:${get('minute')} ${get('timeZoneName') || 'AEST'}`;
+}
+
+function formatExportedDateForFilename() {
+  const now = new Date();
+  const parts = new Intl.DateTimeFormat('en-AU', {
+    timeZone: 'Australia/Melbourne',
+    year: 'numeric', month: '2-digit', day: '2-digit',
+  }).formatToParts(now);
+  const get = (type) => parts.find((p) => p.type === type)?.value || '';
+  return `${get('year')}-${get('month')}-${get('day')}`;
 }
 
 async function onCopy() {
@@ -296,7 +304,5 @@ function showActionStatus(message, isError) {
   actionStatusEl.textContent = message;
   actionStatusEl.classList.toggle('error', Boolean(isError));
   if (actionStatusTimer) clearTimeout(actionStatusTimer);
-  actionStatusTimer = setTimeout(() => {
-    actionStatusEl.textContent = '';
-  }, 3000);
+  actionStatusTimer = setTimeout(() => { actionStatusEl.textContent = ''; }, 3000);
 }

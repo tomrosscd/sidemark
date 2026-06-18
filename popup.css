@@ -31,30 +31,27 @@
 
 :root {
   color-scheme: light;
-
-  --cv-dark-green: #27382f;
+  --cv-dark-green:   #27382f;
   --cv-forest-green: #499e6b;
-  --cv-light-green: #c9deb6;
-  --cv-off-white: #faf9f7;
-  --cv-black: #171717;
-  --cv-yellow: #ffec82;
-  --cv-orange: #ffa366;
+  --cv-light-green:  #c9deb6;
+  --cv-off-white:    #faf9f7;
+  --cv-black:        #171717;
+  --cv-yellow:       #ffec82;
+  --cv-orange:       #ffa366;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-html, body {
-  margin: 0;
-}
+html, body { margin: 0; }
 
 body {
   width: 440px;
   max-height: 600px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  font-family: "Darker Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: "Darker Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, Helvetica, Arial, sans-serif;
   font-size: 15px;
   font-weight: 400;
   color: var(--cv-black);
@@ -69,7 +66,7 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 16px;
+  padding: 14px 16px;
   border-bottom: 1px solid var(--cv-light-green);
   flex-shrink: 0;
 }
@@ -81,6 +78,7 @@ body {
 }
 
 .app-header-text {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -111,29 +109,12 @@ body {
   min-height: 0;
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  padding: 14px 16px 12px;
 }
 
-#content {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Only the options/list/preview area scrolls — the action buttons below it
-   stay pinned in view and are never pushed off-screen by a long exchange
-   list or a tall preview. Reserve scrollbar gutter permanently so content
-   width stays consistent whether or not a scrollbar is visible. */
-.scroll-area {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  scrollbar-gutter: stable;
-}
-
+/* Scanning indicator */
 .status {
-  padding: 16px 4px;
+  padding: 8px 0;
   font-size: 15px;
   font-weight: 500;
   color: var(--cv-dark-green);
@@ -141,7 +122,7 @@ body {
 }
 
 /* ---------------------------------------------------------------------- */
-/* Error state                                                             */
+/* Error / empty state                                                     */
 /* ---------------------------------------------------------------------- */
 
 .error-state {
@@ -151,32 +132,221 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 16px;
-  padding: 24px;
+  gap: 10px;
+  padding: 16px 8px;
 }
 
 .error-message {
   margin: 0;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   line-height: 1.4;
   color: var(--cv-black);
 }
 
-.options-row {
-  margin-bottom: 12px;
+.error-hint {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--cv-dark-green);
+}
+
+.error-rescan-btn {
+  margin-top: 4px;
+  padding: 10px 28px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Content section                                                         */
+/* ---------------------------------------------------------------------- */
+
+#content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Mode selector (segmented control)                                       */
+/* ---------------------------------------------------------------------- */
+
+.mode-selector {
+  display: flex;
+  border: 1.5px solid var(--cv-dark-green);
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.mode-option {
+  flex: 1;
+  position: relative;
+}
+
+/* Invisible radio covers the full cell; keyboard + pointer both work */
+.mode-option input[type="radio"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.mode-label {
+  display: block;
+  padding: 8px 4px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cv-dark-green);
+  line-height: 1.3;
+  border-right: 1.5px solid var(--cv-dark-green);
+  user-select: none;
+  pointer-events: none;
+}
+
+.mode-option:last-child .mode-label {
+  border-right: none;
+}
+
+.mode-option:has(input:checked) .mode-label {
+  background: var(--cv-dark-green);
+  color: var(--cv-off-white);
+}
+
+.mode-option:not(:has(input:checked)):hover .mode-label {
+  background: var(--cv-light-green);
+}
+
+.mode-count {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Scrollable content body                                                 */
+/* ---------------------------------------------------------------------- */
+
+.content-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Exchange list (custom selection only)                                   */
+/* ---------------------------------------------------------------------- */
+
+.exchange-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 130px;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  border: 1px solid var(--cv-light-green);
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.exchange-list li {
+  border-bottom: 1px solid rgba(23, 23, 23, 0.1);
+}
+
+.exchange-list li:last-child {
+  border-bottom: none;
+}
+
+.exchange-list label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.exchange-list input[type="checkbox"] {
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: var(--cv-forest-green);
+}
+
+.exchange-prompt {
+  flex: 1;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.latest-badge {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--cv-dark-green);
+  background: var(--cv-light-green);
+  border-radius: 4px;
+  padding: 1px 5px;
+  vertical-align: middle;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Preview                                                                 */
+/* ---------------------------------------------------------------------- */
+
+#preview {
+  width: 100%;
+  height: 260px;
+  min-height: 120px;
+  resize: vertical;
+  flex-shrink: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 10px;
+  border: 1px solid var(--cv-light-green);
+  border-radius: 8px;
+  color: var(--cv-black);
+  background: var(--cv-off-white);
+}
+
+/* Shorter preview when the custom checklist is also visible */
+#content.custom-active #preview {
+  height: 180px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Export settings                                                         */
+/* ---------------------------------------------------------------------- */
+
+.export-settings {
+  flex-shrink: 0;
+  padding-bottom: 2px;
 }
 
 .checkbox-inline {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   color: var(--cv-dark-green);
+  cursor: pointer;
 }
 
 .checkbox-inline input[type="checkbox"] {
+  flex-shrink: 0;
   accent-color: var(--cv-forest-green);
 }
 
@@ -191,29 +361,6 @@ button {
   cursor: pointer;
 }
 
-.quick-select {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-}
-
-.quick-select button {
-  flex: 1 1 auto;
-}
-
-.btn-outline {
-  background: transparent;
-  color: var(--cv-dark-green);
-  border: 1px solid var(--cv-dark-green);
-  border-radius: 6px;
-  padding: 7px 12px;
-}
-
-.btn-outline:hover {
-  background: var(--cv-light-green);
-}
-
 .btn-primary {
   background: var(--cv-dark-green);
   color: var(--cv-off-white);
@@ -226,103 +373,29 @@ button {
   background: var(--cv-forest-green);
 }
 
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-a:focus-visible {
-  outline: 2px solid var(--cv-forest-green);
-  outline-offset: 2px;
-}
-
-/* ---------------------------------------------------------------------- */
-/* Exchange list                                                          */
-/* ---------------------------------------------------------------------- */
-
-.exchange-list {
-  list-style: none;
-  margin: 0 0 16px;
-  padding: 0;
-  max-height: 170px;
-  overflow-y: auto;
-  scrollbar-gutter: stable;
-  border: 1px solid var(--cv-light-green);
-  border-radius: 8px;
-}
-
-.exchange-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 8px;
-  /* Light grey divider derived from --cv-black at low opacity, rather than
-     a hardcoded grey hex, to stay inside the brand token system. */
-  border-bottom: 1px solid rgba(23, 23, 23, 0.12);
-}
-
-.exchange-list li:last-child {
-  border-bottom: none;
-}
-
-.exchange-list label {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  cursor: pointer;
-  width: 100%;
-}
-
-.exchange-list input[type="checkbox"] {
-  margin-top: 2px;
-  flex-shrink: 0;
-  accent-color: var(--cv-forest-green);
-}
-
-.exchange-prompt {
-  flex: 1;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.4;
-}
-
-.latest-badge {
-  display: inline-block;
-  margin-left: 6px;
-  font-size: 12px;
-  font-weight: 600;
+.btn-outline {
+  background: transparent;
   color: var(--cv-dark-green);
+  border: 1.5px solid var(--cv-dark-green);
+  border-radius: 6px;
+  padding: 9px 14px;
+}
+
+.btn-outline:hover {
   background: var(--cv-light-green);
-  border-radius: 4px;
-  padding: 1px 6px;
-  vertical-align: middle;
-}
-
-/* ---------------------------------------------------------------------- */
-/* Preview                                                                 */
-/* ---------------------------------------------------------------------- */
-
-.preview-label-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}
-
-.preview-label {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--cv-dark-green);
 }
 
 .btn-icon {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   background: transparent;
   border: none;
-  padding: 4px;
+  padding: 6px;
   color: var(--cv-dark-green);
-  border-radius: 4px;
-  opacity: 0.6;
+  border-radius: 6px;
+  opacity: 0.55;
 }
 
 .btn-icon:hover {
@@ -330,43 +403,33 @@ a:focus-visible {
   background: var(--cv-light-green);
 }
 
-#preview {
-  width: 100%;
-  height: 220px;
-  resize: vertical;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 13.5px;
-  line-height: 1.5;
-  padding: 10px;
-  border: 1px solid var(--cv-light-green);
-  border-radius: 8px;
-  margin-bottom: 12px;
-  color: var(--cv-black);
-  background: var(--cv-off-white);
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--cv-forest-green);
+  outline-offset: 2px;
 }
 
 /* ---------------------------------------------------------------------- */
-/* Actions                                                                 */
+/* Footer actions                                                          */
 /* ---------------------------------------------------------------------- */
 
 .actions-row {
   display: flex;
   gap: 8px;
   flex-shrink: 0;
-  margin-top: 12px;
 }
 
-.actions-row button {
-  flex: 1;
-}
+.actions-row .btn-primary { flex: 2; }
+.actions-row .btn-outline  { flex: 1; }
 
 .action-status {
-  flex-shrink: 0;
-  min-height: 16px;
-  margin: 8px 0 0;
-  font-size: 14px;
+  min-height: 18px;
+  margin: 4px 0 0;
+  font-size: 13px;
   font-weight: 500;
   color: var(--cv-forest-green);
+  text-align: center;
 }
 
 .action-status.error {

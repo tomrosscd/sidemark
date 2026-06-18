@@ -10,54 +10,77 @@
     <img class="app-icon" src="icons/sidekick128.png" alt="" />
     <div class="app-header-text">
       <h1>Sidemark</h1>
-      <p class="app-subtitle">Shopify Sidekick chats, exported to clean Markdown</p>
+      <p class="app-subtitle">Shopify Sidekick → Markdown</p>
     </div>
+    <button type="button" class="btn-icon" id="rescanBtn" title="Rescan page">
+      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 2v6h-6"/>
+        <path d="M21 13a9 9 0 1 1-3-7.7L21 8"/>
+      </svg>
+    </button>
   </header>
 
   <main id="app">
+
+    <!-- Empty / error state -->
     <section id="errorState" class="error-state" hidden>
       <p id="errorMsg" class="error-message"></p>
-      <button type="button" class="btn-outline" id="rescanBtn">Rescan</button>
+      <p id="errorHint" class="error-hint" hidden></p>
+      <button type="button" class="btn-primary error-rescan-btn" id="errorRescanBtn">Rescan</button>
     </section>
 
+    <!-- Scanning -->
     <section id="scanning" class="status">Scanning the page for Sidekick…</section>
 
+    <!-- Main content -->
     <section id="content" hidden>
-      <div class="scroll-area">
-        <div class="options-row">
+
+      <!-- Mode selector (segmented control) -->
+      <div class="mode-selector" role="group" aria-label="Export selection">
+        <label class="mode-option">
+          <input type="radio" name="exportMode" value="latest" checked />
+          <span class="mode-label">Latest Prompt</span>
+        </label>
+        <label class="mode-option">
+          <input type="radio" name="exportMode" value="all" />
+          <span class="mode-label">All Prompts <span id="allCount" class="mode-count"></span></span>
+        </label>
+        <label class="mode-option">
+          <input type="radio" name="exportMode" value="custom" />
+          <span class="mode-label">Custom</span>
+        </label>
+      </div>
+
+      <!-- Scrollable body -->
+      <div class="content-body">
+
+        <!-- Prompt checklist — only shown in Custom mode -->
+        <div id="customSelection" hidden>
+          <ul id="exchangeList" class="exchange-list"></ul>
+        </div>
+
+        <!-- Markdown preview (primary content) -->
+        <textarea id="preview" spellcheck="false" aria-label="Markdown preview, editable"></textarea>
+
+        <!-- Export settings -->
+        <div class="export-settings">
           <label class="checkbox-inline">
             <input type="checkbox" id="includeReasoning" />
             Include collapsed reasoning step labels
           </label>
         </div>
 
-        <div class="quick-select">
-          <button type="button" class="btn-outline" id="selectAll">Select all</button>
-          <button type="button" class="btn-outline" id="selectLatest">Latest only</button>
-          <button type="button" class="btn-outline" id="selectClear">Clear</button>
-        </div>
-
-        <ul id="exchangeList" class="exchange-list"></ul>
-
-        <div class="preview-label-row">
-          <label class="preview-label" for="preview">Markdown preview (editable)</label>
-          <button type="button" class="btn-icon" id="refreshBtn" title="Re-scrape and restore original markdown">
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M21 2v6h-6"/>
-              <path d="M21 13a9 9 0 1 1-3-7.7L21 8"/>
-            </svg>
-          </button>
-        </div>
-        <textarea id="preview" spellcheck="false"></textarea>
       </div>
 
+      <!-- Pinned footer -->
       <div class="actions-row">
-        <button type="button" class="btn-primary" id="copyBtn">Copy to clipboard</button>
-        <button type="button" class="btn-primary" id="downloadBtn">Download .md</button>
+        <button type="button" class="btn-primary" id="copyBtn">Copy Markdown</button>
+        <button type="button" class="btn-outline" id="downloadBtn">Download .md</button>
       </div>
-
       <p id="actionStatus" class="action-status" aria-live="polite"></p>
+
     </section>
+
   </main>
 
   <script src="popup.js"></script>
