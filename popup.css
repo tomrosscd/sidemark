@@ -256,7 +256,7 @@ body {
   max-height: 130px;
   overflow-y: auto;
   scrollbar-gutter: stable;
-  border: 1px solid var(--cv-light-green);
+  border: 1px solid rgba(23, 23, 23, 0.18);
   border-radius: 8px;
   flex-shrink: 0;
 }
