@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Sidemark",
   "version": "1.0.0",
-  "description": "Shopify Sidekick chats, exported to clean Markdown",
+  "description": "Shopify Sidekick chat, exported clean into Markdown.",
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
