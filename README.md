@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="icons/sidekick_icon.svg" width="64" height="64" alt="Sidemark icon" />
+  <img src="assets/sidekick_icon.svg" width="64" height="64" alt="Sidemark icon" />
   <h1>Sidemark</h1>
   <p><strong>Shopify Sidekick chat, exported clean into Markdown.</strong></p>
 </div>
