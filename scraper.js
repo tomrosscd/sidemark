@@ -1,7 +1,7 @@
-// scraper.js
+// scraper.js — injected into the active Shopify admin tab by popup.js.
 //
-// Injected into the active Shopify admin tab (after parser.js, in the same
-// classic-script world) by popup.js via chrome.scripting.executeScript.
+// Finds the Sidekick conversation log, scrolls it fully to force lazy-rendered
+// turns into the DOM, then groups nodes into exchanges for export.
 // Finds the Sidekick conversation, forces any lazily-rendered turns to
 // mount, then extracts exchanges by selecting user messages and answer
 // articles together (so they come back in document order regardless of
