@@ -20,23 +20,25 @@
     <section id="scanning" class="status">Scanning the page for Sidekick…</section>
 
     <section id="content" hidden>
-      <div class="options-row">
-        <label class="checkbox-inline">
-          <input type="checkbox" id="includeReasoning" />
-          Include collapsed reasoning step labels
-        </label>
+      <div class="scroll-area">
+        <div class="options-row">
+          <label class="checkbox-inline">
+            <input type="checkbox" id="includeReasoning" />
+            Include collapsed reasoning step labels
+          </label>
+        </div>
+
+        <div class="quick-select">
+          <button type="button" class="btn-outline" id="selectAll">Select all</button>
+          <button type="button" class="btn-outline" id="selectLatest">Latest only</button>
+          <button type="button" class="btn-outline" id="selectClear">Clear</button>
+        </div>
+
+        <ul id="exchangeList" class="exchange-list"></ul>
+
+        <label class="preview-label" for="preview">Markdown preview (editable)</label>
+        <textarea id="preview" spellcheck="false"></textarea>
       </div>
-
-      <div class="quick-select">
-        <button type="button" class="btn-outline" id="selectAll">Select all</button>
-        <button type="button" class="btn-outline" id="selectLatest">Latest only</button>
-        <button type="button" class="btn-outline" id="selectClear">Clear</button>
-      </div>
-
-      <ul id="exchangeList" class="exchange-list"></ul>
-
-      <label class="preview-label" for="preview">Markdown preview (editable)</label>
-      <textarea id="preview" spellcheck="false"></textarea>
 
       <div class="actions-row">
         <button type="button" class="btn-primary" id="copyBtn">Copy to clipboard</button>
