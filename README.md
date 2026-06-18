@@ -4,87 +4,88 @@
   <p><strong>Shopify Sidekick chat, exported clean into Markdown.</strong></p>
 </div>
 
----
+Sidemark is a Chrome extension that pulls your open Shopify Sidekick conversation and converts it to clean Markdown you can copy or download.
 
-Sidemark is a Chrome extension that captures the active Shopify Sidekick conversation and converts it into clean, portable Markdown — ready to copy into Claude, paste into Notion, or save for your records.
-
-Everything runs locally. The extension makes no network requests. The only data that leaves your browser is what you explicitly copy or download.
+Everything runs locally. Nothing leaves your browser unless you copy or download it.
 
 ---
 
-## Installing
+## Install
 
-Sidemark is loaded as an unpacked extension — no Chrome Web Store listing required.
+Sidemark loads as an unpacked extension. No Chrome Web Store needed.
 
-1. Download or clone this repository to your machine.
-2. Open **chrome://extensions** in Chrome.
-3. Enable **Developer mode** using the toggle in the top-right corner.
+1. Download or clone this repo.
+2. Open `chrome://extensions` in Chrome.
+3. Turn on **Developer mode** (toggle, top right).
 4. Click **Load unpacked**.
-5. Select the folder you just downloaded.
-6. Pin the Sidemark icon to your Chrome toolbar for quick access.
+5. Select the folder.
+6. Pin Sidemark to your toolbar.
 
-> **Note:** You'll need to repeat step 4–5 after any updates to the extension files.
+After updating any files, reload the extension from that same page.
 
 ---
 
-## Using Sidemark
+## Usage
 
-1. Open a Shopify admin tab and start a Sidekick conversation.
-2. Click the **Sidemark** toolbar icon to open the popup.
-3. Sidemark scans the page and lists your conversation exchanges.
+1. Open a Shopify admin tab with a Sidekick conversation active.
+2. Click the Sidemark icon in your toolbar.
+3. Sidemark scans the page and shows your exchanges.
 
-### Export modes
+### Choose what to export
 
-Choose how much of the conversation to export using the tab selector at the top:
+Three modes at the top of the popup:
 
-| Mode | What it exports |
+| Mode | What you get |
 |---|---|
-| **Latest Prompt** | Only the most recent exchange — the default |
-| **All Prompts (N)** | Every exchange in the conversation |
-| **Custom** | A checklist of exchanges you pick individually |
+| Latest Prompt | The most recent exchange. Default. |
+| All Prompts (N) | Every exchange in the conversation. |
+| Custom | Pick individual exchanges from a checklist. |
 
-### Editing and exporting
+### Preview and export
 
-- The **Markdown preview** updates live as you change modes or selections. You can edit the text directly — Copy and Download both use whatever is in that box.
-- **Copy Markdown** copies the preview to your clipboard.
-- **Download .md** saves a file named `sidekick-<title>-<date>.md`.
-- The **↺ rescan icon** in the header re-scrapes the page at any time — useful if you've added more questions or want to discard manual edits to the preview.
+The Markdown preview updates as you switch modes or change selections. You can edit the text before copying or downloading.
 
-### Export settings
+- **Copy Markdown:** copies the preview to your clipboard.
+- **Download .md:** saves a file as `sidekick-<title>-<date>.md`.
+- **Rescan (↺):** re-scrapes the page. Good for picking up new questions or resetting edits you have made to the preview.
 
-**Include collapsed reasoning step labels** — off by default. Turn it on to add a one-line note for each collapsed reasoning group rather than skipping it entirely.
+### Reasoning steps
+
+Off by default. Turn on "Include collapsed reasoning step labels" to add a one-line note for each collapsed reasoning group instead of skipping it.
 
 ---
 
 ## What gets converted
 
-- **Tables** → GitHub-flavoured Markdown tables
-- **Report cards** → bold link + fenced ` ```shopifyql ``` ` block with the decoded query
-- **Metric cards** → query and inline values (best-effort)
-- **Collapsed reasoning steps** → skipped by default (see Export settings above)
+| Element | Output |
+|---|---|
+| Tables | GitHub-flavoured Markdown tables |
+| Report cards | Bold link plus a fenced `shopifyql` code block with the decoded query |
+| Metric cards | Query and inline values (best effort) |
+| Collapsed reasoning steps | Skipped by default |
 
 ---
 
 ## How it works
 
-| File | Role |
+| File | What it does |
 |---|---|
-| `popup.js` | Controller — injects the scraper on demand, renders the UI, wires up Copy/Download |
-| `scraper.js` | Runs in the page — finds the Sidekick log, scrolls it fully, groups DOM nodes into exchanges |
-| `parser.js` | DOM-to-Markdown conversion — all element handling and selector logic lives here |
+| `popup.js` | Controls the UI, injects the scraper on demand, wires up Copy and Download |
+| `scraper.js` | Runs inside the page, finds the Sidekick log, scrolls it fully, groups nodes into exchanges |
+| `parser.js` | Handles all DOM-to-Markdown conversion and selector logic |
 
-The scraper is injected on demand (not a persistent content script), so it only runs when you open the popup.
-
----
-
-## Updating selectors if Shopify changes the DOM
-
-All CSS selectors live in the `SELECTORS` object at the top of `parser.js`. If Shopify ships a UI update and scraping breaks, that's the first place to look.
-
-Hashed class names (e.g. `_table_13sb5_185`) are matched as substrings using `[class*="..."]` rather than exact strings — the hash suffix changes with each deploy, so prefer that pattern when updating a selector.
+The scraper only runs when you open the popup. There is no persistent content script.
 
 ---
 
-## Distribution
+## If Shopify updates the DOM and scraping breaks
 
-Currently designed to be loaded unpacked. To share with teammates, zip the folder and have them follow the Installing steps above. A Chrome Web Store listing is an option for wider distribution when needed.
+All CSS selectors are in the `SELECTORS` object at the top of `parser.js`. Start there.
+
+Hashed class names like `_table_13sb5_185` are matched as substrings using `[class*="..."]` rather than exact strings. The hash changes on each deploy, so use that pattern when updating a selector.
+
+---
+
+## Sharing with others
+
+Zip the folder and have them follow the Install steps above. A Chrome Web Store listing is worth doing once it is ready for wider distribution.
