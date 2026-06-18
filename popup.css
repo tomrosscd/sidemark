@@ -240,7 +240,6 @@ body {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  scrollbar-gutter: stable;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -426,12 +425,11 @@ textarea:focus-visible {
 .actions-row .btn-outline  { flex: 1; }
 
 .action-status {
-  margin: 6px 0 0;
+  margin: 0;
   font-size: 13px;
   font-weight: 500;
   color: var(--cv-forest-green);
   text-align: center;
-  /* Empty element takes no vertical space */
   line-height: 1;
 }
 
