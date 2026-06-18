@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Sidekick to Markdown",
+  "version": "1.0.0",
+  "description": "Export the current Shopify Sidekick conversation to clean Markdown for pasting into Claude.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/sidekick16.png",
+      "48": "icons/sidekick48.png",
+      "128": "icons/sidekick128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/sidekick16.png",
+    "48": "icons/sidekick48.png",
+    "128": "icons/sidekick128.png"
+  },
+  "permissions": ["activeTab", "scripting", "clipboardWrite"],
+  "host_permissions": [
+    "https://admin.shopify.com/*",
+    "https://*.myshopify.com/*"
+  ]
+}

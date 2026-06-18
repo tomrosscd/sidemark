@@ -1,0 +1,186 @@
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 420px;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  color: #1a1a1a;
+  background: #ffffff;
+}
+
+.app-header {
+  padding: 10px 14px;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+#app {
+  padding: 12px 14px 16px;
+}
+
+.status {
+  padding: 16px 4px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.status.error {
+  color: #b3261e;
+}
+
+.options-row {
+  margin-bottom: 8px;
+}
+
+.checkbox-inline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #444;
+}
+
+.quick-select {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.quick-select button {
+  flex: 1 1 auto;
+}
+
+button {
+  font-family: inherit;
+  font-size: 12px;
+  padding: 6px 10px;
+  border: 1px solid #c9c9c9;
+  border-radius: 6px;
+  background: #f6f6f6;
+  cursor: pointer;
+  color: #1a1a1a;
+}
+
+button:hover {
+  background: #eeeeee;
+}
+
+button:active {
+  background: #e2e2e2;
+}
+
+button.primary {
+  background: #1a1a1a;
+  color: #ffffff;
+  border-color: #1a1a1a;
+}
+
+button.primary:hover {
+  background: #333333;
+}
+
+.exchange-list {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+  max-height: 160px;
+  overflow-y: auto;
+  border: 1px solid #e3e3e3;
+  border-radius: 6px;
+}
+
+.exchange-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 6px 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.exchange-list li:last-child {
+  border-bottom: none;
+}
+
+.exchange-list label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.exchange-list input[type="checkbox"] {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.exchange-prompt {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.latest-badge {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #0a6b3a;
+  background: #e3f6ec;
+  border-radius: 4px;
+  padding: 1px 5px;
+  vertical-align: middle;
+}
+
+.preview-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 12px;
+  color: #444;
+  font-weight: 600;
+}
+
+#preview {
+  width: 100%;
+  height: 220px;
+  resize: vertical;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  padding: 8px;
+  border: 1px solid #c9c9c9;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.actions-row {
+  display: flex;
+  gap: 8px;
+}
+
+.actions-row button {
+  flex: 1;
+}
+
+.action-status {
+  min-height: 14px;
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: #0a6b3a;
+}
+
+.action-status.error {
+  color: #b3261e;
+}

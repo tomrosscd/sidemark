@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sidekick to Markdown</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>Sidekick → Markdown</h1>
+  </header>
+
+  <main id="app">
+    <section id="status" class="status" hidden></section>
+
+    <section id="scanning" class="status">Scanning the page for Sidekick…</section>
+
+    <section id="content" hidden>
+      <div class="options-row">
+        <label class="checkbox-inline">
+          <input type="checkbox" id="includeReasoning" />
+          Include collapsed reasoning step labels
+        </label>
+      </div>
+
+      <div class="quick-select">
+        <button type="button" id="selectAll">Select all</button>
+        <button type="button" id="selectLatest">Latest only</button>
+        <button type="button" id="selectClear">Clear</button>
+      </div>
+
+      <ul id="exchangeList" class="exchange-list"></ul>
+
+      <label class="preview-label" for="preview">Markdown preview (editable)</label>
+      <textarea id="preview" spellcheck="false"></textarea>
+
+      <div class="actions-row">
+        <button type="button" id="copyBtn">Copy to clipboard</button>
+        <button type="button" id="downloadBtn">Download .md</button>
+      </div>
+
+      <p id="actionStatus" class="action-status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script src="popup.js"></script>
+</body>
+</html>
