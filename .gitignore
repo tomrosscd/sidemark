@@ -18,3 +18,7 @@ Desktop.ini
 
 # Claude Code local settings
 .claude/
+
+# Raw prompt-library source (canonical copy lives on the website;
+# prompts.js is the synced, extension-shipped copy and stays tracked)
+sidekickpromptlibrary.html
