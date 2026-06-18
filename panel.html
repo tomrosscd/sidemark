@@ -110,6 +110,18 @@
           </label>
         </div>
 
+        <!-- Export / Tables sub-view switch -->
+        <div class="sub-view-selector" role="group" aria-label="Export view">
+          <label class="sub-view-option">
+            <input type="radio" name="exportSubView" value="markdown" checked />
+            <span class="sub-view-label">Markdown</span>
+          </label>
+          <label class="sub-view-option">
+            <input type="radio" name="exportSubView" value="tables" />
+            <span class="sub-view-label">Tables <span id="tablesCount" class="mode-count"></span></span>
+          </label>
+        </div>
+
         <!-- Scrollable body -->
         <div class="content-body">
 
@@ -118,21 +130,35 @@
             <ul id="exchangeList" class="exchange-list"></ul>
           </div>
 
-          <!-- Markdown preview (primary content) -->
-          <textarea id="preview" spellcheck="false" aria-label="Markdown preview, editable"></textarea>
+          <!-- Markdown sub-view -->
+          <div id="markdownView">
+            <!-- Markdown preview (primary content) -->
+            <textarea id="preview" spellcheck="false" aria-label="Markdown preview, editable"></textarea>
 
-          <!-- Export settings -->
-          <div class="export-settings">
-            <label class="checkbox-inline">
-              <input type="checkbox" id="includeReasoning" />
-              Include collapsed reasoning step labels
-            </label>
+            <p id="countReadout" class="count-readout"></p>
+
+            <!-- Export settings -->
+            <div class="export-settings">
+              <label class="checkbox-inline">
+                <input type="checkbox" id="includeReasoning" />
+                Include collapsed reasoning step labels
+              </label>
+              <label class="checkbox-inline">
+                <input type="checkbox" id="trimFollowups" checked />
+                Trim Sidekick follow-up questions
+              </label>
+            </div>
+          </div>
+
+          <!-- Tables sub-view -->
+          <div id="tablesView" hidden>
+            <div id="tablesList" class="tables-list"></div>
           </div>
 
         </div>
 
         <!-- Pinned footer -->
-        <div class="actions-row">
+        <div class="actions-row" id="markdownActionsRow">
           <button type="button" class="btn-primary" id="copyBtn">Copy Markdown</button>
           <button type="button" class="btn-outline" id="downloadBtn">Download .md</button>
         </div>

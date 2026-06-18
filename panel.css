@@ -673,3 +673,129 @@ textarea:focus-visible {
   color: var(--cv-orange);
 }
 
+/* ---------------------------------------------------------------------- */
+/* Export mode — sub-view switch (Markdown / Tables)                       */
+/* ---------------------------------------------------------------------- */
+
+.sub-view-selector {
+  display: flex;
+  border: 1.5px solid var(--cv-dark-green);
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.sub-view-option {
+  flex: 1;
+  position: relative;
+}
+
+.sub-view-option input[type="radio"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.sub-view-label {
+  display: block;
+  padding: 7px 4px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cv-dark-green);
+  line-height: 1.3;
+  border-right: 1.5px solid var(--cv-dark-green);
+  user-select: none;
+  pointer-events: none;
+}
+
+.sub-view-option:last-child .sub-view-label {
+  border-right: none;
+}
+
+.sub-view-option:has(input:checked) .sub-view-label {
+  background: var(--cv-dark-green);
+  color: var(--cv-off-white);
+}
+
+.sub-view-option:not(:has(input:checked)):hover .sub-view-label {
+  background: var(--cv-light-green);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Word / token count readout                                              */
+/* ---------------------------------------------------------------------- */
+
+.count-readout {
+  margin: 0;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--cv-dark-green);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Tables sub-view                                                         */
+/* ---------------------------------------------------------------------- */
+
+.tables-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.table-card {
+  border: 1px solid rgba(23, 23, 23, 0.18);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #fff;
+}
+
+.table-card-label {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--cv-dark-green);
+  line-height: 1.3;
+}
+
+.table-card-preview {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  max-height: 140px;
+  overflow-y: auto;
+  padding: 8px;
+  border: 1px solid rgba(23, 23, 23, 0.18);
+  border-radius: 6px;
+  background: var(--cv-off-white);
+}
+
+.table-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.table-card-actions .btn-primary,
+.table-card-actions .btn-outline {
+  flex: 1;
+  padding: 8px 10px;
+  font-size: 13px;
+}
+
+.tables-empty {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--cv-dark-green);
+  padding: 12px 0;
+  text-align: center;
+}
+

@@ -4,7 +4,7 @@
 //   - Prompts: browse/search the prompt library, build a prompt with the
 //     chosen timeframe/comparison, insert it into Sidekick or copy it.
 //   - Export: scrape the open Sidekick conversation and export it as
-//     Markdown (existing behaviour).
+//     Markdown (existing behaviour), plus CSV export for tables.
 
 // ---------------------------------------------------------------------------
 // Settings (chrome.storage.local)
@@ -18,6 +18,7 @@ const DEFAULT_SETTINGS = {
   category: 'All',
   source: 'All',
   includeReasoning: false,
+  trimFollowups: true,
 };
 
 let settings = { ...DEFAULT_SETTINGS };
@@ -62,18 +63,27 @@ const customSelEl     = document.getElementById('customSelection');
 const exchangeListEl  = document.getElementById('exchangeList');
 const previewEl       = document.getElementById('preview');
 const includeReasoningEl = document.getElementById('includeReasoning');
+const trimFollowupsEl = document.getElementById('trimFollowups');
 const actionStatusEl  = document.getElementById('actionStatus');
 const allCountEl      = document.getElementById('allCount');
 const copyBtn         = document.getElementById('copyBtn');
 const downloadBtn     = document.getElementById('downloadBtn');
+const countReadoutEl  = document.getElementById('countReadout');
 
 const exportSubModeRadios = document.querySelectorAll('input[name="exportSubMode"]');
+const exportSubViewRadios = document.querySelectorAll('input[name="exportSubView"]');
+const markdownViewEl  = document.getElementById('markdownView');
+const tablesViewEl    = document.getElementById('tablesView');
+const tablesListEl    = document.getElementById('tablesList');
+const tablesCountEl   = document.getElementById('tablesCount');
+const markdownActionsRowEl = document.getElementById('markdownActionsRow');
 
 const CATEGORIES = ['CRO', 'LTV', 'BFCM', 'Strategy', 'Acquisition', 'SEO', 'Subscriptions', 'Tech'];
 
 let scrapeResult = null;
 let selectedIndices = new Set();
 let currentExportSubMode = 'latest';
+let currentExportSubView = 'markdown';
 let openPromptIds = new Set();
 let insertMessages = new Map(); // promptId -> message string
 
@@ -99,6 +109,7 @@ function applySettingsToUI() {
   cmpSelect.value = settings.comparison;
   srcSelect.value = settings.source;
   includeReasoningEl.checked = settings.includeReasoning;
+  trimFollowupsEl.checked = settings.trimFollowups;
   document.querySelector(`input[name="topMode"][value="${settings.topMode}"]`).checked = true;
 }
 
@@ -374,7 +385,7 @@ async function onCopyPrompt(promptId, text) {
 }
 
 // ---------------------------------------------------------------------------
-// Export mode (existing behaviour)
+// Export mode (existing behaviour + enhancements)
 // ---------------------------------------------------------------------------
 
 function wireExportControls() {
@@ -385,16 +396,31 @@ function wireExportControls() {
     });
   });
 
+  exportSubViewRadios.forEach((radio) => {
+    radio.addEventListener('change', () => {
+      currentExportSubView = radio.value;
+      onExportSubViewChange();
+    });
+  });
+
   includeReasoningEl.addEventListener('change', () => {
     settings.includeReasoning = includeReasoningEl.checked;
     saveSettings();
     runScrape(includeReasoningEl.checked);
   });
 
+  trimFollowupsEl.addEventListener('change', () => {
+    settings.trimFollowups = trimFollowupsEl.checked;
+    saveSettings();
+    updatePreview();
+    updateTablesView();
+  });
+
   rescanBtn.addEventListener('click', () => runScrape(includeReasoningEl.checked));
   errorRescanBtn.addEventListener('click', () => runScrape(includeReasoningEl.checked));
   copyBtn.addEventListener('click', onCopy);
   downloadBtn.addEventListener('click', onDownload);
+  previewEl.addEventListener('input', updateCountReadout);
 }
 
 async function getActiveTab() {
@@ -504,6 +530,13 @@ function onExportSubModeChange() {
   }
 
   updatePreview();
+  updateTablesView();
+}
+
+function onExportSubViewChange() {
+  markdownViewEl.hidden = currentExportSubView !== 'markdown';
+  tablesViewEl.hidden = currentExportSubView !== 'tables';
+  markdownActionsRowEl.hidden = currentExportSubView !== 'markdown';
 }
 
 function truncate(text, max) {
@@ -533,6 +566,7 @@ function renderExchangeList(exchanges) {
         selectedIndices.delete(exchange.index);
       }
       updatePreview();
+      updateTablesView();
     });
 
     const promptSpan = document.createElement('span');
@@ -553,21 +587,57 @@ function renderExchangeList(exchanges) {
   }
 }
 
+function getSelectedExchanges() {
+  if (!scrapeResult) return [];
+  const exchanges = scrapeResult.exchanges || [];
+
+  if (currentExportSubMode === 'latest') {
+    return exchanges.slice(-1);
+  } else if (currentExportSubMode === 'all') {
+    return [...exchanges];
+  }
+  return exchanges
+    .filter(e => selectedIndices.has(e.index))
+    .sort((a, b) => a.index - b.index);
+}
+
+// ---------------------------------------------------------------------------
+// Trim trailing Sidekick follow-up questions
+// ---------------------------------------------------------------------------
+
+const FOLLOWUP_PREFIXES = [
+  'want me to', 'would you like', 'should i', 'do you want', 'let me know', 'i can also', 'want to',
+];
+
+function trimFollowupParagraph(markdown) {
+  if (!markdown) return markdown;
+  const paragraphs = markdown.split(/\n{2,}/);
+  if (paragraphs.length === 0) return markdown;
+
+  const last = paragraphs[paragraphs.length - 1].trim();
+  if (!last.endsWith('?')) return markdown;
+
+  const lower = last.toLowerCase();
+  const matches = FOLLOWUP_PREFIXES.some((prefix) => lower.startsWith(prefix));
+  if (!matches) return markdown;
+
+  return paragraphs.slice(0, -1).join('\n\n').trim();
+}
+
+function getExchangeBody(exchange) {
+  const body = exchange.markdown || '_(no assistant response captured)_';
+  return trimFollowupsEl.checked ? trimFollowupParagraph(body) : body;
+}
+
+// ---------------------------------------------------------------------------
+// Markdown preview
+// ---------------------------------------------------------------------------
+
 function buildMarkdown() {
   if (!scrapeResult) return '';
 
-  const { title, storeHandle, url, exchanges } = scrapeResult;
-
-  let selected;
-  if (currentExportSubMode === 'latest') {
-    selected = exchanges.slice(-1);
-  } else if (currentExportSubMode === 'all') {
-    selected = [...exchanges];
-  } else {
-    selected = exchanges
-      .filter(e => selectedIndices.has(e.index))
-      .sort((a, b) => a.index - b.index);
-  }
+  const { title, storeHandle, url } = scrapeResult;
+  const selected = getSelectedExchanges();
 
   const header = [
     `# ${title}`,
@@ -579,7 +649,7 @@ function buildMarkdown() {
   const sections = selected.map((exchange) => {
     const heading = `## ${exchange.index}. ${truncate(exchange.userPrompt, 80)}`;
     const quoted = `> ${exchange.userPrompt.replace(/\n/g, '\n> ')}`;
-    const body = exchange.markdown || '_(no assistant response captured)_';
+    const body = getExchangeBody(exchange);
     return [heading, quoted, '', body].join('\n');
   });
 
@@ -588,6 +658,14 @@ function buildMarkdown() {
 
 function updatePreview() {
   previewEl.value = buildMarkdown();
+  updateCountReadout();
+}
+
+function updateCountReadout() {
+  const text = previewEl.value || '';
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  const tokensEst = Math.round(text.length / 4);
+  countReadoutEl.textContent = `${words} word${words === 1 ? '' : 's'} · ~${tokensEst} token${tokensEst === 1 ? '' : 's'} (estimate)`;
 }
 
 function slugify(text) {
@@ -653,4 +731,164 @@ function showActionStatus(message, isError) {
   actionStatusEl.classList.toggle('error', Boolean(isError));
   if (actionStatusTimer) clearTimeout(actionStatusTimer);
   actionStatusTimer = setTimeout(() => { actionStatusEl.textContent = ''; }, 3000);
+}
+
+// ---------------------------------------------------------------------------
+// Tables sub-view + CSV export
+// ---------------------------------------------------------------------------
+
+function isTableRowLine(line) {
+  return /^\s*\|.*\|\s*$/.test(line);
+}
+function isTableSeparatorLine(line) {
+  return /^\s*\|?[\s:|-]+\|?\s*$/.test(line) && line.includes('-');
+}
+
+function extractTablesFromExchange(exchange) {
+  const body = getExchangeBody(exchange);
+  const lines = body.split('\n');
+  const tables = [];
+  let currentHeading = null;
+  let i = 0;
+
+  while (i < lines.length) {
+    const line = lines[i];
+    const headingMatch = line.match(/^#{1,6}\s+(.*)/);
+    if (headingMatch) {
+      currentHeading = headingMatch[1].trim();
+      i++;
+      continue;
+    }
+
+    if (isTableRowLine(line) && lines[i + 1] && isTableSeparatorLine(lines[i + 1])) {
+      const tableLines = [line, lines[i + 1]];
+      let j = i + 2;
+      while (j < lines.length && isTableRowLine(lines[j])) {
+        tableLines.push(lines[j]);
+        j++;
+      }
+      tables.push({
+        label: currentHeading || `Prompt ${exchange.index}`,
+        lines: tableLines,
+      });
+      i = j;
+      continue;
+    }
+
+    i++;
+  }
+
+  return tables;
+}
+
+function parseTableLine(line) {
+  const trimmed = line.trim().replace(/^\|/, '').replace(/\|$/, '');
+  return trimmed.split(/(?<!\\)\|/).map((cell) => cell.trim().replace(/\\\|/g, '|'));
+}
+
+function stripMarkdownEmphasis(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '$1')
+    .replace(/__(.*?)__/g, '$1')
+    .replace(/\*(.*?)\*/g, '$1')
+    .replace(/_(.*?)_/g, '$1');
+}
+
+function csvEscapeField(field) {
+  const needsQuoting = /[",\n]/.test(field);
+  const escaped = field.replace(/"/g, '""');
+  return needsQuoting ? `"${escaped}"` : escaped;
+}
+
+function tableToCsv(tableLines) {
+  const rows = tableLines
+    .filter((line, idx) => idx !== 1) // skip the --- separator row
+    .map(parseTableLine)
+    .map((cells) => cells.map((c) => stripMarkdownEmphasis(c)));
+
+  return rows.map((row) => row.map(csvEscapeField).join(',')).join('\r\n');
+}
+
+function getAllTables() {
+  const exchanges = getSelectedExchanges();
+  const tables = [];
+  for (const exchange of exchanges) {
+    for (const t of extractTablesFromExchange(exchange)) {
+      tables.push(t);
+    }
+  }
+  return tables;
+}
+
+function updateTablesView() {
+  const tables = getAllTables();
+  tablesCountEl.textContent = tables.length ? `(${tables.length})` : '';
+  tablesListEl.innerHTML = '';
+
+  if (tables.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'tables-empty';
+    empty.textContent = 'No tables found in the current selection.';
+    tablesListEl.appendChild(empty);
+    return;
+  }
+
+  tables.forEach((table, idx) => {
+    const csv = tableToCsv(table.lines);
+
+    const card = document.createElement('div');
+    card.className = 'table-card';
+
+    const labelEl = document.createElement('div');
+    labelEl.className = 'table-card-label';
+    labelEl.textContent = table.label;
+    card.appendChild(labelEl);
+
+    const tablePreviewEl = document.createElement('div');
+    tablePreviewEl.className = 'table-card-preview';
+    tablePreviewEl.textContent = table.lines.join('\n');
+    card.appendChild(tablePreviewEl);
+
+    const actionsRow = document.createElement('div');
+    actionsRow.className = 'table-card-actions';
+
+    const copyCsvBtn = document.createElement('button');
+    copyCsvBtn.type = 'button';
+    copyCsvBtn.className = 'btn-outline';
+    copyCsvBtn.textContent = 'Copy CSV';
+    copyCsvBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(csv);
+        showActionStatus('Copied CSV to clipboard.', false);
+      } catch (e) {
+        showActionStatus('Could not copy CSV.', true);
+      }
+    });
+
+    const downloadCsvBtn = document.createElement('button');
+    downloadCsvBtn.type = 'button';
+    downloadCsvBtn.className = 'btn-primary';
+    downloadCsvBtn.textContent = 'Download CSV';
+    downloadCsvBtn.addEventListener('click', () => {
+      const store = scrapeResult ? slugify(scrapeResult.storeHandle) : 'sidekick';
+      const labelSlug = slugify(table.label);
+      const filename = `${store}-${labelSlug}-${formatExportedDateForFilename()}.csv`;
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showActionStatus(`Downloaded ${filename}`, false);
+    });
+
+    actionsRow.appendChild(copyCsvBtn);
+    actionsRow.appendChild(downloadCsvBtn);
+    card.appendChild(actionsRow);
+
+    tablesListEl.appendChild(card);
+  });
 }
