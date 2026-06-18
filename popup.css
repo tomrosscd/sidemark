@@ -75,8 +75,8 @@ body {
 }
 
 .app-icon {
-  width: 30px;
-  height: 30px;
+  height: 50px;
+  width: auto;
   flex-shrink: 0;
 }
 
@@ -123,11 +123,13 @@ body {
 
 /* Only the options/list/preview area scrolls — the action buttons below it
    stay pinned in view and are never pushed off-screen by a long exchange
-   list or a tall preview. */
+   list or a tall preview. Reserve scrollbar gutter permanently so content
+   width stays consistent whether or not a scrollbar is visible. */
 .scroll-area {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+  scrollbar-gutter: stable;
 }
 
 .status {
@@ -138,8 +140,27 @@ body {
   line-height: 1.5;
 }
 
-.status.error {
-  color: var(--cv-orange);
+/* ---------------------------------------------------------------------- */
+/* Error state                                                             */
+/* ---------------------------------------------------------------------- */
+
+.error-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 16px;
+  padding: 24px;
+}
+
+.error-message {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--cv-black);
 }
 
 .options-row {
@@ -223,6 +244,7 @@ a:focus-visible {
   padding: 0;
   max-height: 170px;
   overflow-y: auto;
+  scrollbar-gutter: stable;
   border: 1px solid var(--cv-light-green);
   border-radius: 8px;
 }
@@ -278,12 +300,34 @@ a:focus-visible {
 /* Preview                                                                 */
 /* ---------------------------------------------------------------------- */
 
-.preview-label {
-  display: block;
+.preview-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 6px;
+}
+
+.preview-label {
   font-size: 14px;
   font-weight: 500;
   color: var(--cv-dark-green);
+}
+
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 4px;
+  color: var(--cv-dark-green);
+  border-radius: 4px;
+  opacity: 0.6;
+}
+
+.btn-icon:hover {
+  opacity: 1;
+  background: var(--cv-light-green);
 }
 
 #preview {

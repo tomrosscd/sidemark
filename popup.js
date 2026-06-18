@@ -4,7 +4,9 @@
 // renders the exchange-selection UI, builds the live Markdown preview, and
 // wires up Copy/Download. No network requests are ever made.
 
-const statusEl = document.getElementById('status');
+const errorStateEl = document.getElementById('errorState');
+const errorMsgEl = document.getElementById('errorMsg');
+const rescanBtn = document.getElementById('rescanBtn');
 const scanningEl = document.getElementById('scanning');
 const contentEl = document.getElementById('content');
 const exchangeListEl = document.getElementById('exchangeList');
@@ -17,6 +19,7 @@ const selectLatestBtn = document.getElementById('selectLatest');
 const selectClearBtn = document.getElementById('selectClear');
 const copyBtn = document.getElementById('copyBtn');
 const downloadBtn = document.getElementById('downloadBtn');
+const refreshBtn = document.getElementById('refreshBtn');
 
 let scrapeResult = null; // { ok, title, storeHandle, url, exchanges }
 let selectedIndices = new Set();
@@ -36,6 +39,8 @@ async function init() {
   });
   copyBtn.addEventListener('click', onCopy);
   downloadBtn.addEventListener('click', onDownload);
+  rescanBtn.addEventListener('click', () => runScrape(includeReasoningEl.checked));
+  refreshBtn.addEventListener('click', () => runScrape(includeReasoningEl.checked));
 
   await runScrape(false);
 }
@@ -91,21 +96,20 @@ async function runScrape(includeReasoning) {
 
 function showScanning() {
   scanningEl.hidden = false;
-  statusEl.hidden = true;
+  errorStateEl.hidden = true;
   contentEl.hidden = true;
 }
 
 function showError(message) {
   scanningEl.hidden = true;
   contentEl.hidden = true;
-  statusEl.hidden = false;
-  statusEl.classList.add('error');
-  statusEl.textContent = message;
+  errorStateEl.hidden = false;
+  errorMsgEl.textContent = message;
 }
 
 function onScrapeSuccess() {
   scanningEl.hidden = true;
-  statusEl.hidden = true;
+  errorStateEl.hidden = true;
   contentEl.hidden = false;
 
   const exchanges = scrapeResult.exchanges || [];
