@@ -1,73 +1,90 @@
-# Sidekick to Markdown
+<div align="center">
+  <img src="icons/sidekick_icon.svg" width="64" height="64" alt="Sidemark icon" />
+  <h1>Sidemark</h1>
+  <p><strong>Shopify Sidekick chat, exported clean into Markdown.</strong></p>
+</div>
 
-A Manifest V3 Chrome extension that scrapes the currently open Shopify
-Sidekick conversation and converts it into clean, low-token-weight Markdown
-— ready to paste into Claude as context.
+---
 
-- Tables come through as real GitHub-flavoured Markdown tables.
-- Report cards become a bold link plus a fenced ```shopifyql``` block with
-  the decoded query.
-- Metric cards capture their query and (best-effort) their inline values.
-- Collapsed "N steps completed" reasoning groups are skipped by default.
-- Everything runs locally in your browser. The extension makes no network
-  requests — the only data that leaves it is what you explicitly copy or
-  download.
+Sidemark is a Chrome extension that captures the active Shopify Sidekick conversation and converts it into clean, portable Markdown — ready to copy into Claude, paste into Notion, or save for your records.
 
-## Loading it unpacked
+Everything runs locally. The extension makes no network requests. The only data that leaves your browser is what you explicitly copy or download.
 
-1. Open `chrome://extensions`.
-2. Turn on **Developer mode** (top right).
-3. Click **Load unpacked**.
-4. Select this folder.
-5. Pin the extension if you'd like quick access from the toolbar.
+---
 
-## Using it
+## Installing
 
-1. Open a Shopify Sidekick conversation in a Shopify admin tab
-   (`admin.shopify.com` or `*.myshopify.com`).
-2. Click the extension's toolbar icon.
-3. The popup scans the page, finds the conversation, and lists each
-   exchange (a user prompt plus the response that followed) with a
-   checkbox. The most recent exchange is marked **LATEST**.
-4. Use the quick-select buttons (**Select all**, **Latest only**,
-   **Clear**) or tick boxes individually.
-5. The Markdown preview below updates live as your selection changes. You
-   can hand-edit the preview text directly — Copy and Download both use
-   whatever is currently in that box.
-6. Click **Copy to clipboard** to copy, or **Download .md** to save a file
-   named `sidekick-<title-slug>-<date>.md`.
+Sidemark is loaded as an unpacked extension — no Chrome Web Store listing required.
 
-There's also an "Include collapsed reasoning step labels" checkbox if you
-want a one-line note for each collapsed reasoning group instead of skipping
-it entirely.
+1. Download or clone this repository to your machine.
+2. Open **chrome://extensions** in Chrome.
+3. Enable **Developer mode** using the toggle in the top-right corner.
+4. Click **Load unpacked**.
+5. Select the folder you just downloaded.
+6. Pin the Sidemark icon to your Chrome toolbar for quick access.
+
+> **Note:** You'll need to repeat step 4–5 after any updates to the extension files.
+
+---
+
+## Using Sidemark
+
+1. Open a Shopify admin tab and start a Sidekick conversation.
+2. Click the **Sidemark** toolbar icon to open the popup.
+3. Sidemark scans the page and lists your conversation exchanges.
+
+### Export modes
+
+Choose how much of the conversation to export using the tab selector at the top:
+
+| Mode | What it exports |
+|---|---|
+| **Latest Prompt** | Only the most recent exchange — the default |
+| **All Prompts (N)** | Every exchange in the conversation |
+| **Custom** | A checklist of exchanges you pick individually |
+
+### Editing and exporting
+
+- The **Markdown preview** updates live as you change modes or selections. You can edit the text directly — Copy and Download both use whatever is in that box.
+- **Copy Markdown** copies the preview to your clipboard.
+- **Download .md** saves a file named `sidekick-<title>-<date>.md`.
+- The **↺ rescan icon** in the header re-scrapes the page at any time — useful if you've added more questions or want to discard manual edits to the preview.
+
+### Export settings
+
+**Include collapsed reasoning step labels** — off by default. Turn it on to add a one-line note for each collapsed reasoning group rather than skipping it entirely.
+
+---
+
+## What gets converted
+
+- **Tables** → GitHub-flavoured Markdown tables
+- **Report cards** → bold link + fenced ` ```shopifyql ``` ` block with the decoded query
+- **Metric cards** → query and inline values (best-effort)
+- **Collapsed reasoning steps** → skipped by default (see Export settings above)
+
+---
 
 ## How it works
 
-- `popup.js` is the controller: it asks Chrome to inject `parser.js` and
-  `scraper.js` into the active tab on demand (no persistent content
-  script), reads back the structured result, and renders the selection UI,
-  preview, copy and download actions.
-- `scraper.js` runs in the page. It finds the Sidekick root and its
-  `[role="log"]` conversation log, scrolls the log from top to bottom in
-  steps first (in case of lazy-mounted/virtualised turns), then walks the
-  log's direct children in document order to group them into exchanges.
-- `parser.js` holds the actual DOM-to-Markdown conversion logic, loaded as
-  a plain script right before `scraper.js` so its functions are available
-  as globals in the same injected context.
+| File | Role |
+|---|---|
+| `popup.js` | Controller — injects the scraper on demand, renders the UI, wires up Copy/Download |
+| `scraper.js` | Runs in the page — finds the Sidekick log, scrolls it fully, groups DOM nodes into exchanges |
+| `parser.js` | DOM-to-Markdown conversion — all element handling and selector logic lives here |
+
+The scraper is injected on demand (not a persistent content script), so it only runs when you open the popup.
+
+---
 
 ## Updating selectors if Shopify changes the DOM
 
-All CSS selectors and DOM conventions Sidekick-specific logic depends on
-live in **one place**: the `SELECTORS` object at the top of `parser.js`.
-If Shopify ships a UI change and scraping breaks, that's the first (and
-usually only) place to look. Hashed class names like `_table_13sb5_185`
-are matched as substrings (`[class*="..."]`) rather than exact strings,
-since the hash suffix rotates with deploys — prefer that pattern over
-hard-coding a new exact class name when you update something.
+All CSS selectors live in the `SELECTORS` object at the top of `parser.js`. If Shopify ships a UI update and scraping breaks, that's the first place to look.
 
-## Team distribution (later)
+Hashed class names (e.g. `_table_13sb5_185`) are matched as substrings using `[class*="..."]` rather than exact strings — the hash suffix changes with each deploy, so prefer that pattern when updating a selector.
 
-Not implemented yet. For now this is meant to be loaded unpacked by a
-single person. When it's ready to share with the team, the simplest path
-is zipping this folder for others to load unpacked themselves; a Chrome
-Web Store listing is a further option if wider distribution is needed.
+---
+
+## Distribution
+
+Currently designed to be loaded unpacked. To share with teammates, zip the folder and have them follow the Installing steps above. A Chrome Web Store listing is an option for wider distribution when needed.
