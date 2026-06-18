@@ -105,14 +105,12 @@ function showScanning() {
   scanningEl.hidden = false;
   errorStateEl.hidden = true;
   contentEl.hidden = true;
-  rescanBtn.hidden = false;
 }
 
 function showError(message, hint = '') {
   scanningEl.hidden = true;
   contentEl.hidden = true;
   errorStateEl.hidden = false;
-  rescanBtn.hidden = false;
   errorMsgEl.textContent = message;
   errorHintEl.textContent = hint;
   errorHintEl.hidden = !hint;
@@ -122,7 +120,6 @@ function onScrapeSuccess() {
   scanningEl.hidden = true;
   errorStateEl.hidden = true;
   contentEl.hidden = false;
-  rescanBtn.hidden = true;
 
   const exchanges = scrapeResult.exchanges || [];
 
