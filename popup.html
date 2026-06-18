@@ -2,12 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Sidekick to Markdown</title>
+  <title>Sidemark</title>
   <link rel="stylesheet" href="popup.css" />
 </head>
 <body>
   <header class="app-header">
-    <h1>Sidekick → Markdown</h1>
+    <img class="app-icon" src="icons/sidekick128.png" alt="" width="30" height="30" />
+    <div class="app-header-text">
+      <h1>Sidemark</h1>
+      <p class="app-subtitle">Shopify Sidekick chats, exported to clean Markdown</p>
+    </div>
   </header>
 
   <main id="app">
@@ -24,9 +28,9 @@
       </div>
 
       <div class="quick-select">
-        <button type="button" id="selectAll">Select all</button>
-        <button type="button" id="selectLatest">Latest only</button>
-        <button type="button" id="selectClear">Clear</button>
+        <button type="button" class="btn-outline" id="selectAll">Select all</button>
+        <button type="button" class="btn-outline" id="selectLatest">Latest only</button>
+        <button type="button" class="btn-outline" id="selectClear">Clear</button>
       </div>
 
       <ul id="exchangeList" class="exchange-list"></ul>
@@ -35,8 +39,8 @@
       <textarea id="preview" spellcheck="false"></textarea>
 
       <div class="actions-row">
-        <button type="button" id="copyBtn">Copy to clipboard</button>
-        <button type="button" id="downloadBtn">Download .md</button>
+        <button type="button" class="btn-primary" id="copyBtn">Copy to clipboard</button>
+        <button type="button" class="btn-primary" id="downloadBtn">Download .md</button>
       </div>
 
       <p id="actionStatus" class="action-status" aria-live="polite"></p>

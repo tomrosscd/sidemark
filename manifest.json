@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Sidekick to Markdown",
+  "name": "Sidemark",
   "version": "1.0.0",
-  "description": "Export the current Shopify Sidekick conversation to clean Markdown for pasting into Claude.",
+  "description": "Shopify Sidekick chats, exported to clean Markdown",
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
