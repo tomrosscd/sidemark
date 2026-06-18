@@ -1,6 +1,6 @@
-// parser.js
+// parser.js — DOM-to-Markdown converter for Shopify Sidekick conversations.
 //
-// Pure DOM-to-Markdown logic for Shopify Sidekick conversations.
+// Handles tables, report cards, metric cards, reasoning steps, and plain text.
 // Loaded as a classic (non-module) script via chrome.scripting.executeScript
 // together with scraper.js, in that order, so the functions/consts declared
 // here are available as globals to scraper.js in the same injected world.
