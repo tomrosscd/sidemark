@@ -80,17 +80,6 @@
       <!-- Main content -->
       <section id="content" hidden>
 
-        <!-- Export toolbar -->
-        <div class="export-toolbar">
-          <button type="button" class="btn-rescan" id="rescanBtn" title="Rescan page">
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M21 2v6h-6"/>
-              <path d="M21 13a9 9 0 1 1-3-7.7L21 8"/>
-            </svg>
-            Rescan
-          </button>
-        </div>
-
         <!-- Mode selector (segmented control) -->
         <div class="mode-selector" role="group" aria-label="Export selection">
           <label class="mode-option">
@@ -132,7 +121,16 @@
             <!-- Markdown preview (primary content) -->
             <textarea id="preview" spellcheck="false" aria-label="Markdown preview, editable"></textarea>
 
-            <p id="countReadout" class="count-readout"></p>
+            <div class="count-rescan-row">
+              <p id="countReadout" class="count-readout"></p>
+              <button type="button" class="btn-rescan-inline" id="rescanBtn" title="Rescan page">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M21 2v6h-6"/>
+                  <path d="M21 13a9 9 0 1 1-3-7.7L21 8"/>
+                </svg>
+                Rescan
+              </button>
+            </div>
 
             <!-- Export settings -->
             <div class="export-settings">
