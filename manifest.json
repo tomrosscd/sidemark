@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Sidecar",
+  "name": "SideCar",
   "version": "2.0.0",
   "description": "Prompt library and Markdown export for Shopify Sidekick",
   "background": {
@@ -10,7 +10,7 @@
     "default_path": "panel.html"
   },
   "action": {
-    "default_title": "Sidecar",
+    "default_title": "SideCar",
     "default_icon": {
       "16": "icons/sidekick16.png",
       "48": "icons/sidekick48.png",

@@ -1,7 +1,7 @@
 // prompts.js
 //
 // Prompt library data and helpers. DOM-free and portable: this same file is
-// shared between the Sidecar extension panel and the prompt-library website.
+// shared between the SideCar extension panel and the prompt-library website.
 // If you update prompts here, copy this file back into the website project too.
 
 function getCmpText(timeframe, comparison) {
