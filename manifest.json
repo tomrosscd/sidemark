@@ -25,6 +25,7 @@
   "permissions": ["activeTab", "scripting", "clipboardWrite", "sidePanel", "storage"],
   "host_permissions": [
     "https://admin.shopify.com/*",
-    "https://*.myshopify.com/*"
+    "https://*.myshopify.com/*",
+    "https://tomrosscd.github.io/*"
   ]
 }

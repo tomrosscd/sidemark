@@ -16,10 +16,12 @@ const DEFAULT_SETTINGS = {
   timeframe: 'last 30 days',
   comparison: 'prev',
   category: 'All',
-  source: 'All',
   includeReasoning: false,
   trimFollowups: true,
 };
+
+const PROMPTS_URL = 'https://tomrosscd.github.io/sidemark/prompts.json';
+const CACHE_KEY = 'sidecar_prompts_cache_v1';
 
 let settings = { ...DEFAULT_SETTINGS };
 
@@ -46,8 +48,7 @@ const exportModeEl    = document.getElementById('exportMode');
 
 const tfSelect       = document.getElementById('tfSelect');
 const cmpSelect      = document.getElementById('cmpSelect');
-const catSelect      = document.getElementById('catSelect');
-const srcSelect       = document.getElementById('srcSelect');
+const catChipsEl     = document.getElementById('catChips');
 const searchInput    = document.getElementById('searchInput');
 const promptsCountEl = document.getElementById('promptsCount');
 const promptsListEl  = document.getElementById('promptsList');
@@ -78,26 +79,25 @@ const tablesListEl    = document.getElementById('tablesList');
 const tablesCountEl   = document.getElementById('tablesCount');
 const markdownActionsRowEl = document.getElementById('markdownActionsRow');
 
-const CATEGORIES = ['CRO', 'LTV', 'BFCM', 'Strategy', 'Acquisition', 'SEO', 'Subscriptions', 'Tech'];
-
+let loadedPrompts = [];
 let scrapeResult = null;
 let selectedIndices = new Set();
 let currentExportSubMode = 'latest';
 let currentExportSubView = 'markdown';
-let openPromptIds = new Set();
-let insertMessages = new Map(); // promptId -> message string
+let openPromptSlugs = new Set();
+let insertMessages = new Map(); // slug -> message string
+const cardState = new Map(); // slug -> { values: Map }
 
 init();
 
 async function init() {
   await loadSettings();
   applySettingsToUI();
-  buildCategorySelect();
   wireTopModeSwitch();
   wirePromptsControls();
   wireExportControls();
-  renderPromptsList();
   showTopMode(settings.topMode);
+  loadPromptsData();
 
   if (settings.topMode === 'export') {
     await runScrape(includeReasoningEl.checked);
@@ -107,7 +107,6 @@ async function init() {
 function applySettingsToUI() {
   tfSelect.value = settings.timeframe;
   cmpSelect.value = settings.comparison;
-  srcSelect.value = settings.source;
   includeReasoningEl.checked = settings.includeReasoning;
   trimFollowupsEl.checked = settings.trimFollowups;
   document.querySelector(`input[name="topMode"][value="${settings.topMode}"]`).checked = true;
@@ -136,42 +135,119 @@ function showTopMode(mode) {
 }
 
 // ---------------------------------------------------------------------------
-// Prompts mode
+// Prompts mode — data loading
 // ---------------------------------------------------------------------------
 
-function buildCategorySelect() {
-  catSelect.innerHTML = '';
-  const allOpt = document.createElement('option');
-  allOpt.value = 'All';
-  allOpt.textContent = `All (${PROMPTS.length})`;
-  catSelect.appendChild(allOpt);
-
-  for (const cat of CATEGORIES) {
-    const opt = document.createElement('option');
-    opt.value = cat;
-    opt.textContent = cat;
-    catSelect.appendChild(opt);
-  }
-  catSelect.value = settings.category;
-  updateCategoryCounts();
+function isValidPayload(data) {
+  if (!data || !Array.isArray(data.prompts)) return false;
+  return data.prompts.every(p =>
+    typeof p.slug === 'string' && p.slug &&
+    typeof p.title === 'string' && p.title &&
+    typeof p.category === 'string' && p.category &&
+    typeof p.body === 'string' && p.body &&
+    Array.isArray(p.placeholders)
+  );
 }
 
-function updateCategoryCounts() {
+async function loadPromptsData() {
+  let cached = null;
+  try {
+    const stored = await chrome.storage.local.get(CACHE_KEY);
+    if (stored[CACHE_KEY] && isValidPayload(stored[CACHE_KEY])) {
+      cached = stored[CACHE_KEY];
+    }
+  } catch (e) {}
+
+  if (cached) {
+    loadedPrompts = cached.prompts;
+    buildCategoryChips();
+    renderPromptsList();
+  } else {
+    renderSkeleton();
+  }
+
+  let remoteFetched = false;
+  try {
+    const res = await fetch(PROMPTS_URL, { cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      if (isValidPayload(data)) {
+        const isNew = !cached || data.updated !== cached.updated || data.count !== cached.count;
+        if (isNew) {
+          await chrome.storage.local.set({ [CACHE_KEY]: data });
+          loadedPrompts = data.prompts;
+          buildCategoryChips();
+          renderPromptsList();
+        }
+        remoteFetched = true;
+      }
+    }
+  } catch (e) {}
+
+  if (!remoteFetched && !cached) {
+    try {
+      const res = await fetch(chrome.runtime.getURL('prompts.json'));
+      if (res.ok) {
+        const data = await res.json();
+        if (isValidPayload(data)) {
+          await chrome.storage.local.set({ [CACHE_KEY]: data });
+          loadedPrompts = data.prompts;
+          buildCategoryChips();
+          renderPromptsList();
+        }
+      }
+    } catch (e) {}
+  }
+}
+
+function renderSkeleton() {
+  promptsCountEl.textContent = '';
+  promptsListEl.innerHTML = '';
+  for (let i = 0; i < 7; i++) {
+    const skel = document.createElement('div');
+    skel.className = 'prompt-skeleton';
+    promptsListEl.appendChild(skel);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Prompts mode — category chips
+// ---------------------------------------------------------------------------
+
+function buildCategoryChips() {
+  catChipsEl.innerHTML = '';
+  const cats = ['All', ...[...new Set(loadedPrompts.map(p => p.category))].sort()];
+
+  for (const cat of cats) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'cat-chip' + (cat === settings.category ? ' cat-chip-active' : '');
+    btn.dataset.cat = cat;
+    const count = cat === 'All'
+      ? loadedPrompts.length
+      : loadedPrompts.filter(p => p.category === cat).length;
+    btn.textContent = `${cat} (${count})`;
+    btn.addEventListener('click', () => {
+      settings.category = cat;
+      saveSettings();
+      updateCategoryChips();
+      renderPromptsList();
+    });
+    catChipsEl.appendChild(btn);
+  }
+}
+
+function updateCategoryChips() {
   const search = searchInput.value.trim().toLowerCase();
-  const source = settings.source;
-
-  const countFor = (cat) => PROMPTS.filter((p) => {
-    if (source !== 'All' && p.src !== source) return false;
-    if (cat !== 'All' && p.cat !== cat) return false;
-    if (search && !p.title.toLowerCase().includes(search) && !p.desc.toLowerCase().includes(search)) return false;
-    return true;
-  }).length;
-
-  const options = catSelect.querySelectorAll('option');
-  options.forEach((opt) => {
-    const cat = opt.value;
-    const count = countFor(cat);
-    opt.textContent = cat === 'All' ? `All (${count})` : `${cat} (${count})`;
+  catChipsEl.querySelectorAll('.cat-chip').forEach(btn => {
+    const cat = btn.dataset.cat;
+    btn.classList.toggle('cat-chip-active', cat === settings.category);
+    const count = loadedPrompts.filter(p => {
+      if (cat !== 'All' && p.category !== cat) return false;
+      if (search && !p.title.toLowerCase().includes(search) && !(p.description || '').toLowerCase().includes(search)) return false;
+      return true;
+    }).length;
+    btn.textContent = `${cat} (${count})`;
   });
 }
 
@@ -186,52 +262,24 @@ function wirePromptsControls() {
     saveSettings();
     renderPromptsList();
   });
-  catSelect.addEventListener('change', () => {
-    settings.category = catSelect.value;
-    saveSettings();
-    renderPromptsList();
-  });
-  srcSelect.addEventListener('change', () => {
-    settings.source = srcSelect.value;
-    saveSettings();
-    updateCategoryCounts();
-    renderPromptsList();
-  });
   searchInput.addEventListener('input', () => {
-    updateCategoryCounts();
+    updateCategoryChips();
     renderPromptsList();
   });
 }
 
 function getFilteredPrompts() {
   const search = searchInput.value.trim().toLowerCase();
-  return PROMPTS.filter((p) => {
-    if (settings.source !== 'All' && p.src !== settings.source) return false;
-    if (settings.category !== 'All' && p.cat !== settings.category) return false;
-    if (search && !p.title.toLowerCase().includes(search) && !p.desc.toLowerCase().includes(search)) return false;
+  return loadedPrompts.filter(p => {
+    if (settings.category !== 'All' && p.category !== settings.category) return false;
+    if (search && !p.title.toLowerCase().includes(search) && !(p.description || '').toLowerCase().includes(search)) return false;
     return true;
   });
 }
 
-function escHtml(s) {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-function escRx(s) {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
-function highlightBuiltPrompt(plainText, timeframe, comparison) {
-  const tf = 'the ' + timeframe;
-  const cmp = getCmpText(timeframe, comparison);
-  let out = escHtml(plainText);
-  const escapedTf = escHtml(tf);
-  out = out.replace(new RegExp(escRx(escapedTf), 'g'), `<mark class="m-tf">${escapedTf}</mark>`);
-  if (cmp) {
-    const escapedCmp = escHtml(cmp);
-    out = out.replace(new RegExp(escRx(escapedCmp), 'g'), `<mark class="m-cmp">${escapedCmp}</mark>`);
-  }
-  return out;
-}
+// ---------------------------------------------------------------------------
+// Prompts mode — list rendering
+// ---------------------------------------------------------------------------
 
 function renderPromptsList() {
   const filtered = getFilteredPrompts();
@@ -241,6 +289,7 @@ function renderPromptsList() {
   for (const p of filtered) {
     const row = document.createElement('div');
     row.className = 'prompt-row';
+    row.dataset.slug = p.slug;
 
     const header = document.createElement('button');
     header.type = 'button';
@@ -252,52 +301,143 @@ function renderPromptsList() {
 
     const descEl = document.createElement('div');
     descEl.className = 'prompt-desc';
-    descEl.textContent = p.desc;
+    descEl.textContent = p.description || '';
 
     const badgesEl = document.createElement('div');
     badgesEl.className = 'prompt-badges';
     const catBadge = document.createElement('span');
     catBadge.className = 'badge badge-cat';
-    catBadge.textContent = p.cat;
-    const srcBadge = document.createElement('span');
-    srcBadge.className = `badge badge-src-${p.src}`;
-    srcBadge.textContent = p.src === 'convert' ? 'Convert' : 'Shopify';
+    catBadge.textContent = p.category;
     badgesEl.appendChild(catBadge);
-    badgesEl.appendChild(srcBadge);
+    if (p.featured) {
+      const star = document.createElement('span');
+      star.className = 'badge badge-featured';
+      star.textContent = 'Featured';
+      badgesEl.appendChild(star);
+    }
 
     header.appendChild(titleEl);
     header.appendChild(descEl);
     header.appendChild(badgesEl);
     header.addEventListener('click', () => {
-      if (openPromptIds.has(p.id)) {
-        openPromptIds.delete(p.id);
+      if (openPromptSlugs.has(p.slug)) {
+        openPromptSlugs.delete(p.slug);
       } else {
-        openPromptIds.add(p.id);
+        openPromptSlugs.add(p.slug);
       }
       renderPromptsList();
     });
 
     row.appendChild(header);
 
-    if (openPromptIds.has(p.id)) {
+    if (openPromptSlugs.has(p.slug)) {
       row.appendChild(renderExpandedPrompt(p));
     }
 
     promptsListEl.appendChild(row);
   }
+
+  updateCategoryChips();
+}
+
+function buildPreviewText(template, values) {
+  let text = template;
+  values.forEach((val, token) => {
+    if (val) text = text.split(token).join(val);
+  });
+  return text;
+}
+
+function validateBeforeAction(wrap) {
+  const inputs = wrap.querySelectorAll('.placeholder-input');
+  let valid = true;
+  inputs.forEach(input => {
+    if (!input.value.trim()) {
+      input.classList.add('input-error');
+      valid = false;
+    } else {
+      input.classList.remove('input-error');
+    }
+  });
+  const validationMsg = wrap.querySelector('.validation-msg');
+  if (!valid) {
+    validationMsg.textContent = 'Fill in the highlighted fields before continuing.';
+    validationMsg.hidden = false;
+    return null;
+  }
+  const previewTA = wrap.querySelector('.prompt-preview-textarea');
+  const text = previewTA ? previewTA.value : '';
+  if (/\[[^\]]+\]/.test(text) || /\{\{[^}]+\}\}/.test(text)) {
+    validationMsg.textContent = 'Fill in all placeholder fields before continuing.';
+    validationMsg.hidden = false;
+    return null;
+  }
+  validationMsg.hidden = true;
+  return text;
 }
 
 function renderExpandedPrompt(p) {
-  const built = buildPrompt(p, settings.timeframe, settings.comparison);
+  const template = buildPrompt(p, settings.timeframe, settings.comparison);
+
+  if (!cardState.has(p.slug)) {
+    cardState.set(p.slug, { values: new Map() });
+  }
+  const state = cardState.get(p.slug);
 
   const wrap = document.createElement('div');
   wrap.className = 'prompt-expanded';
 
-  const textEl = document.createElement('div');
-  textEl.className = 'prompt-built-text';
-  textEl.innerHTML = highlightBuiltPrompt(built, settings.timeframe, settings.comparison);
-  wrap.appendChild(textEl);
+  // Placeholder inputs
+  let previewTA = null;
 
+  if (p.placeholders && p.placeholders.length > 0) {
+    const inputsSection = document.createElement('div');
+    inputsSection.className = 'placeholder-inputs';
+
+    for (const token of p.placeholders) {
+      const label = token.replace(/^\[|\]$/g, '');
+      const group = document.createElement('div');
+      group.className = 'placeholder-group';
+
+      const labelEl = document.createElement('label');
+      labelEl.className = 'placeholder-label';
+      labelEl.textContent = label;
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'placeholder-input';
+      input.dataset.token = token;
+      input.value = state.values.get(token) || '';
+      input.placeholder = label;
+
+      input.addEventListener('input', () => {
+        input.classList.remove('input-error');
+        state.values.set(token, input.value);
+        if (previewTA) previewTA.value = buildPreviewText(template, state.values);
+      });
+
+      group.appendChild(labelEl);
+      group.appendChild(input);
+      inputsSection.appendChild(group);
+    }
+
+    wrap.appendChild(inputsSection);
+  }
+
+  // Editable preview textarea
+  previewTA = document.createElement('textarea');
+  previewTA.className = 'prompt-preview-textarea';
+  previewTA.spellcheck = false;
+  previewTA.value = buildPreviewText(template, state.values);
+  wrap.appendChild(previewTA);
+
+  // Validation message
+  const validationMsg = document.createElement('p');
+  validationMsg.className = 'validation-msg';
+  validationMsg.hidden = true;
+  wrap.appendChild(validationMsg);
+
+  // Actions
   const actionsRow = document.createElement('div');
   actionsRow.className = 'prompt-actions-row';
 
@@ -305,19 +445,27 @@ function renderExpandedPrompt(p) {
   insertBtn.type = 'button';
   insertBtn.className = 'btn-primary';
   insertBtn.textContent = 'Insert';
-  insertBtn.addEventListener('click', () => onInsertPrompt(p.id, built));
+  insertBtn.addEventListener('click', () => {
+    const text = validateBeforeAction(wrap);
+    if (text === null) return;
+    onInsertPrompt(p.slug, text);
+  });
 
   const copyBtnEl = document.createElement('button');
   copyBtnEl.type = 'button';
   copyBtnEl.className = 'btn-outline';
   copyBtnEl.textContent = 'Copy';
-  copyBtnEl.addEventListener('click', () => onCopyPrompt(p.id, built));
+  copyBtnEl.addEventListener('click', () => {
+    const text = validateBeforeAction(wrap);
+    if (text === null) return;
+    onCopyPrompt(p.slug, text);
+  });
 
   actionsRow.appendChild(insertBtn);
   actionsRow.appendChild(copyBtnEl);
   wrap.appendChild(actionsRow);
 
-  const msg = insertMessages.get(p.id);
+  const msg = insertMessages.get(p.slug);
   if (msg) {
     const msgEl = document.createElement('p');
     msgEl.className = 'prompt-insert-msg';
@@ -325,7 +473,42 @@ function renderExpandedPrompt(p) {
     wrap.appendChild(msgEl);
   }
 
+  // Follow-up link
+  if (p.followUp) {
+    const target = loadedPrompts.find(lp => lp.slug === p.followUp);
+    if (target) {
+      const row = document.createElement('p');
+      row.className = 'follow-up-row';
+      const link = document.createElement('a');
+      link.href = '#';
+      link.className = 'follow-up-link';
+      link.textContent = `Suggested follow-up: ${target.title}`;
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        navigateToFollowUp(p.followUp);
+      });
+      row.appendChild(link);
+      wrap.appendChild(row);
+    }
+  }
+
   return wrap;
+}
+
+function navigateToFollowUp(slug) {
+  searchInput.value = '';
+  settings.category = 'All';
+  saveSettings();
+  openPromptSlugs.add(slug);
+  buildCategoryChips();
+  renderPromptsList();
+
+  const targetRow = promptsListEl.querySelector(`[data-slug="${slug}"]`);
+  if (targetRow) {
+    targetRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    targetRow.classList.add('flash-highlight');
+    setTimeout(() => targetRow.classList.remove('flash-highlight'), 1500);
+  }
 }
 
 const SHOPIFY_TAB_PATTERN = /^https:\/\/(admin\.shopify\.com|[^/]+\.myshopify\.com)\//;
@@ -342,8 +525,8 @@ function insertIntoSidekick(text) {
   return { ok: true };
 }
 
-async function onInsertPrompt(promptId, text) {
-  insertMessages.delete(promptId);
+async function onInsertPrompt(slug, text) {
+  insertMessages.delete(slug);
 
   let tab;
   try {
@@ -353,7 +536,7 @@ async function onInsertPrompt(promptId, text) {
   }
 
   if (!tab || !tab.id || !tab.url || !SHOPIFY_TAB_PATTERN.test(tab.url)) {
-    insertMessages.set(promptId, 'Open Sidekick on this tab to insert');
+    insertMessages.set(slug, 'Open Sidekick on this tab to insert');
     renderPromptsList();
     return;
   }
@@ -366,17 +549,17 @@ async function onInsertPrompt(promptId, text) {
     });
     const result = results && results[0] && results[0].result;
     if (!result || !result.ok) {
-      insertMessages.set(promptId, 'Open Sidekick on this tab to insert');
+      insertMessages.set(slug, 'Open Sidekick on this tab to insert');
     } else {
-      insertMessages.delete(promptId);
+      insertMessages.delete(slug);
     }
   } catch (e) {
-    insertMessages.set(promptId, 'Open Sidekick on this tab to insert');
+    insertMessages.set(slug, 'Open Sidekick on this tab to insert');
   }
   renderPromptsList();
 }
 
-async function onCopyPrompt(promptId, text) {
+async function onCopyPrompt(slug, text) {
   try {
     await navigator.clipboard.writeText(text);
   } catch (e) {

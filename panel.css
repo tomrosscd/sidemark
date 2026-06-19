@@ -795,3 +795,170 @@ textarea:focus-visible {
   text-align: center;
 }
 
+/* ---------------------------------------------------------------------- */
+/* Prompts mode — category chips                                           */
+/* ---------------------------------------------------------------------- */
+
+.cat-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.cat-chip {
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--cv-dark-green);
+  background: transparent;
+  border: 1.5px solid rgba(39, 56, 47, 0.3);
+  border-radius: 20px;
+  padding: 4px 10px;
+  cursor: pointer;
+  line-height: 1.3;
+  white-space: nowrap;
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.cat-chip:hover {
+  background: var(--cv-light-green);
+  border-color: var(--cv-dark-green);
+}
+
+.cat-chip.cat-chip-active {
+  background: var(--cv-dark-green);
+  border-color: var(--cv-dark-green);
+  color: var(--cv-off-white);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Prompts mode — skeleton loading cards                                   */
+/* ---------------------------------------------------------------------- */
+
+@keyframes skeleton-pulse {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.45; }
+  100% { opacity: 1; }
+}
+
+.prompt-skeleton {
+  flex-shrink: 0;
+  height: 72px;
+  border-radius: 8px;
+  background: rgba(39, 56, 47, 0.08);
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+.prompt-skeleton:nth-child(2) { animation-delay: 0.1s; }
+.prompt-skeleton:nth-child(3) { animation-delay: 0.2s; }
+.prompt-skeleton:nth-child(4) { animation-delay: 0.3s; }
+.prompt-skeleton:nth-child(5) { animation-delay: 0.4s; }
+.prompt-skeleton:nth-child(6) { animation-delay: 0.5s; }
+.prompt-skeleton:nth-child(7) { animation-delay: 0.6s; }
+
+/* ---------------------------------------------------------------------- */
+/* Prompts mode — badge variants                                           */
+/* ---------------------------------------------------------------------- */
+
+.badge-featured {
+  color: var(--cv-dark-green);
+  background: var(--cv-yellow);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Prompts mode — expanded card (v2)                                       */
+/* ---------------------------------------------------------------------- */
+
+.placeholder-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.placeholder-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.placeholder-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--cv-dark-green);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.placeholder-input {
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--cv-black);
+  background: var(--cv-off-white);
+  border: 1px solid rgba(23, 23, 23, 0.18);
+  border-radius: 6px;
+  padding: 7px 8px;
+  width: 100%;
+}
+
+.placeholder-input.input-error {
+  border-color: var(--cv-orange);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 163, 102, 0.3);
+}
+
+.prompt-preview-textarea {
+  width: 100%;
+  height: 200px;
+  resize: vertical;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  line-height: 1.5;
+  padding: 8px;
+  border: 1px solid rgba(23, 23, 23, 0.18);
+  border-radius: 6px;
+  color: var(--cv-black);
+  background: var(--cv-off-white);
+}
+
+.validation-msg {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--cv-orange);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Prompts mode — follow-up link                                           */
+/* ---------------------------------------------------------------------- */
+
+.follow-up-row {
+  margin: 0;
+}
+
+.follow-up-link {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--cv-forest-green);
+  text-decoration: none;
+}
+
+.follow-up-link:hover {
+  text-decoration: underline;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Prompts mode — follow-up flash highlight                                */
+/* ---------------------------------------------------------------------- */
+
+@keyframes flash-border {
+  0%   { box-shadow: 0 0 0 2px var(--cv-forest-green); }
+  80%  { box-shadow: 0 0 0 2px var(--cv-forest-green); }
+  100% { box-shadow: none; }
+}
+
+.flash-highlight {
+  animation: flash-border 1.5s ease-out forwards;
+}
+
