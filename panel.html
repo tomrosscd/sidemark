@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SideCar</title>
+  <link rel="stylesheet" href="panel.css" />
+</head>
+<body>
+
+  <!-- Top-level mode switch -->
+  <div class="top-mode-selector" role="group" aria-label="SideCar mode">
+    <label class="top-mode-option">
+      <input type="radio" name="topMode" value="prompts" checked />
+      <span class="top-mode-label">Prompts</span>
+    </label>
+    <label class="top-mode-option">
+      <input type="radio" name="topMode" value="export" />
+      <span class="top-mode-label">Export</span>
+    </label>
+  </div>
+
+  <main id="app">
+
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!-- PROMPTS MODE                                                     -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <section id="promptsMode" class="mode-panel">
+
+      <div class="prompts-filters">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label class="filter-label" for="tfSelect">Date Range</label>
+            <select id="tfSelect" class="select-input">
+              <option value="last 7 days">Last 7 days</option>
+              <option value="last 14 days">Last 14 days</option>
+              <option value="last 30 days" selected>Last 30 days</option>
+              <option value="last 60 days">Last 60 days</option>
+              <option value="last 90 days">Last 90 days</option>
+              <option value="last quarter">Last quarter</option>
+              <option value="last 6 months">Last 6 months</option>
+              <option value="last 12 months">Last 12 months</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label" for="cmpSelect">Comparison</label>
+            <select id="cmpSelect" class="select-input">
+              <option value="prev" selected>Previous period</option>
+              <option value="yoy">Same period last year</option>
+              <option value="none">No comparison</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="filter-row">
+          <div class="filter-group">
+            <label class="filter-label" for="catSelect">Category</label>
+            <select id="catSelect" class="select-input"></select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label" for="srcSelect">Source</label>
+            <select id="srcSelect" class="select-input">
+              <option value="All" selected>All sources</option>
+              <option value="convert">Convert</option>
+              <option value="shopify">Shopify</option>
+            </select>
+          </div>
+        </div>
+
+        <input type="search" id="searchInput" class="search-input" placeholder="Search prompts…" aria-label="Search prompts" />
+
+        <p id="promptsCount" class="prompts-count"></p>
+      </div>
+
+      <div class="prompts-list" id="promptsList"></div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!-- EXPORT MODE (existing)                                           -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <section id="exportMode" class="mode-panel" hidden>
+
+      <!-- Empty / error state -->
+      <section id="errorState" class="error-state" hidden>
+        <p id="errorMsg" class="error-message"></p>
+        <p id="errorHint" class="error-hint" hidden></p>
+        <button type="button" class="btn-primary error-rescan-btn" id="errorRescanBtn">Rescan</button>
+      </section>
+
+      <!-- Scanning -->
+      <section id="scanning" class="status">Scanning the page for Sidekick…</section>
+
+      <!-- Main content -->
+      <section id="content" hidden>
+
+        <!-- Export toolbar -->
+        <div class="export-toolbar">
+          <button type="button" class="btn-icon" id="rescanBtn" title="Rescan page">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 2v6h-6"/>
+              <path d="M21 13a9 9 0 1 1-3-7.7L21 8"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Mode selector (segmented control) -->
+        <div class="mode-selector" role="group" aria-label="Export selection">
+          <label class="mode-option">
+            <input type="radio" name="exportSubMode" value="latest" checked />
+            <span class="mode-label">Latest Prompt</span>
+          </label>
+          <label class="mode-option">
+            <input type="radio" name="exportSubMode" value="all" />
+            <span class="mode-label">All Prompts <span id="allCount" class="mode-count"></span></span>
+          </label>
+          <label class="mode-option">
+            <input type="radio" name="exportSubMode" value="custom" />
+            <span class="mode-label">Custom</span>
+          </label>
+        </div>
+
+        <!-- Export / Tables sub-view switch -->
+        <div class="sub-view-selector" role="group" aria-label="Export view">
+          <label class="sub-view-option">
+            <input type="radio" name="exportSubView" value="markdown" checked />
+            <span class="sub-view-label">Markdown</span>
+          </label>
+          <label class="sub-view-option">
+            <input type="radio" name="exportSubView" value="tables" />
+            <span class="sub-view-label">Tables <span id="tablesCount" class="mode-count"></span></span>
+          </label>
+        </div>
+
+        <!-- Scrollable body -->
+        <div class="content-body">
+
+          <!-- Prompt checklist — only shown in Custom mode -->
+          <div id="customSelection" hidden>
+            <ul id="exchangeList" class="exchange-list"></ul>
+          </div>
+
+          <!-- Markdown sub-view -->
+          <div id="markdownView">
+            <!-- Markdown preview (primary content) -->
+            <textarea id="preview" spellcheck="false" aria-label="Markdown preview, editable"></textarea>
+
+            <p id="countReadout" class="count-readout"></p>
+
+            <!-- Export settings -->
+            <div class="export-settings">
+              <label class="checkbox-inline">
+                <input type="checkbox" id="includeReasoning" />
+                Include collapsed reasoning step labels
+              </label>
+              <label class="checkbox-inline">
+                <input type="checkbox" id="trimFollowups" checked />
+                Trim Sidekick follow-up questions
+              </label>
+            </div>
+          </div>
+
+          <!-- Tables sub-view -->
+          <div id="tablesView" hidden>
+            <div id="tablesList" class="tables-list"></div>
+          </div>
+
+        </div>
+
+        <!-- Pinned footer -->
+        <div class="actions-row" id="markdownActionsRow">
+          <button type="button" class="btn-primary" id="copyBtn">Copy Markdown</button>
+          <button type="button" class="btn-outline" id="downloadBtn">Download .md</button>
+        </div>
+        <p id="actionStatus" class="action-status" aria-live="polite"></p>
+
+      </section>
+
+    </section>
+
+  </main>
+
+  <script src="prompts.js"></script>
+  <script src="panel.js"></script>
+</body>
+</html>

@@ -45,11 +45,12 @@
 /* Ensure [hidden] always wins over class-level display overrides */
 [hidden] { display: none !important; }
 
-html, body { margin: 0; }
+html, body { margin: 0; height: 100%; }
 
 body {
-  width: 440px;
-  max-height: 600px;
+  min-width: 320px;
+  max-width: 480px;
+  height: 100%;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -59,48 +60,62 @@ body {
   font-weight: 400;
   color: var(--cv-black);
   background: var(--cv-off-white);
+  border-top: 2px solid var(--cv-dark-green);
 }
 
 /* ---------------------------------------------------------------------- */
-/* Header                                                                  */
+/* Top-level mode switch (Prompts / Export)                                */
 /* ---------------------------------------------------------------------- */
 
-.app-header {
+.top-mode-selector {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--cv-light-green);
+  margin: 14px 16px 0;
+  border: 1.5px solid var(--cv-dark-green);
+  border-radius: 8px;
+  overflow: hidden;
   flex-shrink: 0;
 }
 
-.app-icon {
-  height: 50px;
-  width: auto;
-  flex-shrink: 0;
-}
-
-.app-header-text {
+.top-mode-option {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  position: relative;
 }
 
-.app-header-text h1 {
+.top-mode-option input[type="radio"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   margin: 0;
-  font-size: 28px;
-  font-weight: 800;
-  line-height: 1.1;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.top-mode-label {
+  display: block;
+  padding: 10px 4px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
   color: var(--cv-dark-green);
-}
-
-.app-subtitle {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 500;
   line-height: 1.3;
-  color: var(--cv-dark-green);
+  border-right: 1.5px solid var(--cv-dark-green);
+  user-select: none;
+  pointer-events: none;
+}
+
+.top-mode-option:last-child .top-mode-label {
+  border-right: none;
+}
+
+.top-mode-option:has(input:checked) .top-mode-label {
+  background: var(--cv-dark-green);
+  color: var(--cv-off-white);
+}
+
+.top-mode-option:not(:has(input:checked)):hover .top-mode-label {
+  background: var(--cv-light-green);
 }
 
 /* ---------------------------------------------------------------------- */
@@ -113,6 +128,14 @@ body {
   display: flex;
   flex-direction: column;
   padding: 14px 16px 16px;
+}
+
+.mode-panel {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 /* Scanning indicator */
@@ -170,6 +193,16 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Export toolbar (rescan)                                                 */
+/* ---------------------------------------------------------------------- */
+
+.export-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -406,6 +439,7 @@ button {
 
 button:focus-visible,
 input:focus-visible,
+select:focus-visible,
 textarea:focus-visible {
   outline: 2px solid var(--cv-forest-green);
   outline-offset: 2px;
@@ -436,3 +470,328 @@ textarea:focus-visible {
 .action-status.error {
   color: var(--cv-orange);
 }
+
+/* ---------------------------------------------------------------------- */
+/* Prompts mode — filters                                                  */
+/* ---------------------------------------------------------------------- */
+
+.prompts-filters {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-row {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-group {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.filter-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--cv-dark-green);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.select-input,
+.search-input {
+  flex: 1;
+  min-width: 0;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--cv-black);
+  background: var(--cv-off-white);
+  border: 1px solid rgba(23, 23, 23, 0.18);
+  border-radius: 6px;
+  padding: 7px 8px;
+}
+
+.search-input::placeholder {
+  color: rgba(23, 23, 23, 0.45);
+}
+
+.search-input::-webkit-search-cancel-button {
+  filter: grayscale(1) brightness(0.3);
+  cursor: pointer;
+}
+
+.prompts-count {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--cv-dark-green);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Prompts mode — list and rows                                            */
+/* ---------------------------------------------------------------------- */
+
+.prompts-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.prompt-row {
+  flex-shrink: 0;
+  border: 1px solid rgba(23, 23, 23, 0.18);
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.prompt-row-header {
+  flex-shrink: 0;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 10px 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.prompt-row-header:hover {
+  background: var(--cv-light-green);
+}
+
+.prompt-title {
+  flex-shrink: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--cv-dark-green);
+  line-height: 1.3;
+}
+
+.prompt-desc {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--cv-black);
+  line-height: 1.4;
+}
+
+.prompt-badges {
+  flex-shrink: 0;
+  display: flex;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+.badge-cat {
+  color: var(--cv-dark-green);
+  background: var(--cv-light-green);
+}
+
+.badge-src-convert {
+  color: var(--cv-off-white);
+  background: var(--cv-forest-green);
+}
+
+.badge-src-shopify {
+  color: var(--cv-dark-green);
+  background: var(--cv-yellow);
+}
+
+.prompt-expanded {
+  border-top: 1px solid rgba(23, 23, 23, 0.12);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.prompt-built-text {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  max-height: 220px;
+  overflow-y: auto;
+  padding: 8px;
+  border: 1px solid rgba(23, 23, 23, 0.18);
+  border-radius: 6px;
+  background: var(--cv-off-white);
+}
+
+.prompt-built-text mark.m-tf {
+  background: var(--cv-yellow);
+  color: var(--cv-black);
+  border-radius: 2px;
+}
+
+.prompt-built-text mark.m-cmp {
+  background: var(--cv-light-green);
+  color: var(--cv-black);
+  border-radius: 2px;
+}
+
+.prompt-actions-row {
+  display: flex;
+  gap: 8px;
+}
+
+.prompt-actions-row .btn-primary,
+.prompt-actions-row .btn-outline {
+  flex: 1;
+  padding: 8px 10px;
+  font-size: 13px;
+}
+
+.prompt-insert-msg {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--cv-orange);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Export mode — sub-view switch (Markdown / Tables)                       */
+/* ---------------------------------------------------------------------- */
+
+.sub-view-selector {
+  display: flex;
+  border: 1.5px solid var(--cv-dark-green);
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.sub-view-option {
+  flex: 1;
+  position: relative;
+}
+
+.sub-view-option input[type="radio"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.sub-view-label {
+  display: block;
+  padding: 7px 4px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cv-dark-green);
+  line-height: 1.3;
+  border-right: 1.5px solid var(--cv-dark-green);
+  user-select: none;
+  pointer-events: none;
+}
+
+.sub-view-option:last-child .sub-view-label {
+  border-right: none;
+}
+
+.sub-view-option:has(input:checked) .sub-view-label {
+  background: var(--cv-dark-green);
+  color: var(--cv-off-white);
+}
+
+.sub-view-option:not(:has(input:checked)):hover .sub-view-label {
+  background: var(--cv-light-green);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Word / token count readout                                              */
+/* ---------------------------------------------------------------------- */
+
+.count-readout {
+  margin: 0;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--cv-dark-green);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Tables sub-view                                                         */
+/* ---------------------------------------------------------------------- */
+
+.tables-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.table-card {
+  border: 1px solid rgba(23, 23, 23, 0.18);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #fff;
+}
+
+.table-card-label {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--cv-dark-green);
+  line-height: 1.3;
+}
+
+.table-card-preview {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  max-height: 140px;
+  overflow-y: auto;
+  padding: 8px;
+  border: 1px solid rgba(23, 23, 23, 0.18);
+  border-radius: 6px;
+  background: var(--cv-off-white);
+}
+
+.table-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.table-card-actions .btn-primary,
+.table-card-actions .btn-outline {
+  flex: 1;
+  padding: 8px 10px;
+  font-size: 13px;
+}
+
+.tables-empty {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--cv-dark-green);
+  padding: 12px 0;
+  text-align: center;
+}
+

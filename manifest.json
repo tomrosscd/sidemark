@@ -1,10 +1,16 @@
 {
   "manifest_version": 3,
-  "name": "Sidemark",
-  "version": "1.0.0",
-  "description": "Shopify Sidekick chat, exported clean into Markdown.",
+  "name": "SideCar",
+  "version": "2.0.0",
+  "description": "Prompt library and Markdown export for Shopify Sidekick",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "panel.html"
+  },
   "action": {
-    "default_popup": "popup.html",
+    "default_title": "SideCar",
     "default_icon": {
       "16": "icons/sidekick16.png",
       "48": "icons/sidekick48.png",
@@ -16,7 +22,7 @@
     "48": "icons/sidekick48.png",
     "128": "icons/sidekick128.png"
   },
-  "permissions": ["activeTab", "scripting", "clipboardWrite"],
+  "permissions": ["activeTab", "scripting", "clipboardWrite", "sidePanel", "storage"],
   "host_permissions": [
     "https://admin.shopify.com/*",
     "https://*.myshopify.com/*"
