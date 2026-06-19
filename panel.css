@@ -437,6 +437,24 @@ button {
   background: var(--cv-light-green);
 }
 
+.btn-rescan {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  color: var(--cv-dark-green);
+  border: 1.5px solid rgba(39, 56, 47, 0.3);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.btn-rescan:hover {
+  background: var(--cv-light-green);
+  border-color: var(--cv-dark-green);
+}
+
 button:focus-visible,
 input:focus-visible,
 select:focus-visible,
