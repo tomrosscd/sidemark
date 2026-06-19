@@ -1,0 +1,839 @@
+{
+  "schema": 1,
+  "updated": "2026-06-19",
+  "count": 74,
+  "prompts": [
+    {
+      "slug": "executive-performance-summary",
+      "title": "Executive Performance Summary",
+      "category": "CRO",
+      "description": "Top-line KPI summary with the biggest commercial and UX opportunities identified.",
+      "body": "Act as my senior Shopify conversion and UX audit analyst.\n\nAnalyse my Shopify store's performance over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Do not guess or invent benchmarks. If a requested metric or breakdown is unavailable, clearly state that and suggest what should be validated in GA4. Where possible, reference specific products, collections, devices, or traffic sources by name. Keep the output concise, commercially useful, and suitable for a client UX audit.\n\nHighlight the following KPIs:\n- Sessions\n- Conversion rate\n- Orders\n- Total sales\n- Average order value\n- Returning customer rate, if available\n- Add to cart rate, if available\n- Reached checkout rate, if available\n- Checkout completion or abandonment rate, if available\n\nThen identify:\n- The top 3 positive performance shifts\n- The top 3 negative performance shifts\n- The top 3 commercial or UX opportunities suggested by the data\n\nOutput format:\n1. Executive summary\n2. KPI comparison table\n3. Top positive changes\n4. Top negative changes\n5. Priority opportunities",
+      "placeholders": [],
+      "featured": true,
+      "recommended": true,
+      "followUp": "funnel-and-checkout-performance"
+    },
+    {
+      "slug": "funnel-and-checkout-performance",
+      "title": "Funnel and Checkout Performance",
+      "category": "CRO",
+      "description": "Understand where users drop out of the funnel and which checkout segments are underperforming.",
+      "body": "Act as my Shopify conversion optimisation specialist.\n\nAnalyse my store's purchase funnel for {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Do not guess or invent benchmarks. If a metric is unavailable, clearly state that and suggest GA4 validation. Reference specific products, collections, devices, or traffic sources by name. Keep the output suitable for a client UX audit.\n\nStep 1: Funnel review\nMap the funnel stages across:\n- Product view → Add to cart → Reached checkout → Completed purchase\n\nFor each stage: total volume, conversion rate to next stage, drop-off volume and percentage.\n\nStep 2: Breakdown analysis\nBreak down funnel performance by:\n- Device type, traffic source or referrer, new vs returning, geography, product or collection, discount usage, cart value band\n\nStep 3: Checkout focus\nIdentify:\n- Segments with the weakest checkout completion rate\n- Patterns linked to discount use, basket value, products, or customer type\n- Likely indicators of shipping, payment, or trust friction\n\nStep 4: Findings and hypotheses\nSeparate all conclusions into:\n- Confirmed by Shopify data\n- Likely hypothesis\n- Requires GA4 or behavioural tool validation\n\nStep 5: Recommendations\nRecommend 5–7 targeted actions to improve funnel progression and checkout completion. For each: what to change, why it matters, expected impact, priority, suggested owner.\n\nOutput format:\n1. Funnel summary\n2. Funnel stage table\n3. Segment breakdown insights\n4. Checkout-specific findings\n5. Confirmed findings vs hypotheses\n6. Prioritised actions",
+      "placeholders": [],
+      "featured": true,
+      "recommended": true,
+      "followUp": "cart-abandonment-deep-dive"
+    },
+    {
+      "slug": "product-and-merchandising-performance",
+      "title": "Product and Merchandising Performance",
+      "category": "CRO",
+      "description": "Find PDP, assortment, pricing, and collection-level performance issues.",
+      "body": "Act as my Shopify merchandising and conversion analyst.\n\nAnalyse product and collection performance over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Do not guess or invent benchmarks. If a metric is unavailable, flag it for GA4 validation. Reference specific products and collections by name.\n\nIdentify:\n- Top products by revenue and by units sold\n- High-traffic but low-converting products, if available\n- Products with strong interest but weak purchase completion\n- Low-performing collections or product groups\n- Signs of pricing, promotion, stock, or assortment issues affecting performance\n\nBreak findings down where possible by: device type, traffic source, new vs returning, discount usage.\n\nThen infer the most likely UX or merchandising issues such as:\n- Weak PDP clarity, poor imagery, price sensitivity, low product relevance, weak discovery, ineffective merchandising structure\n\nLabel each point as: Confirmed by Shopify data / Likely hypothesis / Requires GA4 validation.\n\nOutput format:\n1. Product performance summary\n2. Top and bottom product insights\n3. Collection or category findings\n4. Likely merchandising and UX issues\n5. Prioritised recommendations",
+      "placeholders": [],
+      "featured": false,
+      "recommended": true,
+      "followUp": "product-detail-page-ux-diagnosis"
+    },
+    {
+      "slug": "device-and-channel-efficiency",
+      "title": "Device and Channel Efficiency",
+      "category": "CRO",
+      "description": "Compare performance by device and channel before merging with GA4 acquisition analysis.",
+      "body": "Act as my Shopify conversion performance analyst.\n\nAnalyse performance over {{TF}} by device and traffic source, compared to {{CMP}}.\n\nUse only data available within Shopify. Do not guess or invent benchmarks. Reference specific devices and sources by name.\n\nBreak down where available by: mobile, desktop, tablet, and traffic source or referrer.\n\nFor each segment review: sessions, conversion rate, orders, revenue, AOV, reached checkout rate and checkout completion rate where available.\n\nIdentify:\n- Which devices are least efficient\n- Which traffic sources bring the strongest conversion quality\n- Which bring volume but weak conversion\n- Combinations of device and traffic source that are especially weak or strong\n\nInfer likely causes such as: mobile UX friction, poor landing page alignment, low-intent paid traffic, weak merchandising for certain acquisition types.\n\nLabel conclusions as: Confirmed / Likely hypothesis / Requires GA4 validation.\n\nOutput format:\n1. Device and channel summary\n2. Performance table\n3. Weakest and strongest segments\n4. Likely causes\n5. Prioritised actions",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "customer-segment-performance",
+      "title": "Customer Segment Performance",
+      "category": "LTV",
+      "description": "Understand differences between new vs returning customers and other customer groups.",
+      "body": "Act as my Shopify customer performance analyst.\n\nAnalyse store performance over {{TF}} by customer segment, compared to {{CMP}}.\n\nUse only data available within Shopify. Do not guess or invent benchmarks. Reference specific segments by name.\n\nBreak down performance where available by:\n- New vs returning customers, geography, discount users vs non-discount users, high-value vs low-value order bands, returning purchase behaviour or customer cohort patterns\n\nFor each segment analyse: conversion rate, orders, revenue, AOV, purchase frequency, differences in product mix or order value.\n\nIdentify:\n- Highest-value segments\n- Lowest-efficiency segments\n- Segments with strong traffic but weak conversion\n- Segments with strong conversion but weak AOV\n- Segments that may need different UX, merchandising, or promotional treatment\n\nRecommend 5 segment-specific actions to improve conversion, retention, or AOV.\n\nOutput format:\n1. Segment overview\n2. Segment comparison table\n3. Highest opportunity segments\n4. Risks or inefficiencies\n5. Recommended actions",
+      "placeholders": [],
+      "featured": false,
+      "recommended": true,
+      "followUp": "rfm-segmentation-and-action-plan"
+    },
+    {
+      "slug": "discount-and-promotion-impact",
+      "title": "Discount and Promotion Impact",
+      "category": "CRO",
+      "description": "Check whether discounting is helping conversion or masking pricing and UX issues.",
+      "body": "Act as my Shopify promotions and conversion analyst.\n\nAnalyse the impact of discounts and promotions on store performance over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Do not guess or invent benchmarks. Reference specific promotions or discount codes where available.\n\nReview where available:\n- Orders using discounts\n- Revenue from discounted vs non-discounted orders\n- AOV for discounted vs non-discounted orders\n- Conversion efficiency of discounted vs non-discounted purchases\n- Notable product, collection, or customer patterns linked to discount use\n\nIdentify:\n- Whether discounts drive incremental conversion or simply reduce margin\n- Whether certain products or collections are overly reliant on discounting\n- Whether discount use links to stronger or weaker AOV\n- Whether patterns suggest customer hesitation, price sensitivity, or promotional dependency\n\nLabel findings as: Confirmed / Likely hypothesis / Requires GA4 validation.\n\nRecommend 3–7 actions to improve promotional efficiency, pricing clarity, and conversion quality.\n\nOutput format:\n1. Discount performance summary\n2. Discount vs non-discount comparison\n3. Key findings\n4. Risks and opportunities\n5. Recommended actions",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "contribution-margin-after-discounts-and-returns"
+    },
+    {
+      "slug": "shopify-benchmark-review",
+      "title": "Shopify Benchmark Review",
+      "category": "Strategy",
+      "description": "Check where the store sits against native Shopify benchmark context, without inventing industry comparisons.",
+      "body": "Act as my ecommerce performance analyst.\n\nAnalyse my Shopify store's conversion performance over {{TF}} and compare it to any benchmarks natively available within Shopify.\n\nDo not invent external benchmarks or vertical averages. If Shopify does not provide a benchmark for a requested metric, state that clearly and suggest what should be validated in GA4.\n\nReview:\n- Conversion rate\n- Reached checkout rate, if available\n- Checkout completion rate, if available\n- Average order value\n- Returning customer rate, if available\n\nThen identify:\n- Where the store appears strong relative to available benchmarks\n- Where the store appears weak relative to available benchmarks\n- Which areas should be prioritised for UX, CRO, or merchandising improvement\n\nOutput format:\n1. Benchmark summary\n2. Metric comparison table\n3. Areas of outperformance\n4. Areas of underperformance\n5. Recommended next actions",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "homepage-and-entry-page-performance",
+      "title": "Homepage and Entry Page Performance",
+      "category": "CRO",
+      "description": "Identify whether the homepage is converting entry traffic effectively or creating early bounce.",
+      "body": "Act as my Shopify UX and conversion analyst.\n\nAnalyse homepage and top entry page performance over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. If a metric is unavailable, flag it for GA4 validation. Reference specific landing pages by URL or name where possible.\n\nIdentify:\n- Top entry pages by volume and conversion rate\n- Bounce or exit patterns from homepage vs product or collection pages as entry points\n- Any differences in conversion rate by entry page type (homepage vs PLP vs PDP vs campaign landing)\n- Cart initiation rate from homepage traffic where available\n\nFlag any patterns that suggest homepage content, hero messaging, navigation, or promotional placement may be causing early funnel drop-off.\n\nLabel findings as: Confirmed / Likely hypothesis / Requires GA4 validation.\n\nOutput format:\n1. Entry page summary\n2. Page-level performance table\n3. Key findings on homepage efficiency\n4. Likely UX or content issues\n5. Prioritised recommendations",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "navigation-and-site-architecture-review"
+    },
+    {
+      "slug": "cart-abandonment-deep-dive",
+      "title": "Cart Abandonment Deep Dive",
+      "category": "CRO",
+      "description": "Identify what is preventing customers from converting after adding to cart.",
+      "body": "Act as my Shopify cart and checkout conversion specialist.\n\nAnalyse cart abandonment patterns over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. If a metric is unavailable, flag it for GA4 or heatmap tool validation.\n\nReview where available:\n- Add to cart rate\n- Cart abandonment rate (sessions that added to cart but did not reach checkout)\n- Checkout abandonment rate (sessions that reached checkout but did not purchase)\n- Cart value distribution for abandoned vs completed orders\n- Product or category patterns in abandoned carts\n- Device-level abandonment differences\n- Traffic source or discount usage patterns linked to abandonment\n\nInfer likely causes such as:\n- Shipping cost reveal at checkout, payment friction, limited payment options, trust or security concerns, price sensitivity, UX friction in cart or checkout flow\n\nLabel all conclusions as: Confirmed by Shopify data / Likely hypothesis / Requires GA4 or heatmap validation.\n\nRecommend 5–7 actions to reduce cart and checkout abandonment.\n\nOutput format:\n1. Abandonment summary\n2. Stage-by-stage drop-off table\n3. Segment insights (device, source, value)\n4. Likely root causes\n5. Prioritised actions",
+      "placeholders": [],
+      "featured": true,
+      "recommended": false,
+      "followUp": "abandoned-checkout-recovery-optimisation"
+    },
+    {
+      "slug": "collection-and-category-performance",
+      "title": "Collection and Category Performance",
+      "category": "CRO",
+      "description": "Identify which collections are driving revenue and which are underperforming on traffic and conversion.",
+      "body": "Act as my Shopify merchandising and conversion analyst.\n\nAnalyse collection and category page performance over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Reference specific collections by name. Flag any metrics that require GA4 validation.\n\nIdentify:\n- Top collections by revenue and by conversion rate\n- High-traffic collections with weak conversion\n- Collections with strong conversion but low traffic visibility\n- Collections with product availability or range issues that may affect performance\n- Any patterns across collection structure, sorting, or filtering that could be affecting conversion\n\nWhere available, break down by device type and traffic source.\n\nLabel findings as: Confirmed / Likely hypothesis / Requires GA4 validation.\n\nOutput format:\n1. Collection performance overview\n2. Collection comparison table (revenue, sessions, conversion)\n3. High-opportunity collections\n4. Underperforming collections and likely causes\n5. Merchandising and UX recommendations",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "search-and-navigation-behaviour",
+      "title": "Search and Navigation Behaviour",
+      "category": "CRO",
+      "description": "Assess how internal site search and navigation structure is affecting product discovery and conversion.",
+      "body": "Act as my Shopify UX and conversion analyst.\n\nAnalyse internal search and navigation performance over {{TF}}.\n\nUse only data available within Shopify. If a metric is unavailable, flag it for GA4 or heatmap tool validation.\n\nWhere available, review:\n- Volume of sessions using internal search vs non-search navigation\n- Conversion rate for search sessions vs browse sessions\n- Top searched terms and any patterns in zero-result searches\n- Differences in AOV or purchase rate between searchers and non-searchers\n- Navigation paths that most frequently lead to purchase\n\nInfer likely UX or discovery issues such as:\n- Product naming mismatches with customer search language, gaps in navigation taxonomy, weak autocomplete or search result relevance, under-indexed collections\n\nLabel findings: Confirmed / Likely hypothesis / Requires GA4 or Clarity validation.\n\nOutput format:\n1. Discovery behaviour summary\n2. Search vs browse conversion comparison\n3. Top search term patterns\n4. Navigation efficiency findings\n5. Recommendations to improve product discovery",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "collection-and-plp-merchandising-and-ux-review"
+    },
+    {
+      "slug": "customer-lifetime-value-analysis",
+      "title": "Customer Lifetime Value Analysis",
+      "category": "LTV",
+      "description": "Understand the revenue contribution from repeat customers and identify LTV growth opportunities.",
+      "body": "Act as my Shopify customer value analyst.\n\nAnalyse customer lifetime value and repeat purchase behaviour over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Do not invent benchmarks. Flag anything requiring GA4 validation.\n\nReview where available:\n- Returning customer rate and trend\n- Revenue contribution from first-time vs returning customers\n- Average order count per returning customer\n- AOV for first-time vs repeat orders\n- Time between first and second purchase, if available\n- Top products or collections purchased by high-frequency customers\n\nIdentify:\n- Whether the store is improving or declining in retention\n- Which customer cohorts are highest LTV\n- Which products are most associated with repeat purchase behaviour\n- Any correlation between first order value and likelihood to return\n\nOutput format:\n1. LTV and retention summary\n2. New vs returning revenue split\n3. Repeat purchase behaviour patterns\n4. High-LTV product or segment insights\n5. Recommendations to grow LTV",
+      "placeholders": [],
+      "featured": true,
+      "recommended": false,
+      "followUp": "rfm-segmentation-and-action-plan"
+    },
+    {
+      "slug": "repeat-purchase-cadence-and-cohort-patterns",
+      "title": "Repeat Purchase Cadence and Cohort Patterns",
+      "category": "LTV",
+      "description": "Identify how quickly customers return and whether any cohorts show stronger retention signals.",
+      "body": "Act as my Shopify retention and cohort analyst.\n\nAnalyse repeat purchase cadence and customer cohort behaviour over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Reference specific cohorts or time periods by name where possible. Flag anything requiring additional tools to validate.\n\nWhere available, review:\n- Percentage of customers placing 2+ orders within the period\n- Average days between first and second order\n- Cohort retention: what share of customers acquired in a prior period have reordered\n- Products most associated with second and third purchase events\n- Any seasonal or promotional patterns that appear to drive repeat purchase spikes\n\nIdentify:\n- Whether repeat purchase rate is improving or declining\n- Whether any acquisition channels or first-purchase products correlate with stronger retention\n- Time windows where win-back campaigns or reminder triggers would be most effective\n\nOutput format:\n1. Repeat purchase cadence summary\n2. Cohort comparison table where available\n3. Products and categories driving retention\n4. Key patterns and hypotheses\n5. Recommended retention actions",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "second-purchase-conversion-strategy"
+    },
+    {
+      "slug": "high-value-customer-identification",
+      "title": "High-Value Customer Identification",
+      "category": "LTV",
+      "description": "Profile the top customer segment by revenue and identify what drove them to purchase and return.",
+      "body": "Act as my Shopify customer analytics specialist.\n\nAnalyse my top customer segment by revenue over {{TF}}.\n\nUse only data available within Shopify. Do not invent benchmarks. Flag anything that requires GA4 or CRM-level validation.\n\nWhere available, identify:\n- The top 10–20% of customers by total spend and their share of total revenue\n- AOV, order frequency, and product mix for high-value customers\n- Geographic or demographic patterns among high-value buyers, if available\n- Whether high-value customers are more likely to use or avoid discounts\n- Any product categories that appear to be entry points for high-value customer journeys\n\nThen identify:\n- Opportunities to acquire more customers who mirror the high-value profile\n- Products or collections that should be promoted to increase share of wallet\n- Whether loyalty or VIP treatment for this segment is currently supported or missing\n\nOutput format:\n1. High-value customer profile\n2. Revenue concentration analysis\n3. Product and category patterns\n4. Acquisition and retention opportunities\n5. Recommended actions",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "rfm-segmentation-and-action-plan"
+    },
+    {
+      "slug": "bfcm-performance-debrief",
+      "title": "BFCM Performance Debrief",
+      "category": "BFCM",
+      "description": "Evaluate BFCM campaign performance against pre-period baseline and prior BFCM where possible.",
+      "body": "Act as my Shopify BFCM performance analyst.\n\nAnalyse store performance over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Do not invent benchmarks. Reference specific campaigns, discount codes, products, and collections by name.\n\nReview:\n- Total revenue, orders, and AOV during the period\n- Conversion rate and session volume vs comparison period\n- Top-performing products and collections\n- Discount code usage and margin impact where available\n- Device and traffic source performance during the period\n- Returning vs new customer split\n- Any notable changes in basket composition or bundle behaviour\n\nIdentify:\n- Whether the period drove incremental revenue or primarily cannibalised regular-period demand\n- Which promotional mechanics drove the strongest conversion\n- Where friction or drop-off was highest\n\nOutput format:\n1. Performance summary\n2. KPI comparison table\n3. Top-performing campaigns and products\n4. Discount and margin impact\n5. Key findings and recommendations for next BFCM",
+      "placeholders": [],
+      "featured": true,
+      "recommended": false,
+      "followUp": "peak-period-vs-baseline-comparison"
+    },
+    {
+      "slug": "peak-period-vs-baseline-comparison",
+      "title": "Peak Period vs Baseline Comparison",
+      "category": "BFCM",
+      "description": "Quantify the performance uplift during a promotional period and assess whether it generated net-new demand.",
+      "body": "Act as my Shopify promotional performance analyst.\n\nCompare store performance during {{TF}} against {{CMP}}.\n\nUse only data available within Shopify. Do not invent benchmarks. Reference specific periods and any known promotions by name.\n\nAnalyse:\n- Revenue, orders, and AOV during each period\n- Conversion rate and session volume comparison\n- Changes in new vs returning customer mix during the peak period\n- Which products and collections drove the uplift\n- Whether discount usage was higher during the peak period and the AOV impact\n- Whether post-peak demand dropped in a way that suggests demand pull-forward\n\nDetermine:\n- Whether the period generated genuine incremental demand or redistributed existing demand\n- Which channels or segments showed the strongest uplift\n- What the most efficient mechanics were for driving conversion\n\nOutput format:\n1. Period comparison summary\n2. KPI uplift table\n3. Channel and segment uplift breakdown\n4. Demand cannibalisation assessment\n5. Recommended strategy adjustments",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "paid-vs-organic-traffic-quality",
+      "title": "Paid vs Organic Traffic Quality",
+      "category": "Acquisition",
+      "description": "Assess whether paid acquisition channels are delivering conversion-quality traffic or inflating session volumes.",
+      "body": "Act as my Shopify acquisition efficiency analyst.\n\nAnalyse the quality of paid vs organic traffic over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Do not guess or invent benchmarks. Reference specific traffic sources and channels by name. Flag anything that needs GA4 validation.\n\nWhere available, review:\n- Session volume by channel: paid search, paid social, organic, direct, email, referral\n- Conversion rate by channel\n- AOV by channel\n- Revenue per session by channel\n- Returning customer rate by acquisition channel\n\nIdentify:\n- Channels with the highest conversion quality (revenue per session)\n- Channels with high volume but poor conversion efficiency\n- Any channels where AOV is significantly different from the store average\n- Whether any paid channels appear to be targeting low-intent audiences\n\nLabel findings: Confirmed / Likely hypothesis / Requires GA4 validation.\n\nOutput format:\n1. Channel efficiency summary\n2. Performance table by channel\n3. High-efficiency vs low-efficiency channels\n4. Likely causes and hypotheses\n5. Recommended channel strategy adjustments",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "attribution-and-channel-assist-analysis"
+    },
+    {
+      "slug": "new-customer-acquisition-analysis",
+      "title": "New Customer Acquisition Analysis",
+      "category": "Acquisition",
+      "description": "Understand how effectively the store is acquiring new customers and what is driving first purchase.",
+      "body": "Act as my Shopify new customer acquisition analyst.\n\nAnalyse new customer acquisition performance over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Do not invent benchmarks. Reference specific products, collections, and sources by name.\n\nReview where available:\n- Total new customers acquired and trend vs comparison\n- New customer conversion rate vs returning customer rate\n- AOV for first-time buyers\n- Top products purchased as a first order\n- Traffic sources most associated with new customer acquisition\n- Geographic distribution of new customers, if available\n\nIdentify:\n- Whether new customer acquisition is growing, declining, or flat\n- Which entry products or campaigns are most effective at driving first purchase\n- Whether first-order AOV is healthy relative to store average\n- Any friction points specific to new customers (trust signals, payment options, onboarding)\n\nOutput format:\n1. New customer acquisition summary\n2. Acquisition volume and trend\n3. First purchase behaviour insights\n4. Channel and product analysis\n5. Recommendations to improve new customer conversion",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "attribution-and-channel-assist-analysis"
+    },
+    {
+      "slug": "returns-and-refund-impact-analysis",
+      "title": "Returns and Refund Impact Analysis",
+      "category": "Strategy",
+      "description": "Assess whether returns and refunds are a significant commercial drag and identify which products or segments are driving them.",
+      "body": "Act as my Shopify commercial performance analyst.\n\nAnalyse returns and refund activity over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Do not invent benchmarks. Reference specific products, categories, or order patterns by name.\n\nReview where available:\n- Total refunds issued and refund rate as a percentage of revenue\n- Products or collections with the highest refund volume\n- Refund patterns by customer type (new vs returning) if available\n- Any correlation between discount usage and refund rate\n- AOV and order value patterns for refunded orders\n\nIdentify:\n- Whether returns represent a growing or shrinking commercial risk\n- Which specific products or categories are driving disproportionate refunds\n- Whether product description accuracy, sizing, or expectation gaps may be contributing\n- Whether any operational or fulfilment patterns are linked to refunds\n\nOutput format:\n1. Returns and refund summary\n2. Refund volume and rate table\n3. High-refund products or segments\n4. Likely root causes\n5. Recommended actions to reduce refund rate",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "contribution-margin-after-discounts-and-returns"
+    },
+    {
+      "slug": "inventory-and-stockout-risk",
+      "title": "Inventory and Stockout Risk",
+      "category": "Strategy",
+      "description": "Identify which products are at risk of stocking out and whether stockouts are currently suppressing conversion.",
+      "body": "Act as my Shopify inventory and merchandising analyst.\n\nAnalyse inventory performance and stockout risk over {{TF}}.\n\nUse only data available within Shopify. Reference specific products, variants, and collections by name.\n\nReview where available:\n- Current inventory levels for top-selling products and variants\n- Products that went out of stock during the period and any associated revenue impact\n- Sell-through rate for key SKUs\n- Products with high demand velocity relative to current stock\n- Any patterns linking stockouts to conversion rate drops at collection or product level\n\nIdentify:\n- Products at immediate risk of stocking out based on current velocity\n- Products where variant-level stockouts (size, colour) may be suppressing collection conversion\n- Whether any stockout events during the period created material revenue loss\n\nOutput format:\n1. Inventory health summary\n2. At-risk products table\n3. Estimated revenue impact of any stockouts\n4. Restock priority recommendations\n5. Longer-term inventory planning observations",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "geographic-revenue-distribution",
+      "title": "Geographic Revenue Distribution",
+      "category": "Strategy",
+      "description": "Identify where revenue is coming from geographically and assess whether any regions represent untapped opportunity.",
+      "body": "Act as my Shopify geographic performance analyst.\n\nAnalyse revenue and conversion performance by geography over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Reference specific countries, states, or regions by name.\n\nReview where available:\n- Revenue and order volume by country or region\n- Conversion rate by geography\n- AOV by geography\n- New vs returning customer split by region\n- Any notable shifts in geographic revenue mix vs comparison period\n\nIdentify:\n- Top-performing regions and any growth trends\n- Regions with high session volume but weak conversion\n- Regions where AOV is significantly above or below store average\n- Whether shipping, currency, or localisation factors may be affecting conversion in specific markets\n\nOutput format:\n1. Geographic performance summary\n2. Revenue and conversion table by region\n3. High-opportunity markets\n4. Underperforming market analysis\n5. Localisation and market development recommendations",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "seo-driven-revenue-analysis",
+      "title": "SEO-Driven Revenue Analysis",
+      "category": "SEO",
+      "description": "Assess the commercial contribution of organic search traffic and identify SEO-linked conversion gaps.",
+      "body": "Act as my Shopify SEO and organic performance analyst.\n\nAnalyse the revenue contribution of organic search traffic over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Flag any metrics that require GA4 or Search Console validation.\n\nReview where available:\n- Session volume from organic search\n- Conversion rate for organic sessions vs other channels\n- Revenue and AOV for organic traffic\n- Products and collections most frequently purchased by organic visitors\n- Any shifts in organic session volume that may indicate ranking changes\n\nIdentify:\n- Whether organic search is growing, declining, or stable as a revenue channel\n- Whether organic conversion rate is above or below the store average\n- Any patterns suggesting that organic traffic lands on high or low-intent pages\n- Opportunities to capture more organic revenue through product or collection page optimisation\n\nNote: keyword-level and page-level organic performance should be validated in GA4 and Google Search Console.\n\nOutput format:\n1. Organic search revenue summary\n2. Channel performance comparison\n3. Product and landing page patterns\n4. Hypotheses and gaps requiring Search Console validation\n5. Recommended SEO-driven revenue actions",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "seo-keyword-opportunity-finder"
+    },
+    {
+      "slug": "email-channel-revenue-analysis",
+      "title": "Email Channel Revenue Analysis",
+      "category": "Acquisition",
+      "description": "Assess the commercial contribution of email as an acquisition and retention channel and identify segmentation gaps.",
+      "body": "Act as my Shopify email performance analyst.\n\nAnalyse the revenue contribution and conversion performance of email traffic over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Flag anything that requires your ESP (Klaviyo, Shopify Email, etc.) for campaign-level detail.\n\nReview where available:\n- Session volume from email as a traffic source and trend vs comparison\n- Conversion rate for email sessions vs store average\n- Revenue and AOV for email-attributed orders\n- New vs returning customer split for email traffic\n- Whether email-sourced customers show stronger or weaker AOV than other channels\n\nIdentify:\n- Whether email is a growing or declining revenue channel\n- Whether email conversion efficiency differs significantly between new and returning customer segments\n- Any patterns suggesting that email traffic is landing on suboptimal pages\n- Gaps in email flow coverage (post-purchase, win-back, browse abandonment) that may be suppressing revenue\n\nLabel findings: Confirmed by Shopify data / Likely hypothesis / Requires ESP data validation.\n\nOutput format:\n1. Email channel revenue summary\n2. Email vs other channel performance comparison\n3. Customer segment patterns within email traffic\n4. Identified flow coverage gaps\n5. Recommendations to increase email channel revenue",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "lapsed-customer-winback-analysis"
+    },
+    {
+      "slug": "post-purchase-flow-effectiveness",
+      "title": "Post-Purchase Flow Effectiveness",
+      "category": "LTV",
+      "description": "Review post-purchase upsell performance, repeat purchase triggers, and the effectiveness of thank-you page experiences.",
+      "body": "Act as my Shopify post-purchase experience analyst.\n\nAnalyse post-purchase behaviour and repeat purchase trigger performance over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Flag anything that requires your email platform, Klaviyo, or loyalty app for deeper validation.\n\nReview where available:\n- Percentage of first-time buyers who placed a second order within the period\n- Average time between first and second order\n- Products most commonly purchased as a second order\n- Whether post-purchase upsell or cross-sell offers (if enabled) are converting\n- Whether any specific first-purchase products are associated with stronger or weaker second-purchase rates\n\nIdentify:\n- Whether the post-purchase journey is effectively converting first-time buyers into repeat customers\n- Which product pairings represent the strongest second-purchase opportunity\n- Whether the time-to-second-purchase suggests an email or SMS trigger window is being missed\n- Whether any segments (channel, geography, AOV band) have notably different second-purchase rates\n\nLabel findings: Confirmed / Likely hypothesis / Requires email platform or loyalty data validation.\n\nOutput format:\n1. Post-purchase behaviour summary\n2. First-to-second purchase conversion table\n3. Top repeat-purchase product patterns\n4. Trigger timing opportunities\n5. Recommended post-purchase optimisation actions",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "price-point-and-margin-health-check",
+      "title": "Price Point and Margin Health Check",
+      "category": "Strategy",
+      "description": "Analyse price point distribution and margin signals across the range to identify pricing and conversion friction.",
+      "body": "Act as my Shopify pricing and commercial analyst.\n\nAnalyse price point distribution, margin signals, and pricing-related conversion patterns over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Flag anything that requires your ERP, cost data, or POS system for margin validation.\n\nReview where available:\n- Revenue distribution across price bands (e.g. under $50, $50–$100, $100–$200, $200+)\n- Conversion rate by price band\n- AOV relative to the most purchased price points\n- Whether discount usage is concentrated in specific price bands, suggesting price resistance\n- Products or collections where traffic is strong but conversion is notably lower than the price band average\n\nIdentify:\n- Whether any price points are creating conversion drag\n- Whether the store's AOV is being pulled down by over-indexing on lower price band transactions\n- Whether high-margin products are getting adequate traffic and conversion support\n- Any signs of price anchoring opportunities in the range\n\nLabel findings: Confirmed by Shopify data / Likely hypothesis / Requires margin data to fully validate.\n\nOutput format:\n1. Price point distribution summary\n2. Conversion rate by price band table\n3. Discount concentration patterns\n4. Margin and AOV opportunity analysis\n5. Recommended pricing strategy adjustments",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "contribution-margin-after-discounts-and-returns"
+    },
+    {
+      "slug": "seasonal-trading-pattern-analysis",
+      "title": "Seasonal Trading Pattern Analysis",
+      "category": "Strategy",
+      "description": "Map trading peaks, troughs, and seasonal patterns across the year to inform campaign and inventory planning.",
+      "body": "Act as my Shopify seasonal performance analyst.\n\nAnalyse seasonal trading patterns and year-over-year trends using available data over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Flag anything that requires GA4 or external tools for more granular behavioural analysis.\n\nReview where available:\n- Week-by-week or month-by-month revenue and order volume trends\n- Conversion rate and AOV patterns across the trading period\n- Which product categories or collections show the strongest seasonal demand spikes\n- How peak periods compare in terms of new vs returning customer contribution\n- Whether any seasonal periods show an unusual drop in conversion that warrants further investigation\n\nIdentify:\n- The clearest peak and trough periods within the dataset\n- Whether seasonal uplifts are driven by new customer acquisition or returning customer reactivation\n- Which categories are most sensitive to seasonal demand shifts\n- Planning windows where campaign or promotional activity could be introduced or scaled\n\nLabel findings: Confirmed by Shopify data / Likely hypothesis / Requires GA4 for landing page and acquisition-level detail.\n\nOutput format:\n1. Seasonal trading summary\n2. Period-by-period performance table\n3. Peak and trough analysis\n4. Category-level seasonality findings\n5. Planning and campaign recommendations for the next 12 months",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "mobile-conversion-gap-analysis",
+      "title": "Mobile Conversion Gap Analysis",
+      "category": "CRO",
+      "description": "Deep dive into mobile-specific conversion gaps, identifying where mobile underperforms desktop and why.",
+      "body": "Act as my Shopify mobile UX and conversion analyst.\n\nAnalyse mobile device performance in detail over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Do not guess or invent benchmarks. Flag anything requiring heatmap or session recording tool validation.\n\nStep 1: Mobile baseline\nCompare mobile conversion rate, sessions, revenue, and AOV to:\n- Desktop conversion rate for the same period\n- Mobile conversion rate in the comparison period\n\nStep 2: Mobile funnel breakdown\nMap mobile performance through:\n- Product view to add to cart rate on mobile\n- Add to cart to checkout initiation rate on mobile\n- Checkout completion rate on mobile vs desktop\n\nIdentify at which stage mobile drops off most relative to desktop.\n\nStep 3: Traffic source breakdown\nBreak down mobile performance by traffic source. Identify:\n- Which mobile traffic sources have the strongest conversion quality\n- Which mobile sources have the biggest gap between session volume and revenue\n\nStep 4: Product and collection gaps on mobile\nIdentify:\n- Products or collections where mobile conversion is significantly weaker than desktop\n- Any patterns that might indicate mobile PDP or PLP issues\n\nStep 5: Likely UX friction\nBased on the data, infer likely mobile UX issues such as:\n- Navigation friction, page load performance, checkout flow friction, product image loading, CTA placement or visibility\n\nLabel each finding: Confirmed / Likely hypothesis / Requires Clarity or Hotjar validation.\n\nOutput format:\n1. Mobile vs desktop performance summary\n2. Mobile funnel stage comparison table\n3. Traffic source efficiency on mobile\n4. Product and collection mobile gaps\n5. Prioritised mobile optimisation actions",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "mobile-checkout-friction-audit"
+    },
+    {
+      "slug": "30-30-30-store-analysis",
+      "title": "30-30-30 Store Analysis",
+      "category": "Strategy",
+      "description": "Compares last 30 days, the previous 30 days, and same period last year across key metrics to reveal performance shifts.",
+      "body": "Act as my expert Shopify data analyst. Perform a 30-30-30 analysis of store performance, defined as:\n\n1. Last 30 days\n2. Same 30 days in the prior period\n3. Same 30 days last year\n\nMetrics to include:\n- Average Order Value (AOV)\n- Conversion Rate (CVR)\n- Sessions\n- Returning Customers (# and %)\n- New Customers (# and %)\n- Orders\n- Total Sales\n- RFM segment performance (Recency, Frequency, Monetary)\n- Any additional KPIs that materially impact store growth\n\nFor each metric:\n- Display all three 30-day periods side-by-side in a table\n- Show % change vs prior period and vs last year\n- Highlight the top positive and negative movements\n\nAdditional analysis:\n- Identify which customer segments, products, channels, or campaigns contributed most to the metric changes\n- Flag anomalies or sudden shifts in customer behaviour\n- Recommend 3–5 specific actions to improve underperforming areas and double down on high-performing ones\n\nOutput:\n1. Comparison table for all metrics\n2. Simple visual chart for key trend lines\n3. Clear summary of takeaways and prioritised recommendations",
+      "placeholders": [],
+      "featured": true,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "abandoned-checkout-recovery-optimisation",
+      "title": "Abandoned Checkout Recovery Optimisation",
+      "category": "CRO",
+      "description": "Pinpoints checkout drop-off points segmented by device, source, and customer type, with prioritised recovery strategies.",
+      "body": "Act as my Shopify conversion optimisation specialist. Analyse my store's checkout abandonment rate over {{TF}} and identify the causes and solutions.\n\nStep 1: Metric review\nCalculate checkout abandonment rate and compare to {{CMP}}.\n\nBreak down abandonment by:\n- Device type (desktop, mobile, tablet)\n- Traffic source\n- New vs returning customers\n- Payment method selection\n- Shipping method selection\n\nStep 2: Behaviour and funnel analysis\n- Identify the most common drop-off points in the checkout funnel\n- Analyse load time, form field friction, and error rates at checkout\n- Review payment gateway performance and error codes\n- Detect abandoned checkout patterns linked to specific products, discounts, or cart values\n\nStep 3: Optimisation strategies\nRecommend 3–5 targeted strategies to reduce abandonment, such as:\n- Streamlining checkout steps (Shopify one-page checkout)\n- Offering accelerated payment options (Shop Pay, Apple Pay, Google Pay)\n- Improving shipping transparency (costs, delivery times)\n- Testing trust badges, security signals, and urgency messaging\n- Retargeting with abandoned checkout emails/SMS flows via Shopify Automations or Shopify Email\n\nStep 4: Output\n1. Summary table with abandonment rate breakdowns\n2. Funnel drop-off visualisation\n3. Prioritised action plan with estimated impact on conversion",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "acquisition-channel-performance-summary",
+      "title": "Acquisition Channel Performance Summary",
+      "category": "Acquisition",
+      "description": "Analyses the top three acquisition channels, recent paid campaign performance, and underperforming audience segments.",
+      "body": "Act as my expert Shopify growth strategist. Analyse acquisition performance across channels, campaigns, and audience segments over {{TF}}, compared to {{CMP}}.\n\nStep 1: Top acquisition channel analysis\nIdentify my top 3 acquisition channels over {{TF}}.\n\nFor each channel, provide:\n- Customer Acquisition Cost (CAC)\n- Conversion Rate (CVR)\n- Return on Investment (ROI)\n\nRecommend where to increase, maintain, or reduce investment based on performance and scalability.\n\nStep 2: Paid campaign performance review\nAnalyse my latest paid marketing campaigns by:\n- CAC, CVR, ROI, and Cost per Acquisition (CPA)\n- New customer acquisition volume\n\nIdentify 3–5 optimisations that would drive more new customer growth (e.g. creative, targeting, bidding, landing pages).\n\nStep 3: Audience segment acquisition gaps\n- Highlight underperforming audience segments in terms of acquisition efficiency (high CAC or low CVR)\n- Suggest specific experiments to improve conversion (e.g. tailored offers, messaging changes, remarketing strategies)\n\nStep 4: Output format\n1. Table comparing the top 3 channels (CAC, CVR, ROI) with investment recommendations\n2. Campaign performance summary with optimisation suggestions\n3. Audience segment performance table and recommended experiments\n4. Prioritised action list for next 30 days",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "paid-media-efficiency-by-channel"
+    },
+    {
+      "slug": "aov-cvr-correlation-analysis",
+      "title": "AOV–CVR Correlation Analysis",
+      "category": "Strategy",
+      "description": "Analyses the relationship between Average Order Value and Conversion Rate, modelling the impact of AOV changes on CVR.",
+      "body": "Act as my ecommerce data analyst. Perform an AOV–CVR correlation analysis for {{TF}} using daily data points.\n\nStep 1: Data and correlation\n- Extract daily Average Order Value (AOV) and Conversion Rate (CVR)\n- Calculate the Pearson correlation coefficient between AOV and CVR\n- Generate a linear regression equation showing how CVR changes as AOV changes\n- Compute the R-squared value to measure the strength of the relationship\n\nStep 2: Predictive insights\n- Estimate CVR change for every $50 increase in AOV\n- Predict CVR impact if AOV increases by 20%\n- Identify the optimal AOV–CVR balance point for maximising revenue\n- Answer: \"What happens to conversion rate when we increase prices?\"\n\nStep 3: Visualisation\nPlot both AOV (in dollars) and CVR (in %) on the same timeline:\n- Date range on X-axis\n- Dual Y-axis (Left = AOV $, Right = CVR %)\n- Include trend lines for both metrics\n- Clearly illustrate any inverse relationship\n\nStep 4: Output format\n1. Chart and summary table of correlation stats, regression formula, and predicted CVR impacts\n2. Brief recommendations for pricing or promotional adjustments based on findings",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "free-shipping-threshold-optimisation"
+    },
+    {
+      "slug": "app-vs-native-shopify-functionality-audit",
+      "title": "App vs Native Shopify Functionality Audit",
+      "category": "Tech",
+      "description": "Reviews all installed apps, identifies native Shopify replacements, and calculates potential monthly cost savings.",
+      "body": "Act as my expert Shopify solutions consultant. Review my currently installed apps and identify which can be replaced by:\n\n- Native Shopify functionality (including the latest feature releases)\n- Free Shopify apps from the Shopify App Store\n\nFor each app:\n- Name of the app and its core function\n- Equivalent Shopify native feature(s) or free app(s) that could provide the same or better results\n- Notes on any trade-offs or limitations of the native/free replacement\n- Monthly cost of the current app vs cost of the alternative (include $ savings per month)\n\nAdditional requirements:\n- Prioritise by ease of migration (Quick Win, Medium Effort, Complex Migration)\n- Highlight features recently added to Shopify (e.g. Shopify Subscriptions, Shopify Bundles, Shopify Flow, Shopify Markets, Shopify POS) that could replace existing apps\n- Provide a summary table of total potential monthly savings and a recommended action order\n\nOutput:\n1. Detailed app-by-app replacement report\n2. Summary of savings potential\n3. Suggested next steps to transition away from paid apps where feasible",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "audience-overlap-evaluation",
+      "title": "Audience Overlap Evaluation",
+      "category": "Acquisition",
+      "description": "Optimises Shopify Audiences by aligning custom audiences with top-performing customer segments and identifying high-intent lookalikes.",
+      "body": "Act as my expert audience strategist. Using Shopify Audiences (US only) and my store's customer data over {{TF}}, perform the following analysis:\n\nStep 1: Audience overlap and alignment\n- Evaluate the overlap between my custom audiences and my best-performing customer segments (e.g. highest RFM scores, top LTV, repeat buyers)\n- Identify gaps or mismatches where targeting could be refined for better relevance and efficiency\n\nStep 2: Campaign performance review\n- Analyse performance metrics (conversion rate, AOV, ROAS, CAC) from recent campaigns using Shopify Audiences\n- Highlight which audiences, creatives, and channels drove the strongest results\n- Flag underperforming audiences and suggest adjustments (exclusions, narrowing, sequencing)\n\nStep 3: High-intent lookalike opportunities\nRecommend new lookalike audiences based on my highest-value cohorts, including:\n- Top spenders, most frequent purchasers, fastest-to-repeat buyers\n\nPrioritise audiences most likely to improve reach without diluting quality.\n\nStep 4: Output\n1. Overlap analysis findings\n2. Top 3 targeting refinement recommendations\n3. 2–3 high-intent lookalike audiences to create next\n4. Key performance metrics to track after changes",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "bot-traffic-detection-report",
+      "title": "Bot Traffic Detection Report",
+      "category": "Tech",
+      "description": "Detects and analyses bot traffic by examining geographic, behavioural, source, timing, and conversion patterns.",
+      "body": "Act as my Shopify traffic quality analyst. Review my store's analytics over {{TF}} to detect potential bot traffic and distinguish it from legitimate activity.\n\nStep 1: Geographic analysis\n- Identify traffic from data centres or cloud hosting providers vs expected geographic markets\n- Flag suspicious locations with zero conversions or extremely low engagement\n\nStep 2: Behavioural indicators\nDetect patterns of:\n- Extremely high bounce rates\n- Very short (<1 sec) or abnormally long sessions without interaction\n- Zero page views or single-page visits with immediate exits\n\nStep 3: Traffic source patterns\n- Review unusual referrers or spikes in direct traffic outside normal patterns\n- Highlight traffic sources that generate no meaningful engagement\n\nStep 4: Time-based patterns\n- Spot constant 24/7 traffic or irregular spikes that differ from normal business-hour peaks\n\nStep 5: Device and browser anomalies\n- Identify abnormal concentrations of specific user agents, outdated browsers, or suspicious device types\n\nStep 6: Conversion and engagement comparison\n- Compare conversion rate, add-to-cart rate, and session quality between suspected bot traffic and legitimate visitors\n\nStep 7: Output format\n1. Table of suspicious traffic patterns with metric anomalies\n2. Comparison chart: suspicious vs legitimate traffic performance\n3. Action recommendations (blocking, filtering, bot protection settings)",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "buyer-progression-trend-analysis",
+      "title": "Buyer Progression Trend Analysis",
+      "category": "LTV",
+      "description": "Analyses sales data to track customer movement from Net New to Repeat to VIP segments with personalised engagement strategies.",
+      "body": "Act as my expert ecommerce data analyst. Analyse {{TF}} of sales data to uncover patterns in buyer progression from Net New → Repeat → VIP customers.\n\nTrend analysis\n- Identify key behaviours, purchase frequency, and timeframes that drive customers from one segment to the next\n\nRevenue and transaction breakdown\n- Determine which segment (Net New, Repeat, VIP) generated the highest total revenue and most transactions over the period\n\nAction recommendations\n- For each segment, provide personalised engagement strategies to increase retention and accelerate progression to the next tier\n- Include tactics that balance short-term conversion boosts with long-term customer lifetime value growth\n\nPresent your findings as a concise, actionable report with:\n1. Key metrics for each segment\n2. Top 3 drivers of progression between segments\n3. Tailored recommendations for each segment",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "campaign-tactic-effectiveness-breakdown",
+      "title": "Campaign Tactic Effectiveness Breakdown",
+      "category": "Strategy",
+      "description": "Dissects a campaign's true incremental impact, pinpoints effective tactics and channels, and delivers prioritised test recommendations.",
+      "body": "Act as my expert ecommerce performance analyst. For [Campaign Name], dissect performance across key dimensions to determine which tactics drove incremental sales beyond baseline performance.\n\nStep 1: Incrementality analysis\n- Compare campaign sales and AOV against baseline (previous comparable period)\n- Identify the percentage and dollar value of incremental sales and orders\n\nStep 2: Offer, messaging and timing effectiveness\n- Evaluate which creative, messaging, and offer types performed best\n- Analyse conversion lift by campaign start date/time and duration\n\nStep 3: Channel and attribution insights\n- Break down sales and conversions by channel (email, paid social, organic, referral, SMS, etc.)\n- Review first-touch, last-touch, and multi-touch attribution for discrepancies or hidden opportunities\n- Assess impact of cross-channel journeys on conversion\n\nStep 4: Audience and product impact\n- Identify RFM segments and cohorts that responded most strongly\n- Review new vs returning customer contribution\n- Highlight best-performing products, bundles, and basket compositions during the campaign\n\nStep 5: Next steps\n- Recommend 3–5 tests for future campaigns based on findings\n- Prioritise by expected ROI and ease of implementation\n\nOutput: Deliver a concise, decision-ready report with:\n1. Incremental sales breakdown\n2. Top-performing tactics and channels\n3. Key attribution learnings\n4. Recommended future tests",
+      "placeholders": [
+        "[Campaign Name]"
+      ],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "checkout-funnel-drop-off-analysis",
+      "title": "Checkout Funnel Drop-Off Analysis",
+      "category": "CRO",
+      "description": "Maps the checkout funnel, compares to industry benchmarks, and delivers Shopify-specific tactics to remove friction.",
+      "body": "Act as my Shopify conversion optimisation expert. Perform a deep analysis of my store's checkout funnel over {{TF}}, compared to {{CMP}}.\n\nStep 1: Funnel analysis\nMap my checkout funnel stages from product view → add-to-cart → checkout initiation → order completion.\n\nIdentify where the largest drop-offs occur (by percentage and absolute number).\nBreak down drop-offs by:\n- Device type (desktop, mobile, tablet)\n- Traffic source and campaign\n- New vs returning customers\n- Payment and shipping method choices\n\nStep 2: Benchmark comparison\n- Compare my conversion rate (CVR) to industry benchmarks for my vertical\n- Highlight where my store outperforms or underperforms\n- Identify high-impact improvement areas based on current store setup, features, and traffic mix\n\nStep 3: Advanced optimisation tactics\nRecommend specific, Shopify-optimised strategies for the identified friction points, such as:\n- One-page checkout\n- Accelerated payment options (Shop Pay, Apple Pay, Google Pay)\n- Contextual upsells and cross-sells in checkout\n- Dynamic shipping cost calculators\n- Trust signals, urgency prompts, and personalised checkout flows\n\nStep 4: Output format\n1. Funnel drop-off chart with stage-by-stage conversion rates\n2. Benchmark comparison table\n3. Prioritised action list with estimated ROI impact",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "mobile-checkout-friction-audit"
+    },
+    {
+      "slug": "customer-journey-funnel-drop-off-analysis",
+      "title": "Customer Journey Funnel Drop-Off Analysis",
+      "category": "CRO",
+      "description": "Analyses the Shopify customer journey to pinpoint where and why drop-offs occur across pages, devices, and traffic sources.",
+      "body": "Act as my Shopify conversion optimisation analyst. Conduct a detailed funnel analysis over {{TF}} to identify drop-off points across my entire customer journey.\n\nStep 1: Funnel mapping and drop-off identification\nMap the journey from landing page → product page → add-to-cart → checkout initiation → order completion.\nProvide quantified drop-off percentages for each stage.\n\nStep 2: Product page abandonment\n- Identify product pages with the highest abandonment rates\n- Include page URLs and abandonment percentages\n- Highlight potential causes (e.g. slow load time, unclear pricing, lack of reviews)\n\nStep 3: Checkout step failures\n- Pinpoint specific checkout steps where customers abandon\n- Break down by device type (mobile, desktop, tablet)\n\nStep 4: Traffic source performance\n- Identify traffic sources (organic, paid, email, social, referral) with the lowest conversion rates\n- Include drop-off percentage from initial visit to completed order\n\nStep 5: Output format\n1. Funnel chart showing drop-off at each stage\n2. Table of product page abandonment rates with URLs\n3. Traffic source conversion performance table\n4. Prioritised list of actionable recommendations to reduce drop-offs",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "conversion-hypothesis-builder"
+    },
+    {
+      "slug": "customer-lifetime-value-opportunity-finder",
+      "title": "Customer Lifetime Value Opportunity Finder",
+      "category": "LTV",
+      "description": "Leverages RFM and cohort analysis to identify products, channels, and behaviours that drive the highest lifetime value.",
+      "body": "Act as my expert ecommerce growth strategist. Using RFM customer analysis and cohort analysis in Shopify over {{TF}}, identify actionable opportunities to increase customer lifetime value (CLV).\n\nCustomer insights\n- Segment customers by Recency, Frequency, and Monetary value\n- Analyse cohort behaviours over time to identify retention and repeat purchase trends\n\nPerformance drivers\n- Identify which channels, campaigns, products, bundles, cart combinations, and referrers are most associated with high-value customer segments\n- Highlight which acquisition sources consistently lead to customers moving into higher RFM tiers\n\nOpportunity mapping\n- Pinpoint underperforming segments and their purchase behaviours\n- Suggest targeted actions to move customers into higher-value cohorts (e.g. upsell strategies, bundle optimisation, targeted campaigns)\n\nOutput\n1. Table of top value drivers (sorted by impact on CLV)\n2. 3–5 prioritised strategies to grow CLV, categorised by quick wins vs long-term plays",
+      "placeholders": [],
+      "featured": true,
+      "recommended": false,
+      "followUp": "second-purchase-conversion-strategy"
+    },
+    {
+      "slug": "frequently-bought-together-and-bundle-pricing",
+      "title": "Frequently Bought Together and Bundle Pricing Analysis",
+      "category": "Strategy",
+      "description": "Analyses transactions to find statistically significant product pairings and recommends top bundles with optimised pricing.",
+      "body": "Act as my Shopify merchandising analyst. Analyse {{TF}} of transactions across my full product catalogue to identify high-value frequently bought together product combinations.\n\nStep 1: Data filtering\n- Use only valid completed orders (exclude test or cancelled orders)\n- Include only transactions with 2+ items\n- Exclude same product variants (different sizes/colours of the same item)\n\nStep 2: Statistical criteria for inclusion\n- Minimum support: 0.5% of all transactions\n- Minimum confidence: 30% (when Product A is purchased, Product B is purchased at least 30% of the time)\n- Minimum lift: 2.0 (combination occurs at least twice as often as random chance)\n\nStep 3: Output for each combination\nFor the top 25 combinations (sorted by highest lift score), provide:\n- The two products frequently bought together\n- Number of times purchased together\n- Confidence % (likelihood of buying B when A is purchased)\n- Lift score (strength of the relationship)\n- Average combined order value\n- Suggested bundle price with a 15–20% discount\n\nStep 4: Grouping and implementation\n- Group results by the primary product's category for easier merchandising\n- Highlight the top 3 bundles in each category with the strongest lift score and revenue potential\n\nStep 5: Output format\n1. Table of top 25 combinations with all metrics\n2. Category-based grouping for merchandising use\n3. Bundle pricing recommendations with projected revenue impact",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "high-value-customer-cohort-analysis",
+      "title": "High-Value Customer Cohort Analysis",
+      "category": "LTV",
+      "description": "Identifies the most valuable customer cohorts, analyses churn risks, and delivers targeted Shopify retention strategies.",
+      "body": "Act as my Shopify customer retention strategist. Analyse my store's customer base over {{TF}} to identify the most valuable cohorts and create strategies to maximise their lifetime value.\n\nStep 1: Cohort identification and value analysis\nSegment customers using RFM analysis and cohort analysis.\nIdentify the highest-value customer cohorts based on:\n- Lifetime Value (LTV), purchase frequency, Average Order Value (AOV), retention rate over time\n\nStep 2: Churn risk analysis\n- Measure churn rates across different customer segments (RFM tiers, acquisition channels, product categories)\n- Identify patterns or triggers that signal high churn risk (e.g. long gaps between purchases, drop in order value, reduced engagement)\n\nStep 3: Retention initiatives and flow optimisation\nReview current post-purchase engagement flows (emails, SMS, loyalty programs).\nRecommend specific improvements to increase repeat purchases, such as:\n- Personalised reorder reminders\n- Exclusive offers for high-LTV customers\n- Loyalty tier rewards and early access to sales\n- Win-back campaigns for lapsed customers\n\nStep 4: Output format\n1. Table of top customer cohorts with key metrics (LTV, frequency, AOV, churn rate)\n2. Churn risk summary by segment\n3. Prioritised retention action plan with projected LTV uplift",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "holiday-sales-forecast-and-bfcm-readiness",
+      "title": "Holiday Sales Forecast and BFCM Campaign Readiness",
+      "category": "BFCM",
+      "description": "Forecasts holiday sales based on inventory and historical performance, recommends BFCM pricing strategies and email readiness.",
+      "body": "Act as my Shopify ecommerce strategist. Use my store's current inventory levels, last year's sales data, and marketing readiness to forecast holiday sales potential and recommend high-impact BFCM strategies.\n\nStep 1: Holiday sales potential forecast\n- Use current inventory levels and historical holiday/BFCM sales data to project total sales potential\n- Factor in product seasonality, current sell-through rates, and potential stock constraints\n- Identify SKUs with the highest projected contribution to revenue\n\nStep 2: Promotional pricing strategy\nRecommend BFCM pricing and promotional tactics tailored to my product mix, including:\n- Discount structures (percentage, fixed, tiered)\n- Bundling opportunities\n- Limited-time offers to create urgency\n\nForecast expected sales and margin impact for each strategy.\n\nStep 3: Email subscriber growth and segmentation readiness\n- Analyse subscriber list growth over the past 12 months\n- Assess current segmentation setup for targeting during holiday campaigns (e.g. high-value customers, recent buyers, inactive customers)\n- Recommend list-building or re-engagement tactics to maximise email revenue during BFCM\n\nStep 4: Output format\n1. Holiday sales potential table by product category/SKU\n2. Promotional pricing recommendation matrix with projected ROI\n3. Email list health and segmentation readiness report\n4. Action plan for next 30–60 days leading into BFCM",
+      "placeholders": [],
+      "featured": true,
+      "recommended": false,
+      "followUp": "site-speed-and-traffic-surge-readiness"
+    },
+    {
+      "slug": "last-year-performance-audit",
+      "title": "Last Year Performance Audit",
+      "category": "Strategy",
+      "description": "Analyses the same period last year to highlight best sellers, top campaigns, worst ROAS channels, CAC, and refund rates.",
+      "body": "Act as my Shopify performance analyst. Pull store data for {{TF}} and provide a detailed performance review comparing it to the same period in the prior year.\n\nStep 1: Product performance\n- Identify best-selling products (units sold, revenue)\n- Highlight underperforming products with low sales or high return rates\n\nStep 2: Marketing campaigns\n- List top-performing campaigns ranked by ROI/ROAS\n- Identify campaigns with the worst ROAS by channel (paid search, social, email, referral, etc.)\n\nStep 3: Acquisition and profitability metrics\n- Calculate Customer Acquisition Cost (CAC) by channel\n- Provide refund/return rates by product category or campaign\n\nStep 4: Insights and learnings\n- Summarise what worked (high-performing products, channels, campaigns)\n- Summarise what didn't (low ROAS, high CAC, high refund rates)\n- Recommend 3–5 data-driven actions for improving performance in the next cycle\n\nStep 5: Output format\n1. Table of key metrics (products, campaigns, channels)\n2. Short \"Worked / Didn't Work\" summary\n3. Actionable recommendations list",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "multi-item-purchase-and-cross-sell-opportunity",
+      "title": "Multi-Item Purchase and Cross-Sell Opportunity Analysis",
+      "category": "Strategy",
+      "description": "Analyses multi-item purchase behaviour to reveal top bundles, high-value customer segments, and untapped cross-sell opportunities.",
+      "body": "Act as my Shopify data analyst. Analyse multi-item purchase behaviour over {{TF}} to uncover bundling trends and missed cross-sell opportunities.\n\nStep 1: Transaction filtering\n- Filter transactions to include only orders with 2 or more items\n- Calculate the total number of multi-item orders and their share of total orders\n\nStep 2: Bundling patterns\n- Identify the most frequently bundled products and product combinations\n- Highlight top bundles by frequency and by total revenue generated\n\nStep 3: AOV and customer segments\n- Calculate the average order value (AOV) for multi-item orders\n- Compare AOV of multi-item orders vs single-item orders\n- Identify customer segments (e.g. RFM tiers, acquisition channels, geographic regions) most likely to place multi-item orders\n\nStep 4: Cross-sell opportunities\n- Highlight cross-sell opportunities by finding products often purchased together but not actively promoted together\n- Recommend 3–5 product pairings or bundle offers to increase basket size\n\nStep 5: Output format\n1. Table of top product bundles (frequency, revenue)\n2. Segment breakdown for multi-item purchasers\n3. Cross-sell recommendation list with projected revenue uplift",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "frequently-bought-together-and-bundle-pricing"
+    },
+    {
+      "slug": "recurring-sale-performance-and-recommendations",
+      "title": "Recurring Sale Performance and Recommendations",
+      "category": "CRO",
+      "description": "Analyses a specific recurring campaign's performance, benchmarks it, identifies weaknesses, and delivers optimisation recommendations.",
+      "body": "Act as my expert ecommerce performance analyst. For [Campaign Name] (from [Start Date] to [End Date]), extract and analyse my store's performance data with the following focus:\n\nKey metrics\n- Average Order Value (AOV)\n- Total sales volume\n- Conversion rate\n- Traffic sources breakdown\n- Performance of specific promotions (discount code usage, bundle effectiveness)\n\nCompetitive benchmarking\n- Compare each metric against similar merchants in my vertical and GMV tier\n\nActionable insights\n- Identify specific performance weaknesses from [Campaign Name]\n- Based on these insights and competitive benchmarks, provide concrete recommendations to optimise this year's [Campaign Name] sale, aiming to increase sales, AOV, and overall profitability\n\nPresent findings as a clear, decision-ready report including:\n1. Key metrics table (my performance vs benchmark)\n2. Top 3 areas of underperformance\n3. Targeted recommendations for each improvement area",
+      "placeholders": [
+        "[Campaign Name]",
+        "[Start Date]",
+        "[End Date]"
+      ],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "seo-keyword-opportunity-finder",
+      "title": "SEO Keyword Opportunity Finder",
+      "category": "SEO",
+      "description": "Finds high-impact keywords the store can target, identifies competitor keyword gaps, and provides a placement strategy.",
+      "body": "Act as my Shopify SEO strategist. Identify high-value keyword opportunities to improve my homepage and product page rankings.\n\nStep 1: Keyword research\n- Analyse my store's category, product offerings, and target audience\n- Identify high-volume, low-competition keywords relevant to my products\n- Include both primary keywords (for main pages) and long-tail keywords (for specific products)\n\nStep 2: Competitor keyword gap analysis\n- Review competitor rankings for my niche\n- Highlight keywords competitors rank for that my store does not\n- Identify keyword opportunities with strong purchase intent\n\nStep 3: Keyword application strategy\nRecommend which keywords should be used on:\n- Homepage (title, H1, meta description, body content)\n- Product titles and descriptions\n- Collection pages\n\nProvide example rewrites for 2–3 product titles/descriptions using these keywords.\n\nStep 4: Output format\n1. Table of recommended keywords (search volume, competition score, intent type)\n2. Competitor gap list\n3. Suggested placement strategy for top 10 keywords",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "seo-opportunity-audit"
+    },
+    {
+      "slug": "seo-opportunity-audit",
+      "title": "SEO Opportunity Audit",
+      "category": "SEO",
+      "description": "Performs a detailed SEO analysis of the store, highlighting quick wins and improvements to boost organic traffic.",
+      "body": "Act as my Shopify SEO specialist. Perform a detailed SEO analysis of my store and identify improvements to boost search visibility, rankings, and organic traffic.\n\nStep 1: Homepage SEO review\n- Evaluate meta title, meta description, and heading structure (H1, H2, H3)\n- Check for keyword optimisation, internal linking, and content depth\n- Assess image optimisation (file names, alt tags, compression)\n- Identify technical SEO issues impacting page speed or crawlability\n\nStep 2: Product page SEO review\n- Analyse product titles for keyword relevance, clarity, and click-through potential\n- Review meta titles and descriptions for SEO best practices and engagement\n- Assess product descriptions for keyword coverage, uniqueness, and readability\n- Check for missing alt tags, structured data/schema, and duplicate content\n\nStep 3: Areas of opportunity\n- Highlight gaps in keyword targeting and content optimisation\n- Identify opportunities for internal linking between related products and collections\n- Flag missing or underused SEO features in Shopify (e.g. automated sitemap, 301 redirects)\n\nStep 4: Quick wins and easy improvements\n- Provide a prioritised list of quick SEO fixes (e.g. title rewrites, meta description updates, image alt tag additions)\n- Include examples of improved titles/descriptions for key products\n\nStep 5: Output format\n1. Table with current vs recommended changes for homepage, product pages, and titles\n2. Quick-win checklist with estimated SEO impact",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "seo-driven-revenue-analysis"
+    },
+    {
+      "slug": "site-speed-and-traffic-surge-readiness",
+      "title": "Site Speed and Traffic Surge Readiness Check",
+      "category": "Tech",
+      "description": "Evaluates site speed, holiday traffic readiness, checkout setup, and mobile experience before peak periods.",
+      "body": "Act as my Shopify ecommerce performance consultant. Assess my store's technical readiness and checkout optimisation opportunities ahead of BFCM [BFCM dates].\n\nStep 1: Site speed and capacity\n- Evaluate current site speed scores (desktop and mobile) using Shopify's latest performance metrics\n- Test load times during peak simulated traffic to assess capacity for holiday surges\n- Identify any performance bottlenecks (apps, large media files, theme code issues)\n\nStep 2: Checkout optimisation opportunities\nReview current checkout setup and highlight friction points.\nRecommend Shopify-optimised strategies for increasing conversion, such as:\n- One-page checkout\n- Accelerated payment options (Shop Pay, Apple Pay, Google Pay)\n- Streamlined form fields and guest checkout\n- Shipping transparency and real-time delivery estimates\n\nStep 3: Mobile experience audit\nReview mobile storefront usability, including:\n- Page load speed, navigation and menu usability, product page layout and buy button placement, checkout flow on mobile\n\nIdentify critical pre-holiday improvements to boost mobile conversion rates.\n\nStep 4: Output format\n1. Performance and capacity scores with benchmarks\n2. List of technical fixes and mobile optimisations (prioritised by impact and ease)\n3. Checkout improvement recommendations with projected uplift in conversion rate",
+      "placeholders": [
+        "[BFCM dates]"
+      ],
+      "featured": false,
+      "recommended": false,
+      "followUp": "store-technical-issue-diagnosis"
+    },
+    {
+      "slug": "slow-moving-sku-strategy-planner",
+      "title": "Slow-Moving SKU Strategy Planner",
+      "category": "Strategy",
+      "description": "Identifies slow-moving SKUs, forecasts stockout risks, and delivers strategies to liquidate or reposition products.",
+      "body": "Act as my Shopify inventory and merchandising strategist. Analyse my store's inventory performance, slow-moving SKUs, and stock risk over {{TF}} to improve profitability and working capital efficiency.\n\nStep 1: Slow-moving SKU analysis\n- Identify the slowest-moving SKUs based on sales velocity, age in stock, and sell-through rate\n- Segment by product category, seasonality, and margin contribution\n- Recommend strategies to liquidate, bundle, discount, or reposition these SKUs to recover capital\n\nStep 2: Sell-through and stockout forecasting\n- Analyse historical sell-through rates and seasonal trends\n- Forecast potential stockouts for high-demand products\n- Recommend Shopify-native tools and automations (e.g. low-stock alerts, Shopify Flow, automated reorder points) to prevent lost sales\n\nStep 3: Inventory holding cost impact\n- Calculate inventory holding costs for slow-moving SKUs\n- Identify the impact on gross margin and overall profitability\n- Recommend adjustments to improve working capital efficiency\n\nStep 4: Output format\n1. Table of slow-moving SKUs with sales velocity, sell-through rate, margin %, and recommended action\n2. Stockout risk forecast table\n3. Profitability impact summary with prioritised actions",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "social-roas-and-engagement-analysis",
+      "title": "Social ROAS and Engagement Analysis",
+      "category": "Acquisition",
+      "description": "Evaluates social platform performance, analyses UTM data to link creatives to conversions, and uncovers remarketing gaps.",
+      "body": "Act as my Shopify marketing performance strategist. Evaluate the effectiveness of my social media campaigns, content, and remarketing strategy over {{TF}}, compared to {{CMP}}.\n\nStep 1: Platform performance analysis\n- Assess ROAS and engagement rates for each active social platform (e.g. Facebook, Instagram, TikTok, Pinterest, YouTube)\n- Break down performance by campaign objective, audience targeting, and spend level\n- Identify which content types (video, carousel, static image, story/reel formats) drive the highest engagement and conversions\n\nStep 2: UTM and creative impact review\n- Analyse UTM-tagged campaign data to trace conversions back to specific creative assets and ad variations\n- Highlight top-performing creative based on conversion rate, ROAS, and cost per acquisition\n- Identify creative formats or messages that consistently underperform\n\nStep 3: Cross-channel remarketing opportunities\n- Audit current remarketing activity across platforms\n- Identify gaps such as missing audience retargeting windows, underused high-intent segments (cart abandoners, high-value visitors), or untested creative approaches\n- Recommend cross-channel sequencing strategies to improve conversion lift\n\nStep 4: Output format\n1. Table showing ROAS, engagement rate, and top content types by platform\n2. Creative performance summary linked to conversion data\n3. List of remarketing gaps with recommended tactics and expected ROI impact",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "paid-media-efficiency-by-channel"
+    },
+    {
+      "slug": "store-technical-issue-diagnosis",
+      "title": "Store Technical Issue Diagnosis",
+      "category": "Tech",
+      "description": "Runs a complete Shopify technical health audit to detect site speed issues, code bottlenecks, and performance risks.",
+      "body": "Act as my Shopify technical performance auditor. Identify any technical issues or performance bottlenecks affecting my store and provide recommended fixes.\n\nStep 1: Site performance review\n- Evaluate page load speed (desktop and mobile) using Shopify's latest performance metrics\n- Identify large media files, unoptimised images, or unnecessary scripts slowing the store\n- Flag theme or app-related slowdowns\n\nStep 2: Technical issue audit\n- Check for broken links, 404 errors, or redirect loops\n- Test mobile responsiveness and cross-browser compatibility\n- Verify correct implementation of structured data (SEO schema)\n- Identify any issues with JavaScript, CSS, or third-party integrations that affect performance\n\nStep 3: Bottleneck analysis\n- Assess checkout load times and responsiveness\n- Review inventory syncing and API calls for delays\n- Flag any apps or integrations causing excessive server requests or downtime risk\n\nStep 4: Output format\n1. Table of identified issues (impact level, cause, recommended fix)\n2. Prioritised list of actions with estimated effort and performance improvement",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "site-speed-and-traffic-surge-readiness"
+    },
+    {
+      "slug": "subscription-conversion-potential-analysis",
+      "title": "Subscription Conversion Potential Analysis",
+      "category": "Subscriptions",
+      "description": "Analyses if returning buyers would convert to subscription-only offers, including rates, order patterns, and recommendation.",
+      "body": "Act as an expert data analyst for my Shopify store. Evaluate the subscription conversion potential among returning customers over {{TF}}, compared to {{CMP}}, with the goal of determining whether we should create a subscription-only landing page.\n\nStep 1: Subscription conversion analysis\nCalculate the percentage of first-time purchasers who subscribe:\n- On their second visit\n- On any return visit\n\nInclude average time from first order to subscription.\n\nStep 2: Subscription quantity insights\n- Identify the most popular subscription sizes and the percentage distribution for each\n- Compare average one-time purchase quantity vs average subscription quantity\n\nStep 3: Conversion pathway patterns\nDetermine:\n- Average number of orders before subscribing\n- Average total units purchased before subscribing\n- Days between first order and subscription\n- Purchase frequency patterns that signal subscription readiness\n\nStep 4: Subscription success metrics\nCalculate:\n- Subscription retention rate\n- Average subscriber LTV vs average one-time buyer LTV\n- Churn risk by subscription quantity\n\nStep 5: Decision criteria\n- If subscription conversion rate is above 15%, recommend YES to the subscription-only landing page\n- If below 5%, recommend NO\n\nFinal output:\n1. First-time-to-subscriber conversion %\n2. Top 3 optimal subscription quantities\n3. Yes/No recommendation for subscription-only landing page\n4. Supporting key metrics",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "subscription-churn-and-retention-analysis"
+    },
+    {
+      "slug": "summer-sale-campaign-creator",
+      "title": "Summer Sale Campaign Creator",
+      "category": "Strategy",
+      "description": "Designs a high-impact sale campaign focused on top-selling products with sufficient inventory, urgency messaging, and channel recommendations.",
+      "body": "You are my expert Marketing Manager. Create a high-impact Summer Sale campaign to promote [Collection Name], focusing on the value of the products, the urgency of the limited-time offer, and compelling messaging that resonates with potential buyers.\n\nFirst, identify top-selling items in [Collection Name] with sufficient inventory to support the campaign. Prioritise these products in the marketing materials.\n\nEnsure the campaign strategy balances value messaging with attractive pricing, and include recommendations for:\n- Visuals and creative direction\n- Copy and messaging hierarchy\n- Promotional channels (email, social, paid, on-site banners)\n- Urgency and scarcity mechanics\n\nAim to drive maximum conversions while protecting margin on hero products.\n\nDeliverables:\n1. Campaign concept and messaging framework\n2. Top product priority list with inventory rationale\n3. Channel recommendations with suggested tactics\n4. Example copy for email subject line, hero headline, and CTA",
+      "placeholders": [
+        "[Collection Name]"
+      ],
+      "featured": false,
+      "recommended": false,
+      "followUp": null
+    },
+    {
+      "slug": "ultimate-bfcm-performance-and-readiness",
+      "title": "Ultimate BFCM Performance and Readiness Analysis",
+      "category": "BFCM",
+      "description": "Comprehensive BFCM performance review and readiness check: compares last year's BFCM against baseline and YoY, identifies top performers, and prioritises this year's strategy.",
+      "body": "Act as my expert Shopify ecommerce analyst. Perform a comprehensive Black Friday–Cyber Monday (BFCM) performance review and readiness check using my Shopify data.\n\nStep 1: Performance comparison\nCompare {{TF}} against:\n- The same year's regular monthly average (baseline performance)\n- {{CMP}}\n\nMetrics to include:\n- Total Sales, Orders, and Units Sold\n- Average Order Value (AOV)\n- Conversion Rate (CVR)\n- Sessions and Traffic Sources (Organic, Paid, Email, Social, Referral, etc.)\n- Customer Acquisition Cost (CAC) and Return on Ad Spend (ROAS)\n- New vs Returning Customer mix\n- RFM segment performance during BFCM vs baseline\n- Cart abandonment rate and checkout completion rate\n\nStep 2: Best performers and revenue drivers\nIdentify:\n- Top 10 products and bundles by revenue and units sold\n- Highest-converting traffic sources and campaigns\n- Promotional offers with the strongest lift (discount %, free shipping, bundles, gifts with purchase)\n- Best-performing landing pages and collections\n- High-value customer segments acquired during BFCM\n\nStep 3: Readiness check for this year\nCompare current readiness to last year's pre-BFCM state:\n- Inventory levels for top sellers and forecasted demand gaps\n- Site performance (page speed, mobile responsiveness, uptime)\n- Fulfilment capacity (handling peak order volume)\n- Email/SMS subscriber list growth and engagement health\n- Paid media budgets and targeting readiness in Shopify Audiences (US merchants)\n\nStep 4: Strategic recommendations\n- List 3–5 priority actions to maximise sales this BFCM based on learnings from last year\n- Highlight quick wins vs long-term improvements\n- Suggest testing opportunities (offers, channels, creative) to improve results\n\nOutput format:\n1. Side-by-side comparison tables (BFCM vs baseline vs YoY)\n2. Charts for traffic, AOV, and CVR trends\n3. Top performer tables for products, campaigns, and traffic sources\n4. Bullet-point recommendations with projected impact",
+      "placeholders": [],
+      "featured": true,
+      "recommended": true,
+      "followUp": "site-speed-and-traffic-surge-readiness"
+    },
+    {
+      "slug": "product-detail-page-ux-diagnosis",
+      "title": "Product Detail Page UX Diagnosis",
+      "category": "UX",
+      "description": "Heuristic and data-led review of PDP performance, pinpointing friction that suppresses add-to-cart.",
+      "body": "Act as my senior Shopify UX and conversion analyst.\n\nDiagnose product detail page (PDP) performance over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Do not guess or invent benchmarks. If a metric is unavailable, state that and suggest what to validate in GA4. Reference specific products and collections by name. If you want me to focus on a particular product, I will name it; otherwise analyse the highest-traffic PDPs. Keep the output suitable for a client UX audit.\n\nStep 1: PDP performance\nFor the top viewed PDPs, report views, add-to-cart rate, and product conversion rate. Flag PDPs with high traffic but weak add-to-cart or purchase conversion.\n\nStep 2: Friction signals\nInfer likely UX issues from the data and standard PDP heuristics, such as weak imagery or media, unclear value proposition, price sensitivity, thin or missing information (sizing, delivery, returns), poor variant selection, low review presence, or weak cross-sell.\n\nStep 3: Segment view\nWhere available, break PDP performance down by device, new vs returning, and traffic source to isolate where friction concentrates.\n\nStep 4: Labelling\nLabel every finding as Confirmed by Shopify data, Likely hypothesis, or Requires GA4 or session-replay validation.\n\nOutput format:\n1. PDP performance summary\n2. Underperforming PDPs and the pattern\n3. Likely UX and merchandising issues\n4. Prioritised PDP recommendations with expected impact, effort, and suggested owner",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "cro-experiment-backlog-generator"
+    },
+    {
+      "slug": "collection-and-plp-merchandising-and-ux-review",
+      "title": "Collection and PLP Merchandising and UX Review",
+      "category": "UX",
+      "description": "Reviews listing-page merchandising, sort logic, filtering, and density against conversion.",
+      "body": "Act as my senior Shopify merchandising and UX analyst.\n\nReview collection and product listing page (PLP) performance over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Do not guess or invent benchmarks. Flag anything that needs GA4 validation. Reference specific collections by name. Keep the output suitable for a client UX audit.\n\nStep 1: Collection performance\nRank collections by traffic, click-through to PDP where available, and contribution to revenue. Identify high-traffic collections with weak progression to PDP or purchase.\n\nStep 2: Merchandising signals\nAssess likely issues with default sort order, product sequencing, filtering and faceting, collection breadth, and the visibility of best sellers and high-margin lines.\n\nStep 3: Discovery patterns\nWhere available, examine how customers reach collections (nav, search, campaign) and whether entry path correlates with conversion.\n\nStep 4: Labelling\nLabel each finding as Confirmed by Shopify data, Likely hypothesis, or Requires GA4 validation.\n\nOutput format:\n1. Collection performance summary\n2. Weak collections and the likely cause\n3. Merchandising and UX issues\n4. Prioritised recommendations with expected impact, effort, and suggested owner",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "navigation-and-site-architecture-review"
+    },
+    {
+      "slug": "navigation-and-site-architecture-review",
+      "title": "Navigation and Site Architecture Review",
+      "category": "UX",
+      "description": "Assesses menu structure and information architecture using search and navigation behaviour.",
+      "body": "Act as my senior Shopify UX and information architecture analyst.\n\nReview navigation and site architecture effectiveness over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Do not guess or invent benchmarks. Flag anything requiring GA4 validation. Reference specific collections, pages, and search terms by name. Keep the output suitable for a client UX audit.\n\nStep 1: Navigation paths\nUsing available landing page, collection, and search data, identify the routes customers take to find products and where those routes break down.\n\nStep 2: Search behaviour\nReview on-site search terms where available, including high-volume terms, zero-result or low-result searches, and searches that signal gaps in the menu or catalogue.\n\nStep 3: Architecture assessment\nInfer whether the menu structure, category labelling, and depth match how customers actually look for products. Identify collections that are hard to reach or duplicated.\n\nStep 4: Labelling\nLabel findings as Confirmed by Shopify data, Likely hypothesis, or Requires GA4 validation.\n\nOutput format:\n1. Navigation and IA summary\n2. Broken or weak paths\n3. Search-driven gaps and labelling opportunities\n4. Prioritised IA and navigation recommendations with expected impact, effort, and suggested owner",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "search-and-navigation-behaviour"
+    },
+    {
+      "slug": "mobile-checkout-friction-audit",
+      "title": "Mobile Checkout Friction Audit",
+      "category": "UX",
+      "description": "Isolates mobile-specific checkout drop-off and the UX changes most likely to recover it.",
+      "body": "Act as my senior Shopify mobile UX and conversion analyst.\n\nAudit mobile checkout friction over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Do not guess or invent benchmarks. Flag anything requiring GA4 validation. Keep the output suitable for a client UX audit.\n\nStep 1: Mobile vs desktop funnel\nCompare reached-checkout and checkout-completion rates for mobile against desktop. Quantify the mobile gap at each step and the revenue it represents.\n\nStep 2: Friction concentration\nIdentify where mobile customers drop, and whether drop-off correlates with cart value, discount use, payment method, or shipping option. Note likely indicators of form length, payment friction, or trust gaps on small screens.\n\nStep 3: Express and wallet usage\nWhere available, assess use of accelerated checkout and wallets (Shop Pay and similar) on mobile and whether higher usage lifts completion.\n\nStep 4: Labelling\nLabel every finding as Confirmed by Shopify data, Likely hypothesis, or Requires GA4 or session-replay validation.\n\nOutput format:\n1. Mobile checkout summary and revenue at stake\n2. Step-by-step mobile vs desktop table\n3. Likely mobile friction points\n4. Prioritised mobile UX recommendations with expected impact, effort, and suggested owner",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "form-and-field-level-friction-analysis"
+    },
+    {
+      "slug": "accessibility-and-inclusive-ux-audit",
+      "title": "Accessibility and Inclusive UX Audit",
+      "category": "UX",
+      "description": "WCAG-informed accessibility review framed around commercial and legal risk.",
+      "body": "Act as my senior accessibility and inclusive UX consultant.\n\nAudit my Shopify store against common accessibility standards (WCAG 2.2 AA as the reference) and inclusive design principles.\n\nUse only what can be reasonably assessed from the store. Where a check needs a manual tool, screen reader, or code review, say so and flag it for follow-up rather than guessing. Keep the output suitable for a client UX audit.\n\nStep 1: Perceivable\nAssess colour contrast, text legibility, image alternative text, and media captions across key templates (home, collection, PDP, cart, checkout where visible).\n\nStep 2: Operable\nReview keyboard navigation, focus order and visibility, tap target sizing, and whether interactive elements are reachable without a mouse.\n\nStep 3: Understandable and robust\nCheck form labelling and error messaging, consistent navigation, heading structure, and use of semantic markup and ARIA where appropriate.\n\nStep 4: Risk and priority\nSummarise the commercial and legal risk of the gaps found, and group fixes by severity.\n\nOutput format:\n1. Accessibility summary and risk view\n2. Issues by WCAG principle with severity\n3. Items requiring manual or technical validation\n4. Prioritised remediation list with expected effort and suggested owner",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "form-and-field-level-friction-analysis"
+    },
+    {
+      "slug": "form-and-field-level-friction-analysis",
+      "title": "Form and Field-Level Friction Analysis",
+      "category": "UX",
+      "description": "Examines checkout, account, and signup forms for the fields that cost conversions.",
+      "body": "Act as my senior Shopify UX and conversion analyst.\n\nAnalyse form and field-level friction across checkout, account creation, and signup over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Do not guess or invent benchmarks. Flag anything requiring GA4 or form-analytics validation. Keep the output suitable for a client UX audit.\n\nStep 1: Checkout fields\nAssess the checkout for unnecessary fields, account-creation pressure, address and contact friction, and whether guest checkout is clear and frictionless.\n\nStep 2: Account and signup\nReview account creation and newsletter or marketing signup for length, clarity, value exchange, and error handling.\n\nStep 3: Friction signals\nFrom completion and abandonment patterns, infer which steps or fields most likely cause hesitation, and whether mobile makes it worse.\n\nStep 4: Labelling\nLabel findings as Confirmed by Shopify data, Likely hypothesis, or Requires GA4 or form-analytics validation.\n\nOutput format:\n1. Form friction summary\n2. Field-by-field issues\n3. Likely highest-cost friction points\n4. Prioritised form recommendations with expected impact, effort, and suggested owner",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "cro-experiment-backlog-generator"
+    },
+    {
+      "slug": "cro-experiment-backlog-generator",
+      "title": "CRO Experiment Backlog Generator",
+      "category": "CRO",
+      "description": "Turns store findings into a prioritised, testable experiment backlog scored by ICE.",
+      "body": "Act as my senior CRO strategist.\n\nBuild a prioritised experiment backlog from my store's performance over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Do not guess or invent benchmarks. Flag anything requiring GA4 validation. If I name a specific finding or page to focus on, prioritise it; otherwise scan the full funnel. Keep the output suitable for a client CRO roadmap.\n\nStep 1: Opportunity scan\nIdentify the highest-value conversion problems across home, collection, PDP, cart, and checkout, with the data point that evidences each.\n\nStep 2: Hypotheses\nFor each opportunity, write a structured hypothesis in the form: because we observed (evidence), we believe changing (element) for (audience) will cause (expected outcome), measured by (metric).\n\nStep 3: Prioritisation\nScore each experiment with ICE (Impact, Confidence, Ease) from 1 to 10 and rank by total. Note the primary metric and the minimum data needed to call a result.\n\nStep 4: Test design notes\nFor the top experiments, suggest the variation concept, target page or audience, and any tracking that must be in place first.\n\nOutput format:\n1. Opportunity summary\n2. Hypothesis backlog table with ICE scores and rank\n3. Top 5 experiments expanded with test design notes\n4. Tracking prerequisites",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "conversion-hypothesis-builder"
+    },
+    {
+      "slug": "a-b-test-results-interpretation",
+      "title": "A/B Test Results Interpretation",
+      "category": "CRO",
+      "description": "Interprets a completed A/B test, assesses confidence, and recommends the next move.",
+      "body": "Act as my senior CRO analyst and experimentation lead.\n\nInterpret the results of a completed A/B test.\n\nControl (Variant A): [Variant A result]\nTreatment (Variant B): [Variant B result]\nPrimary metric: [Primary Metric]\n\nUse only the figures I provide plus context from my Shopify store. Do not invent data. If sample sizes or conversion counts are missing, state what you need to judge significance reliably.\n\nStep 1: Result read\nSummarise the observed difference on the primary metric in absolute and relative terms.\n\nStep 2: Confidence\nAssess whether the result is likely significant given the figures provided. If you cannot calculate significance from what I gave you, say so and list exactly what is needed (per-variant sessions and conversions at minimum).\n\nStep 3: Interpretation\nExplain the most plausible reasons for the outcome, and flag risks such as short run time, seasonality, traffic mix, or novelty effects.\n\nStep 4: Decision\nRecommend one of: ship the treatment, keep the control, iterate and retest, or extend the run. Justify the call.\n\nOutput format:\n1. Result summary\n2. Confidence assessment\n3. Interpretation and risks\n4. Recommended decision and next test",
+      "placeholders": [
+        "[Variant A result]",
+        "[Variant B result]",
+        "[Primary Metric]"
+      ],
+      "featured": false,
+      "recommended": false,
+      "followUp": "cro-experiment-backlog-generator"
+    },
+    {
+      "slug": "conversion-hypothesis-builder",
+      "title": "Conversion Hypothesis Builder",
+      "category": "CRO",
+      "description": "Converts an observed problem into a rigorous, testable CRO hypothesis with a measurement plan.",
+      "body": "Act as my senior CRO strategist.\n\nTurn an observed problem into a rigorous, testable hypothesis.\n\nObserved problem: [Observed Problem]\n\nUse context from my Shopify store where helpful. Do not invent data; where evidence is thin, note the assumption.\n\nStep 1: Problem framing\nRestate the problem, the page or step it affects, and the audience most affected. Cite any supporting data point from the store.\n\nStep 2: Root-cause options\nList the most plausible underlying causes and the UX or behavioural principle behind each.\n\nStep 3: Hypothesis\nWrite the hypothesis as: because we observed (evidence), we believe that (change) for (audience) will result in (outcome). We will know this is true when we see (metric movement) over (time or sample).\n\nStep 4: Test plan\nDefine the primary metric, key guardrail metrics, the variation concept, and the minimum sample or run time before calling it.\n\nOutput format:\n1. Problem frame\n2. Candidate root causes\n3. Structured hypothesis\n4. Measurement and test plan",
+      "placeholders": [
+        "[Observed Problem]"
+      ],
+      "featured": false,
+      "recommended": false,
+      "followUp": "a-b-test-results-interpretation"
+    },
+    {
+      "slug": "free-shipping-threshold-optimisation",
+      "title": "Free Shipping Threshold Optimisation",
+      "category": "CRO",
+      "description": "Models whether the free-shipping threshold is set where it lifts AOV without eroding margin.",
+      "body": "Act as my senior ecommerce strategist and conversion analyst.\n\nAssess whether my free shipping threshold is set at the right level over {{TF}}, compared to {{CMP}}.\n\nCurrent free shipping threshold: [Current Threshold]\n\nUse only data available within Shopify. Do not guess or invent benchmarks. Flag anything requiring GA4 validation.\n\nStep 1: Order value distribution\nMap the distribution of order values around the current threshold. Identify the share of orders just below and just above it.\n\nStep 2: Threshold effect\nAssess whether the threshold is nudging basket size, and estimate how many orders sit close enough to be moved with prompts or merchandising.\n\nStep 3: Scenarios\nModel the likely effect of holding, raising, or lowering the threshold on AOV, conversion rate, and order volume. State the margin assumption you are using and keep shipping cost in view.\n\nStep 4: Labelling\nLabel findings as Confirmed by Shopify data, Likely hypothesis, or Requires GA4 validation.\n\nOutput format:\n1. Threshold summary\n2. Order value distribution around the threshold\n3. Scenario comparison with trade-offs\n4. Recommended threshold and supporting tactics",
+      "placeholders": [
+        "[Current Threshold]"
+      ],
+      "featured": false,
+      "recommended": false,
+      "followUp": "contribution-margin-after-discounts-and-returns"
+    },
+    {
+      "slug": "ga4-vs-shopify-data-reconciliation",
+      "title": "GA4 vs Shopify Data Reconciliation",
+      "category": "Analytics",
+      "description": "Frames the likely causes of GA4 and Shopify discrepancies and how to reconcile them.",
+      "body": "Act as my senior analytics and measurement consultant.\n\nHelp me reconcile reporting differences between GA4 and Shopify over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify for the Shopify side. Do not invent GA4 figures; where I need to read them from GA4, tell me exactly which report and dimension to check.\n\nStep 1: Shopify baseline\nState the Shopify figures for sessions where available, orders, conversion rate, revenue, and refunds for the period, as the source of truth for transactions.\n\nStep 2: Expected discrepancies\nExplain the usual reasons GA4 and Shopify differ, including attribution models and lookback windows, session definitions, consent and cookie loss, bot filtering, currency and tax handling, cross-domain and checkout tracking gaps, and timezone boundaries.\n\nStep 3: Diagnosis path\nGive me a step-by-step reconciliation: which GA4 reports to open, which dimensions and date ranges to match, and what an acceptable variance looks like for transactions versus sessions.\n\nStep 4: Likely cause\nBased on the pattern I describe, rank the most probable causes of the gap and the fix for each.\n\nOutput format:\n1. Shopify baseline figures\n2. Why the two tools differ\n3. Reconciliation checklist\n4. Most likely causes and fixes",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "attribution-and-channel-assist-analysis"
+    },
+    {
+      "slug": "ga4-tracking-and-event-qa-audit",
+      "title": "GA4 Tracking and Event QA Audit",
+      "category": "Analytics",
+      "description": "Produces a structured GA4 and GTM event QA checklist for a Shopify store.",
+      "body": "Act as my senior GA4 and GTM implementation specialist.\n\nProduce a tracking and event QA audit for my Shopify store. The goal is a checklist I can validate in GA4 DebugView, GTM preview, and Tag Assistant.\n\nDo not assume events are firing correctly. Treat everything as needing verification, and call out where Shopify's checkout and the GA4 ecommerce spec commonly cause problems.\n\nStep 1: Expected ecommerce events\nList the GA4 recommended ecommerce events a Shopify store should send across the funnel (view_item, view_item_list, select_item, add_to_cart, view_cart, begin_checkout, add_payment_info, add_shipping_info, purchase) and the key parameters each should carry, including items array fields and value and currency.\n\nStep 2: Common failure points\nFlag the usual Shopify issues, including checkout events on non-Plus stores, duplicate purchase events, missing or mistyped item parameters, consent mode blocking tags, and transaction_id integrity for deduplication.\n\nStep 3: QA procedure\nGive a step-by-step validation routine in DebugView and GTM preview, with what a correct payload looks like for each event and how to confirm purchase fires once per order.\n\nStep 4: Output\nSummarise as a checklist I can work through and mark off.\n\nOutput format:\n1. Expected event and parameter table\n2. Common failure points to check\n3. Step-by-step QA routine\n4. Pass/fail checklist",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "ga4-vs-shopify-data-reconciliation"
+    },
+    {
+      "slug": "attribution-and-channel-assist-analysis",
+      "title": "Attribution and Channel Assist Analysis",
+      "category": "Acquisition",
+      "description": "Looks beyond last-click to how channels assist conversions across the path to purchase.",
+      "body": "Act as my senior acquisition and analytics strategist.\n\nAnalyse how my marketing channels assist and convert over {{TF}}, compared to {{CMP}}.\n\nUse Shopify data for orders and revenue. For multi-touch and assisted-conversion views, tell me which GA4 reports to read rather than inventing figures. Reference specific channels and sources by name.\n\nStep 1: Last-click baseline\nFrom Shopify, summarise orders, revenue, AOV, and new vs returning split by traffic source where available.\n\nStep 2: Assist picture\nExplain where last-click under-credits upper-funnel channels, and direct me to the GA4 paths and attribution comparisons that reveal assisted conversions and typical path length.\n\nStep 3: Channel roles\nClassify channels as primarily introducers, assisters, or closers based on the available evidence, and note where spend may be misjudged by last-click alone.\n\nStep 4: Labelling\nLabel findings as Confirmed by Shopify data, Likely hypothesis, or Requires GA4 validation.\n\nOutput format:\n1. Last-click channel summary\n2. Assisted-conversion view and where to confirm it\n3. Channel role classification\n4. Recommendations for budget and measurement",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "paid-media-efficiency-by-channel"
+    },
+    {
+      "slug": "paid-media-efficiency-by-channel",
+      "title": "Paid Media Efficiency by Channel",
+      "category": "Acquisition",
+      "description": "Assesses paid channel efficiency and where to scale, hold, or cut.",
+      "body": "Act as my senior performance marketing analyst.\n\nAssess paid media efficiency by channel over {{TF}}, compared to {{CMP}}.\n\nUse Shopify data for revenue, orders, AOV, and new vs returning. For spend, impressions, and platform ROAS, use the figures I provide or tell me which platform report to pull; do not invent spend data. Reference channels by name.\n\nStep 1: Channel efficiency\nFor each paid channel, bring together spend, revenue, orders, AOV, ROAS, and where possible blended and new-customer CAC. Highlight the most and least efficient.\n\nStep 2: Quality of revenue\nAssess whether paid orders skew to new or returning customers, discount reliance, and first-order AOV, to judge whether efficiency is real or discount-funded.\n\nStep 3: Scale or cut\nIdentify channels to scale, hold, or cut, and the constraint on each (diminishing returns, creative fatigue, audience size).\n\nStep 4: Labelling\nLabel findings as Confirmed by data provided, Likely hypothesis, or Requires platform or GA4 validation.\n\nOutput format:\n1. Paid efficiency summary\n2. Channel efficiency table\n3. Quality-of-revenue read\n4. Scale, hold, and cut recommendations with rationale",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "attribution-and-channel-assist-analysis"
+    },
+    {
+      "slug": "lapsed-customer-winback-analysis",
+      "title": "Lapsed Customer Winback Analysis",
+      "category": "LTV",
+      "description": "Identifies lapsed customer segments and builds a reactivation plan.",
+      "body": "Act as my senior retention and CRM strategist.\n\nAnalyse lapsed customers and build a winback plan, using {{TF}} as the recent window compared to {{CMP}}.\n\nUse only data available within Shopify. Do not guess or invent benchmarks. Flag anything requiring GA4 or email-platform validation. Reference specific products and segments by name.\n\nStep 1: Define lapsed\nEstablish a sensible lapse window from the store's typical repeat-purchase cadence, and quantify how many customers and how much historic revenue sit in the lapsed group.\n\nStep 2: Segment the lapsed\nBreak the lapsed base down by former value (one-time vs repeat, AOV band), first product or category, and acquisition source where available.\n\nStep 3: Winback angles\nFor the highest-value lapsed segments, recommend the offer, message, and channel most likely to reactivate, and which products to lead with.\n\nStep 4: Labelling\nLabel findings as Confirmed by Shopify data, Likely hypothesis, or Requires validation.\n\nOutput format:\n1. Lapsed base summary and revenue at stake\n2. Lapsed segments ranked by opportunity\n3. Winback plan by segment\n4. Suggested sequencing and measurement",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "second-purchase-conversion-strategy"
+    },
+    {
+      "slug": "rfm-segmentation-and-action-plan",
+      "title": "RFM Segmentation and Action Plan",
+      "category": "LTV",
+      "description": "Builds Recency, Frequency, Monetary segments and the action for each.",
+      "body": "Act as my senior retention and customer analytics strategist.\n\nBuild an RFM (Recency, Frequency, Monetary) segmentation of my customer base over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify. Do not guess or invent benchmarks. Flag anything requiring validation.\n\nStep 1: Scoring\nDescribe how you are scoring recency, frequency, and monetary value from the available data, and the bands used.\n\nStep 2: Segments\nProduce the key RFM segments (such as champions, loyal, promising, at-risk, hibernating, lost), the share of customers and revenue in each, and how they are trending against the comparison period.\n\nStep 3: Actions\nFor each segment, recommend the retention or growth action, the right channel, and the products or offers to lead with.\n\nStep 4: Priority\nRank segments by commercial opportunity and note which are most fragile.\n\nOutput format:\n1. RFM approach and bands\n2. Segment table with customer and revenue share\n3. Action plan by segment\n4. Prioritised focus and measurement",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "lapsed-customer-winback-analysis"
+    },
+    {
+      "slug": "second-purchase-conversion-strategy",
+      "title": "Second-Purchase Conversion Strategy",
+      "category": "LTV",
+      "description": "Targets the first-to-second purchase gap, the strongest predictor of retention.",
+      "body": "Act as my senior retention strategist.\n\nAnalyse the first-to-second purchase transition over {{TF}}, compared to {{CMP}}, and build a strategy to lift it.\n\nUse only data available within Shopify. Do not guess or invent benchmarks. Flag anything requiring GA4 or email-platform validation. Reference specific products and collections by name.\n\nStep 1: The gap\nQuantify the share of first-time buyers who return for a second order, and the typical time between first and second purchase.\n\nStep 2: What drives the second order\nIdentify which first-purchase products, categories, AOV bands, discount behaviours, or acquisition sources are most and least associated with a second order.\n\nStep 3: Levers\nRecommend the highest-impact levers to convert more one-time buyers, including post-purchase flow timing, product recommendations, and offer design, and which first-order segments to prioritise.\n\nStep 4: Labelling\nLabel findings as Confirmed by Shopify data, Likely hypothesis, or Requires validation.\n\nOutput format:\n1. Second-purchase summary\n2. Predictors of repeat purchase\n3. Prioritised levers by segment\n4. Suggested post-purchase sequence and measurement",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "post-purchase-flow-effectiveness"
+    },
+    {
+      "slug": "subscription-churn-and-retention-analysis",
+      "title": "Subscription Churn and Retention Analysis",
+      "category": "Subscriptions",
+      "description": "Analyses subscriber churn, cancellation patterns, and the levers that retain.",
+      "body": "Act as my senior subscription and retention analyst.\n\nAnalyse subscription churn and retention over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify and the subscription app where surfaced. Do not guess or invent benchmarks. Flag anything requiring validation in the subscription platform. Reference specific products and plans by name.\n\nStep 1: Churn picture\nReport active subscribers, new subscriptions, cancellations, and net change for the period, with churn rate and how it is trending.\n\nStep 2: Churn patterns\nIdentify when subscribers churn (after which cycle), which products or plan sizes churn fastest, and any link to discount entry, price, or delivery cadence.\n\nStep 3: Retention levers\nRecommend the highest-impact levers to reduce churn, including cadence flexibility, save offers, dunning on failed payments, onboarding, and value reinforcement.\n\nStep 4: Labelling\nLabel findings as Confirmed by data, Likely hypothesis, or Requires subscription-platform validation.\n\nOutput format:\n1. Subscription churn summary\n2. Churn timing and patterns\n3. Highest-impact retention levers\n4. Prioritised actions with suggested owner",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "subscription-cohort-and-mrr-trend"
+    },
+    {
+      "slug": "subscription-cohort-and-mrr-trend",
+      "title": "Subscription Cohort and MRR Trend",
+      "category": "Subscriptions",
+      "description": "Tracks MRR movement and subscriber cohort retention over time.",
+      "body": "Act as my senior subscription analyst.\n\nAnalyse monthly recurring revenue (MRR) and subscriber cohort retention over {{TF}}, compared to {{CMP}}.\n\nUse only data available within Shopify and the subscription app where surfaced. Do not guess or invent benchmarks. Flag anything requiring validation.\n\nStep 1: MRR movement\nBreak MRR into new, expansion, contraction, and churned components for the period, and report net MRR change and growth rate.\n\nStep 2: Cohort retention\nTrack how subscriber cohorts retain across billing cycles, and identify where the steepest drop-offs occur.\n\nStep 3: Drivers\nLink MRR and retention movements to plan types, product mix, pricing, and acquisition source where available.\n\nStep 4: Labelling\nLabel findings as Confirmed by data, Likely hypothesis, or Requires subscription-platform validation.\n\nOutput format:\n1. MRR summary and net movement\n2. MRR component breakdown\n3. Cohort retention view\n4. Recommendations to protect and grow MRR",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "subscription-churn-and-retention-analysis"
+    },
+    {
+      "slug": "contribution-margin-after-discounts-and-returns",
+      "title": "Contribution Margin After Discounts and Returns",
+      "category": "Strategy",
+      "description": "Moves past revenue to true contribution by category after discounts, returns, and shipping.",
+      "body": "Act as my senior ecommerce commercial analyst.\n\nAnalyse contribution margin by product and category over {{TF}}, compared to {{CMP}}, going beyond top-line revenue.\n\nUse only data available within Shopify. Do not guess or invent benchmarks. Where cost of goods, shipping cost, or payment fees are not in Shopify, ask me for the assumption rather than inventing it, and state every assumption used. Reference specific products and collections by name.\n\nStep 1: Revenue to contribution\nFor top products and categories, move from gross revenue to a contribution view by subtracting discounts, returns and refunds, and the cost inputs I provide (COGS, shipping, fees).\n\nStep 2: Margin erosion\nIdentify where discounting and returns most erode margin, and which high-revenue lines are weak once those are accounted for.\n\nStep 3: Hidden performers\nFlag lower-revenue products or categories that contribute strongly on margin and may be under-supported.\n\nStep 4: Labelling\nLabel findings as Confirmed by Shopify data, Based on my stated assumptions, or Requires validation.\n\nOutput format:\n1. Contribution summary and assumptions used\n2. Contribution by category table\n3. Margin erosion findings\n4. Recommendations to protect and grow contribution",
+      "placeholders": [],
+      "featured": false,
+      "recommended": false,
+      "followUp": "slow-moving-sku-strategy-planner"
+    }
+  ]
+}
