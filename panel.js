@@ -20,7 +20,7 @@ const DEFAULT_SETTINGS = {
   trimFollowups: true,
 };
 
-const PROMPTS_URL = 'https://tomrosscd.github.io/sidemark/prompts.json';
+const PROMPTS_URL = 'https://tomrosscd.github.io/sidecar/prompts.json';
 const CACHE_KEY = 'sidecar_prompts_cache_v1';
 
 let settings = { ...DEFAULT_SETTINGS };
