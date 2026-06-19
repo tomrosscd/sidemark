@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Sidemark",
+  "name": "Sidecar",
   "version": "2.0.0",
-  "description": "Shopify Sidekick chat, exported clean into Markdown — plus a built-in prompt library.",
+  "description": "Prompt library and Markdown export for Shopify Sidekick",
   "background": {
     "service_worker": "background.js"
   },
@@ -10,7 +10,7 @@
     "default_path": "panel.html"
   },
   "action": {
-    "default_title": "Sidemark",
+    "default_title": "Sidecar",
     "default_icon": {
       "16": "icons/sidekick16.png",
       "48": "icons/sidekick48.png",

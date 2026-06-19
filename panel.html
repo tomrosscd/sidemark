@@ -2,26 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Sidemark</title>
+  <title>Sidecar</title>
   <link rel="stylesheet" href="panel.css" />
 </head>
 <body>
-  <header class="app-header">
-    <img class="app-icon" src="icons/sidekick_icon.svg" alt="" />
-    <div class="app-header-text">
-      <h1>Sidemark</h1>
-      <p class="app-subtitle">Shopify Sidekick chat, exported clean into Markdown.</p>
-    </div>
-    <button type="button" class="btn-icon" id="rescanBtn" title="Rescan page">
-      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M21 2v6h-6"/>
-        <path d="M21 13a9 9 0 1 1-3-7.7L21 8"/>
-      </svg>
-    </button>
-  </header>
 
   <!-- Top-level mode switch -->
-  <div class="top-mode-selector" role="group" aria-label="Sidemark mode">
+  <div class="top-mode-selector" role="group" aria-label="Sidecar mode">
     <label class="top-mode-option">
       <input type="radio" name="topMode" value="prompts" checked />
       <span class="top-mode-label">Prompts</span>
@@ -105,6 +92,16 @@
 
       <!-- Main content -->
       <section id="content" hidden>
+
+        <!-- Export toolbar -->
+        <div class="export-toolbar">
+          <button type="button" class="btn-icon" id="rescanBtn" title="Rescan page">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 2v6h-6"/>
+              <path d="M21 13a9 9 0 1 1-3-7.7L21 8"/>
+            </svg>
+          </button>
+        </div>
 
         <!-- Mode selector (segmented control) -->
         <div class="mode-selector" role="group" aria-label="Export selection">

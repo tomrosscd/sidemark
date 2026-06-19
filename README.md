@@ -1,10 +1,10 @@
 <div align="center">
-  <img src="assets/sidekick_icon.svg" width="64" height="64" alt="Sidemark icon" />
-  <h1>Sidemark</h1>
+  <img src="assets/sidekick_icon.svg" width="64" height="64" alt="Sidecar icon" />
+  <h1>Sidecar</h1>
   <p><strong>Shopify Sidekick chat, exported clean into Markdown — plus a built-in prompt library.</strong></p>
 </div>
 
-Sidemark is a Chrome extension that lives in the side panel next to Shopify Sidekick. It can insert ready-made analysis prompts into Sidekick, and it can pull your open conversation and convert it to clean Markdown you can copy or download.
+Sidecar is a Chrome extension that lives in the side panel next to Shopify Sidekick. It can insert ready-made analysis prompts into Sidekick, and it can pull your open conversation and convert it to clean Markdown you can copy or download.
 
 Everything runs locally. Nothing leaves your browser unless you copy or download it.
 
@@ -12,14 +12,14 @@ Everything runs locally. Nothing leaves your browser unless you copy or download
 
 ## Install
 
-Sidemark loads as an unpacked extension. No Chrome Web Store needed.
+Sidecar loads as an unpacked extension. No Chrome Web Store needed.
 
 1. Download or clone this repo.
 2. Open `chrome://extensions` in Chrome.
 3. Turn on **Developer mode** (toggle, top right).
 4. Click **Load unpacked**.
 5. Select the folder.
-6. Pin Sidemark to your toolbar.
+6. Pin Sidecar to your toolbar.
 
 After updating any files, reload the extension from that same page.
 
@@ -27,7 +27,7 @@ After updating any files, reload the extension from that same page.
 
 ## Usage
 
-Click the Sidemark toolbar icon to open the side panel. It stays open alongside Sidekick while you work, instead of closing like a popup.
+Click the Sidecar toolbar icon to open the side panel. It stays open alongside Sidekick while you work, instead of closing like a popup.
 
 Two top-level modes:
 
@@ -46,7 +46,7 @@ Browse the built-in prompt library (Convert's own prompts plus Shopify's supplie
 
 1. Open a Shopify admin tab with a Sidekick conversation active.
 2. Switch to Export mode in the panel.
-3. Sidemark scans the page and shows your exchanges.
+3. Sidecar scans the page and shows your exchanges.
 
 #### Choose what to export
 
