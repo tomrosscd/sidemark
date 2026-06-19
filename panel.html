@@ -39,6 +39,7 @@
               <option value="last quarter">Last quarter</option>
               <option value="last 6 months">Last 6 months</option>
               <option value="last 12 months">Last 12 months</option>
+              <option value="custom">Custom range…</option>
             </select>
           </div>
           <div class="filter-group">
@@ -47,7 +48,20 @@
               <option value="prev" selected>Previous period</option>
               <option value="yoy">Same period last year</option>
               <option value="none">No comparison</option>
+              <option value="custom">Custom period…</option>
             </select>
+          </div>
+        </div>
+
+        <!-- Custom date range inputs — shown when custom is selected for either field -->
+        <div id="customRangeInputs" class="custom-range-inputs" hidden>
+          <div id="customTfGroup" class="custom-input-group">
+            <label class="filter-label" for="customTfInput">Custom date range</label>
+            <input type="text" id="customTfInput" class="search-input" placeholder="e.g. Q1 2025 or 1 Jan – 31 Mar 2025" autocomplete="off" />
+          </div>
+          <div id="customCmpGroup" class="custom-input-group" hidden>
+            <label class="filter-label" for="customCmpInput">Custom comparison</label>
+            <input type="text" id="customCmpInput" class="search-input" placeholder="e.g. Q1 2024 or previous quarter" autocomplete="off" />
           </div>
         </div>
 

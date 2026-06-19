@@ -16,6 +16,8 @@ const DEFAULT_SETTINGS = {
   timeframe: 'last 30 days',
   comparison: 'prev',
   category: 'All',
+  customTimeframe: '',
+  customComparison: '',
   includeReasoning: false,
   trimFollowups: true,
 };
@@ -46,10 +48,15 @@ const topModeRadios   = document.querySelectorAll('input[name="topMode"]');
 const promptsModeEl   = document.getElementById('promptsMode');
 const exportModeEl    = document.getElementById('exportMode');
 
-const tfSelect       = document.getElementById('tfSelect');
-const cmpSelect      = document.getElementById('cmpSelect');
-const catChipsEl     = document.getElementById('catChips');
-const searchInput    = document.getElementById('searchInput');
+const tfSelect            = document.getElementById('tfSelect');
+const cmpSelect           = document.getElementById('cmpSelect');
+const customRangeInputsEl = document.getElementById('customRangeInputs');
+const customTfGroupEl     = document.getElementById('customTfGroup');
+const customCmpGroupEl    = document.getElementById('customCmpGroup');
+const customTfInputEl     = document.getElementById('customTfInput');
+const customCmpInputEl    = document.getElementById('customCmpInput');
+const catChipsEl          = document.getElementById('catChips');
+const searchInput         = document.getElementById('searchInput');
 const promptsCountEl = document.getElementById('promptsCount');
 const promptsListEl  = document.getElementById('promptsList');
 
@@ -107,6 +114,9 @@ async function init() {
 function applySettingsToUI() {
   tfSelect.value = settings.timeframe;
   cmpSelect.value = settings.comparison;
+  customTfInputEl.value = settings.customTimeframe || '';
+  customCmpInputEl.value = settings.customComparison || '';
+  updateCustomRangeInputs();
   includeReasoningEl.checked = settings.includeReasoning;
   trimFollowupsEl.checked = settings.trimFollowups;
   document.querySelector(`input[name="topMode"][value="${settings.topMode}"]`).checked = true;
@@ -251,14 +261,48 @@ function updateCategoryChips() {
   });
 }
 
+function updateCustomRangeInputs() {
+  const tfCustom  = settings.timeframe === 'custom';
+  const cmpCustom = settings.comparison === 'custom';
+  customRangeInputsEl.hidden = !tfCustom && !cmpCustom;
+  customTfGroupEl.hidden  = !tfCustom;
+  customCmpGroupEl.hidden = !cmpCustom;
+}
+
+function getEffectiveTf() {
+  if (settings.timeframe === 'custom') {
+    return settings.customTimeframe.trim() || 'the selected period';
+  }
+  return settings.timeframe;
+}
+
+function getEffectiveCmp() {
+  if (settings.comparison === 'custom') {
+    return settings.customComparison.trim() || 'none';
+  }
+  return settings.comparison;
+}
+
 function wirePromptsControls() {
   tfSelect.addEventListener('change', () => {
     settings.timeframe = tfSelect.value;
     saveSettings();
+    updateCustomRangeInputs();
     renderPromptsList();
   });
   cmpSelect.addEventListener('change', () => {
     settings.comparison = cmpSelect.value;
+    saveSettings();
+    updateCustomRangeInputs();
+    renderPromptsList();
+  });
+  customTfInputEl.addEventListener('input', () => {
+    settings.customTimeframe = customTfInputEl.value;
+    saveSettings();
+    renderPromptsList();
+  });
+  customCmpInputEl.addEventListener('input', () => {
+    settings.customComparison = customCmpInputEl.value;
     saveSettings();
     renderPromptsList();
   });
@@ -377,7 +421,7 @@ function validateBeforeAction(wrap) {
 }
 
 function renderExpandedPrompt(p) {
-  const template = buildPrompt(p, settings.timeframe, settings.comparison);
+  const template = buildPrompt(p, getEffectiveTf(), getEffectiveCmp());
 
   if (!cardState.has(p.slug)) {
     cardState.set(p.slug, { values: new Map() });

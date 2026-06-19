@@ -513,6 +513,19 @@ textarea:focus-visible {
   gap: 8px;
 }
 
+.custom-range-inputs {
+  display: flex;
+  gap: 8px;
+}
+
+.custom-input-group {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
 .filter-group {
   flex: 1;
   min-width: 0;

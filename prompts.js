@@ -2,8 +2,9 @@
 // DOM-free helpers. Prompt data is loaded at runtime from prompts.json.
 
 function getCmpText(timeframe, comparison) {
-  if (comparison === 'none') return null;
+  if (!comparison || comparison === 'none') return null;
   if (comparison === 'yoy') return 'the same period last year';
+  if (comparison !== 'prev') return comparison; // custom text passed directly
   const m = {
     'last 7 days':'the previous 7 days','last 14 days':'the previous 14 days',
     'last 30 days':'the previous 30 days','last 60 days':'the previous 60 days',
