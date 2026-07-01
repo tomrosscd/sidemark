@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sidecar Privacy Policy</title>
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark-green: #27382f;
+    --forest-green: #499e6b;
+    --off-white: #faf9f7;
+    --black: #171717;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: "Darker Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--black);
+    background: var(--off-white);
+    margin: 0;
+    padding: 3rem 1.25rem 5rem;
+  }
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  header {
+    border-bottom: 2px solid var(--dark-green);
+    padding-bottom: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: 2.5rem;
+    line-height: 1.1;
+    color: var(--dark-green);
+    margin: 0 0 0.5rem;
+  }
+  h2 {
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: var(--dark-green);
+    margin: 2.5rem 0 0.65rem;
+  }
+  p { margin: 0 0 1rem; }
+  ul { margin: 0 0 1rem; padding-left: 1.25rem; }
+  li { margin-bottom: 0.4rem; }
+  a {
+    color: var(--forest-green);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  a:hover { text-decoration: none; }
+  strong { font-weight: 600; }
+  .meta {
+    font-size: 1rem;
+    color: var(--dark-green);
+    font-weight: 500;
+  }
+  .lede { font-size: 1.15rem; }
+  .placeholder {
+    background: #ffec82;
+    padding: 0 0.2rem;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+  footer {
+    margin-top: 3.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(39, 56, 47, 0.2);
+    font-size: 1rem;
+    color: var(--dark-green);
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Sidecar Privacy Policy</h1>
+    <p class="meta">Effective date: 2 July 2026 &nbsp;|&nbsp; Last updated: 2 July 2026</p>
+  </header>
+
+  <p class="lede">Sidecar is a Chrome extension that helps people work more effectively with Shopify Sidekick, Shopify's built in AI assistant. This policy explains what the extension can access, what it does with that information, and what it deliberately does not do.</p>
+
+  <p>Sidecar is published by Thomas Ross, a sole trader based in Melbourne, Australia ("we", "us", "our"). If you have any questions about this policy, contact us at <a href="mailto:tom@convertdigital.com.au">tom@convertdigital.com.au</a>.</p>
+
+  <h2>The short version</h2>
+  <p>Sidecar runs entirely in your browser. It does not collect, store, sell, or transmit your Sidekick conversations or any personal information to us or to any third party. There is no account, no analytics, and no tracking. The only network request the extension makes is to download its own prompt library.</p>
+
+  <h2>What Sidecar can access</h2>
+  <p>Sidecar operates only within the Shopify admin (admin.shopify.com). When you actively use it, it can access two things:</p>
+  <ul>
+    <li><strong>The content of your active Shopify admin tab.</strong> When you click Insert, Copy, or Export, Sidecar reads the Sidekick conversation on that tab so it can insert a prompt into the input field or convert the conversation to Markdown.</li>
+    <li><strong>Your local extension storage.</strong> Sidecar keeps a cached copy of its prompt library so the side panel opens instantly.</li>
+  </ul>
+  <p>Sidecar only acts in response to an explicit action you take. It does not read or monitor pages in the background, and it does nothing on websites outside the Shopify admin.</p>
+
+  <h2>How that information is used</h2>
+  <p>Everything Sidecar does with the conversation content happens locally on your device and only at the moment you request it:</p>
+  <ul>
+    <li>In Prompts mode, a prompt you select is inserted into the Sidekick input field.</li>
+    <li>In Export mode, the current Sidekick conversation is converted to clean Markdown, which is placed on your clipboard or saved as a local file for you to keep, share, or paste elsewhere.</li>
+  </ul>
+  <p>The conversation content is never sent to us or to any external server. Once the action is complete, Sidecar does not retain a copy of it.</p>
+
+  <h2>What Sidecar does not do</h2>
+  <ul>
+    <li>It does not collect or transmit your Sidekick conversations, prompts, or personal data to us or anyone else.</li>
+    <li>It does not use analytics, tracking pixels, cookies, fingerprinting, or advertising.</li>
+    <li>It does not sell or share any data. There is no data to sell or share.</li>
+    <li>It does not require an account or ask for login credentials.</li>
+    <li>It does not run on websites other than the Shopify admin.</li>
+  </ul>
+
+  <h2>Local storage</h2>
+  <p>Sidecar uses your browser's local extension storage (chrome.storage.local) to cache its prompt library and a small amount of interface state, such as your last selected category. This data stays on your device, is not readable by us, and is removed when you uninstall the extension or clear it through your browser. It never contains your conversation content.</p>
+
+  <h2>Network activity</h2>
+  <p>Sidecar makes a single type of network request: it downloads its prompt library as a static JSON file from <a href="https://raw.githubusercontent.com/tomrosscd/sidecar/main/prompts.json" rel="noopener">https://raw.githubusercontent.com/tomrosscd/sidecar/main/prompts.json</a>, hosted on GitHub. This request contains no personal information and none of your conversation content. It is a standard file download, in the same way your browser downloads any web resource.</p>
+  <p>As with any request over the internet, the host serving that file (GitHub) may log standard technical information such as your IP address and request time in its own server logs, under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">GitHub's privacy statement</a>. We do not have access to those logs and do not receive that information.</p>
+
+  <h2>Permissions we request, and why</h2>
+  <p>Sidecar requests the minimum permissions needed to function:</p>
+  <ul>
+    <li><strong>activeTab and scripting:</strong> to insert prompts into, and read the conversation from, the Shopify admin tab you are actively working in, only when you trigger an action.</li>
+    <li><strong>Host access to admin.shopify.com:</strong> to operate within the Shopify admin where Sidekick lives.</li>
+    <li><strong>sidePanel:</strong> to display Sidecar's interface in the browser side panel.</li>
+    <li><strong>storage:</strong> to cache the prompt library locally so the panel loads quickly.</li>
+  </ul>
+
+  <h2>Compliance with the Chrome Web Store Limited Use policy</h2>
+  <p>Our use of information accessed through Sidecar complies with the <a href="https://developer.chrome.com/docs/webstore/program-policies/limited-use" rel="noopener">Chrome Web Store User Data Policy</a>, including its Limited Use requirements. Sidecar accesses conversation content solely to provide the prompt insertion and export features described above. It does not transfer this content to third parties, does not use it for advertising, and does not use it for any purpose unrelated to the extension's single, user facing function.</p>
+
+  <h2>Children</h2>
+  <p>Sidecar is a professional tool intended for people using the Shopify admin. It is not directed at children and does not knowingly collect information from anyone.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>If we change how Sidecar handles information, we will update this policy and revise the "Last updated" date above. Material changes will be reflected here before the corresponding version of the extension is published.</p>
+
+  <h2>Contact</h2>
+  <p>For any questions about this policy or about how Sidecar works, contact <a href="mailto:tom@convertdigital.com.au">tom@convertdigital.com.au</a>.</p>
+
+  <footer>
+    Sidecar is published by Thomas Ross, Melbourne, Australia.
+  </footer>
+</main>
+</body>
+</html>
